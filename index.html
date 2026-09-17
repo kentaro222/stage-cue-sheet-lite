@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0f14">
+<title>Stage Cue Sheet / Lite v1</title>
+<style>
+:root{
+  --bg:#0b0f14;--panel:#121821;--panel2:#18212c;--panel3:#202b38;--line:#2b3a49;
+  --text:#e8eef4;--muted:#8da0b1;--accent:#42d5d2;--accent2:#7ee6e4;--blue:#4ca3ff;
+  --danger:#ff637a;--warn:#ffcb57;--up:#5fe28a;--down:#ff8ab3;--ok:#68d391;
+  --input:#0f151d;--shadow:0 12px 34px rgba(0,0,0,.28);--radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:"BIZ UDGothic","BIZ UDゴシック","Yu Gothic UI","MS Gothic",monospace;font-variant-numeric:tabular-nums}
+body{min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.38;cursor:default}
+input,select,textarea{background:var(--input);color:var(--text);border:1px solid var(--line);border-radius:9px;min-height:38px;padding:8px 10px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(66,213,210,.12)}
+button{border:1px solid var(--line);border-radius:9px;background:var(--panel3);color:var(--text);min-height:38px;padding:7px 11px}
+button:hover{border-color:#496174}
+button.primary{background:linear-gradient(135deg,#147f86,#126b84);border-color:#38d5d2;font-weight:800}
+button.danger{background:#3a1820;border-color:#7f3040;color:#ffc2cb}
+button.ghost{background:transparent}
+button.icon{min-width:40px;padding:7px 9px}
+.small{font-size:11px;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:3px 8px;font-size:11px;color:var(--muted)}
+.app-header{position:sticky;top:0;z-index:50;background:rgba(11,15,20,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.header-main{height:54px;display:flex;align-items:center;gap:10px;padding:7px 12px}
+.brand{min-width:0;display:flex;align-items:center;gap:9px;font-weight:900;letter-spacing:.02em}
+.brand-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(145deg,var(--accent),#2469b7);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset}
+.brand-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-spacer{flex:1}
+.save-state{font-size:11px;color:#80d49a;white-space:nowrap}.save-state.saving{color:var(--warn)}.save-state.error{color:var(--danger)}
+.header-actions{display:flex;gap:6px}
+.tabbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:0 8px 8px}
+.tab-btn{background:transparent;border-color:transparent;color:var(--muted);font-weight:800;min-height:38px;padding:7px 5px}
+.tab-btn.active{color:#fff;background:var(--panel2);border-color:var(--line);box-shadow:inset 0 -2px 0 var(--accent)}
+.page{display:none;padding:12px;max-width:1500px;margin:0 auto}.page.active{display:block}
+.card{background:linear-gradient(180deg,var(--panel),#10161e);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.section-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}.section-head h2,.section-head h3{margin:0}.section-head .grow{flex:1}
+.toolbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cue-shell{display:grid;grid-template-columns:280px minmax(0,1fr);gap:12px;min-height:calc(100vh - 132px)}
+.cue-rail{padding:10px;min-width:0}.rail-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.rail-title strong{font-size:18px}
+.cue-list{border:1px solid var(--line);border-radius:11px;background:#090d12;max-height:calc(100vh - 300px);overflow:auto;padding:4px}
+.cue-item{width:100%;display:grid;grid-template-columns:68px minmax(0,1fr);gap:8px;text-align:left;background:transparent;border:1px solid transparent;padding:8px 9px;min-height:42px;margin:1px 0}
+.cue-item:hover{background:var(--panel2)}.cue-item.active{background:#112b32;border-color:#247b86}.cue-item.memo{grid-template-columns:1fr;color:#ffe59c;background:#251f10}.cue-item.memo.active{border-color:#8f7934}
+.cue-num{color:var(--accent2);font-weight:900}.cue-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.memo-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rail-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.editor{min-width:0;padding:12px}.editor-empty{display:grid;place-items:center;min-height:300px;color:var(--muted)}
+.q-head{display:grid;grid-template-columns:110px minmax(160px,1fr) auto;gap:8px;align-items:center;margin-bottom:10px}.q-number{font-weight:900;text-align:center;color:var(--accent2)}.q-name{font-weight:800}
+.q-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.validation{display:none;border:1px solid #7b3340;background:#2b151b;color:#ffc0cb;border-radius:10px;padding:8px 10px;margin-bottom:10px;font-size:12px}.validation.show{display:block}
+.renumber{display:none;grid-template-columns:repeat(4,minmax(120px,1fr)) auto;gap:8px;align-items:end;background:#0e141c;border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px}.renumber.open{display:grid}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}.field input,.field select{width:100%}
+.run-list{display:flex;flex-direction:column;gap:9px}.run-card{border:1px solid var(--line);background:linear-gradient(180deg,#151d27,#111820);border-radius:13px;overflow:hidden}.run-card.invalid{border-color:#8d3e4c;background:linear-gradient(180deg,#25171d,#171217)}
+.run-card-head{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#0e141b;border-bottom:1px solid var(--line)}.run-check{width:20px;height:20px;min-height:0}.run-device{font-weight:900;color:#fff}.run-item{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.run-index{margin-left:auto;color:var(--muted);font-size:11px}
+.run-route{display:grid;grid-template-columns:minmax(120px,1fr) 46px minmax(150px,1.15fr);gap:8px;align-items:center;padding:10px;border-bottom:1px solid #202c39}.route-box{background:#0c1218;border:1px solid #263645;border-radius:10px;padding:8px;min-width:0}.route-label{font-size:10px;color:var(--muted);margin-bottom:4px}.route-value{font-size:16px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.direction{text-align:center;font-size:24px;font-weight:1000}.direction.up{color:var(--up)}.direction.down{color:var(--down)}
+.target-grid{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:6px}.target-grid select,.target-grid input{width:100%}
+.metrics{display:grid;grid-template-columns:repeat(7,minmax(92px,1fr));gap:7px;padding:10px}.metric{min-width:0}.metric label{display:block;font-size:10px;color:var(--muted);margin:0 0 4px}.metric input,.metric select{width:100%}.metric-read{min-height:38px;border:1px solid #263645;background:#0c1218;border-radius:9px;padding:9px 8px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.metric-read.time{color:#bfe9ff}.metric-read.err{color:var(--danger)}
+.second-row{display:grid;grid-template-columns:92px repeat(3,minmax(100px,1fr));gap:7px;padding:0 10px 10px}.second-toggle{display:flex;align-items:center;gap:6px;height:38px;background:#0c1218;border:1px solid #263645;border-radius:9px;padding:6px 8px}.second-toggle input{width:18px;height:18px;min-height:0;padding:0}
+.run-error{padding:0 10px 10px;color:#ff98a9;font-size:11px}.add-run{width:100%;margin-top:10px;background:#132d34;border-style:dashed;border-color:#2d8c95}
+.memo-editor{max-width:900px}.memo-editor textarea{width:100%;min-height:160px;resize:vertical}.memo-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.settings-shell{display:grid;grid-template-columns:220px minmax(0,1fr);gap:12px}.device-rail{padding:9px;min-width:0}.device-list{max-height:calc(100vh - 180px);overflow:auto}.device-btn{width:100%;display:flex;justify-content:space-between;gap:7px;text-align:left;background:transparent;border-color:transparent;margin:1px 0}.device-btn.active{background:#112b32;border-color:#247b86}.device-btn small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.settings-main{padding:12px}.settings-grid{display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:8px}.readbox{min-height:38px;background:#0c1218;border:1px solid #263645;border-radius:9px;padding:9px 10px;color:#c7d4df}.notice{border:1px solid #725f28;background:#241f11;color:#ffe394;border-radius:10px;padding:8px 10px;margin:9px 0;font-size:12px}.labels-wrap{overflow:auto;border:1px solid var(--line);border-radius:11px;margin-top:10px}.labels-table{width:100%;border-collapse:collapse;min-width:520px}.labels-table th,.labels-table td{border-bottom:1px solid var(--line);padding:6px}.labels-table th{background:#101722;color:var(--muted);font-size:11px;text-align:left;position:sticky;top:0}.labels-table input{width:100%}.clipbar{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}.clip-state{align-self:center;font-size:11px;color:var(--muted)}
+.initial-card{padding:12px}.initial-actions{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.initial-wrap{overflow:auto;border:1px solid var(--line);border-radius:11px}.initial-table{width:100%;border-collapse:collapse;min-width:780px}.initial-table th,.initial-table td{padding:7px;border-bottom:1px solid var(--line)}.initial-table th{position:sticky;top:0;background:#101722;color:var(--muted);font-size:11px;text-align:left}.initial-table input,.initial-table select{width:100%}
+.calc-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}.calc-card{padding:14px}.calc-card h2,.calc-card h3{margin:0 0 6px}.shaku-row{display:grid;grid-template-columns:1fr 44px 1fr;gap:8px;align-items:end}.shaku-row input{font-size:22px}.calc-arrow{text-align:center;padding-bottom:8px;font-size:20px;color:var(--accent)}.calc-result{margin-top:12px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#0c1218;color:#c8d6e0}.simple-row{display:grid;grid-template-columns:1fr 70px 1fr 36px 1fr;gap:7px;align-items:center}.simple-row input,.simple-row select{width:100%}.simple-eq{text-align:center;font-weight:900}
+.io-modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.62);padding:12px}.io-modal.open{display:flex}.io-sheet{width:min(720px,100%);background:#111821;border:1px solid var(--line);border-radius:18px 18px 10px 10px;padding:14px;box-shadow:0 -20px 50px rgba(0,0,0,.45)}.io-sheet h3{margin:0 0 10px}.io-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.io-grid button{min-height:46px}.io-close{width:100%;margin-top:9px}
+@media(max-width:900px){
+ .page{padding:8px}.header-main{padding:6px 8px}.brand-title{font-size:13px}.cue-shell{grid-template-columns:1fr;min-height:auto}.cue-rail{padding:8px}.cue-list{max-height:210px}.editor{padding:8px}.q-head{grid-template-columns:92px minmax(0,1fr)}.q-head .q-actions{grid-column:1/-1}.renumber{grid-template-columns:1fr 1fr}.settings-shell{grid-template-columns:1fr}.device-list{display:flex;gap:5px;overflow-x:auto;max-height:none}.device-btn{flex:0 0 104px;display:block;height:58px}.settings-grid{grid-template-columns:1fr 1fr}.calc-shell{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(4,minmax(82px,1fr))}.second-row{grid-template-columns:92px repeat(3,minmax(90px,1fr));overflow-x:auto}
+}
+@media(max-width:560px){
+ .save-state{display:none}.brand-title{font-size:12px}.header-main{height:50px}.header-actions button{min-width:38px;padding:6px 8px}.tabbar{padding:0 5px 6px}.tab-btn{font-size:11px;min-height:36px}.page{padding:6px}.cue-list{max-height:176px}.rail-actions{grid-template-columns:repeat(4,1fr)}.rail-actions button{font-size:11px;padding:5px 3px}.q-head{grid-template-columns:84px 1fr;gap:6px}.q-toolbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.q-toolbar button{font-size:11px;padding:6px 4px}.renumber{grid-template-columns:1fr 1fr}.run-route{grid-template-columns:minmax(0,1fr) 38px minmax(0,1.2fr);padding:8px;gap:5px}.route-value{font-size:13px}.direction{font-size:21px}.target-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr));padding:8px}.second-row{grid-template-columns:1fr 1fr;padding:0 8px 8px;overflow:visible}.settings-grid{grid-template-columns:1fr}.clipbar{display:grid;grid-template-columns:repeat(3,1fr)}.clipbar .clip-state,.clipbar .swap-wrap{grid-column:1/-1}.shaku-row{grid-template-columns:1fr 34px 1fr}.simple-row{grid-template-columns:1fr 60px 1fr}.simple-eq{display:none}.simple-row input:last-child{grid-column:1/-1}.io-grid{grid-template-columns:1fr}.app-header{position:sticky}.run-card-head{padding:7px 8px}.run-item{font-size:11px}
+}
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="header-main">
+    <div class="brand"><span class="brand-mark"></span><span class="brand-title">STAGE CUE SHEET</span></div>
+    <div class="header-spacer"></div>
+    <span id="saveState" class="save-state">保存済み</span>
+    <div class="header-actions"><button id="undoBtn" class="icon" title="戻す">↶</button><button id="redoBtn" class="icon" title="やり直し">↷</button><button id="openIoBtn" class="primary">入出力</button></div>
+  </div>
+  <nav class="tabbar">
+    <button class="tab-btn active" data-tab="cue">Cue</button>
+    <button class="tab-btn" data-tab="settings">装置</button>
+    <button class="tab-btn" data-tab="initial">初期位置</button>
+    <button class="tab-btn" data-tab="calc">尺計算</button>
+  </nav>
+</header>
+
+<main>
+<section id="cue" class="page active">
+  <div class="cue-shell">
+    <aside class="cue-rail card">
+      <div class="rail-title"><strong>Cue</strong><span id="cueCount" class="badge"></span></div>
+      <div id="cueList" class="cue-list"></div>
+      <div class="rail-actions"><button id="newCueBtn" class="primary">＋Cue</button><button id="newMemoBtn">＋メモ</button><button id="pasteCueBtn">Q貼付</button><button id="renumberOpenBtn">番号変更</button></div>
+    </aside>
+    <section id="cueEditor" class="editor card"></section>
+  </div>
+</section>
+
+<section id="settings" class="page">
+  <div class="settings-shell">
+    <aside class="device-rail card"><div class="section-head"><h3>装置</h3></div><div id="deviceList" class="device-list"></div></aside>
+    <section class="settings-main card">
+      <div class="section-head"><h2 id="setTitle">B1</h2><div class="grow"></div><span id="deviceSpecBadge" class="badge"></span></div>
+      <div class="clipbar">
+        <button id="copyHangingBtn">コピー</button><button id="cutHangingBtn">カット</button><button id="pasteHangingBtn">貼付</button><button id="deleteHangingBtn" class="danger">削除</button>
+        <span id="hangingClipState" class="clip-state">コピーなし</span>
+        <span class="swap-wrap"><select id="swapDeviceSelect"></select> <button id="swapDeviceBtn">入れ替え</button></span>
+      </div>
+      <div class="settings-grid">
+        <div class="field"><label>機構名称</label><div id="s_id" class="readbox"></div></div>
+        <div class="field"><label>吊り物名称</label><input id="s_item"></div>
+        <div class="field"><label>機械範囲</label><div id="s_range" class="readbox"></div></div>
+      </div>
+      <div id="specialNotice"></div>
+      <div class="section-head" style="margin-top:12px"><h3>目標地ラベル</h3><span class="small">名称 + mm を最大10組</span></div>
+      <div class="labels-wrap"><table class="labels-table"><thead><tr><th style="width:52px">No.</th><th>名称</th><th style="width:180px">位置 mm</th></tr></thead><tbody id="labelBody"></tbody></table></div>
+    </section>
+  </div>
+</section>
+
+<section id="initial" class="page">
+  <section class="initial-card card">
+    <div class="section-head"><h2>初期位置</h2><div class="grow"></div><span class="small">各Cueの現在地計算の起点</span></div>
+    <div class="initial-actions"><button id="setAllTop" class="primary">全装置を上限位置</button><button id="setEmptyUpper">空バトンを上限位置</button></div>
+    <div class="initial-wrap"><table class="initial-table"><thead><tr><th>機構</th><th>吊り物</th><th>初期ラベル</th><th>初期位置 mm</th><th>範囲</th></tr></thead><tbody id="initialBulkBody"></tbody></table></div>
+  </section>
+</section>
+
+<section id="calc" class="page">
+  <div class="calc-shell">
+    <section class="calc-card card"><h2>尺 ⇄ mm</h2><div class="small">1尺 = 303mm</div><div class="shaku-row" style="margin-top:12px"><div class="field"><label>尺</label><input id="shakuInput" type="number" step="0.001" inputmode="decimal"></div><div class="calc-arrow">⇄</div><div class="field"><label>mm</label><input id="mmInput" type="number" step="1" inputmode="numeric"></div></div><div id="shakuResult" class="calc-result">尺またはmmを入力してください。</div></section>
+    <section class="calc-card card"><h3>簡易電卓</h3><div class="small">足し算・引き算</div><div class="simple-row" style="margin-top:12px"><input id="calcA" type="number" step="any"><select id="calcOp"><option value="+">＋</option><option value="-">－</option></select><input id="calcB" type="number" step="any"><div class="simple-eq">＝</div><input id="calcResult" readonly></div><div id="calcMessage" class="calc-result">数値を入力してください。</div></section>
+  </div>
+</section>
+</main>
+
+<div id="ioModal" class="io-modal" aria-hidden="true"><div class="io-sheet">
+  <div class="section-head"><h3>入出力</h3><div class="grow"></div><span class="small">計算ロジックはCSV書出と共通</span></div>
+  <div class="io-grid">
+    <button id="csvInitBtn" class="primary">装置CSV読込</button><button id="exportDeviceCsvBtn">装置CSV書出</button><button id="exportCueCsvBtn" class="primary">キューCSV書出</button><button id="exportJsonBtn">JSON保存</button><button id="importJsonBtn">JSON読込</button><button id="resetProjectBtn" class="danger">全データリセット</button>
+  </div>
+  <button id="closeIoBtn" class="io-close">閉じる</button>
+  <input id="csvInitFile" type="file" accept=".csv,text/csv" hidden><input id="importJsonFile" type="file" accept=".json,application/json" hidden>
+</div></div>
+
+<script>
+const BASE_DEVICES=[{"id":"割UD","sourceId":"割UD","itemName":"","userMin":0,"userMax":10100,"machineMin":0,"machineMax":10100,"labels":[],"defaultSpeed":1000,"type":"curtain","defaultAcc":2,"defaultDec":2,"initialPosition":10100},{"id":"暗転幕","sourceId":"暗転幕","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B1","sourceId":"B1","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B2","sourceId":"B2","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B3","sourceId":"B3","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"LB1","sourceId":"LB1","itemName":"","userMin":850.0,"userMax":13850.0,"machineMin":850.0,"machineMax":13850.0,"labels":[],"defaultSpeed":83,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13850.0},{"id":"B4","sourceId":"B4","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B5","sourceId":"B5","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B6","sourceId":"B6","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B7","sourceId":"B7","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"LB2","sourceId":"LB2","itemName":"","userMin":850.0,"userMax":13850.0,"machineMin":850.0,"machineMax":13850.0,"labels":[],"defaultSpeed":83,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13850.0},{"id":"B8","sourceId":"B8","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B9","sourceId":"B9","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B10","sourceId":"B10","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B11","sourceId":"B11","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"LB3","sourceId":"LB3","itemName":"","userMin":850.0,"userMax":13850.0,"machineMin":850.0,"machineMax":13850.0,"labels":[],"defaultSpeed":83,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13850.0},{"id":"B12","sourceId":"B12","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B13","sourceId":"B13","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B14","sourceId":"B14","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B15","sourceId":"B15","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B16","sourceId":"B16","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B17","sourceId":"B17","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B18","sourceId":"B18","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B19","sourceId":"B19","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B20","sourceId":"B20","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B21","sourceId":"B21","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B22","sourceId":"B22","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B23","sourceId":"B23","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"UHL","sourceId":"UHL","itemName":"","userMin":900.0,"userMax":13400.0,"machineMin":900.0,"machineMax":13400.0,"labels":[],"defaultSpeed":167,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13400.0},{"id":"B24","sourceId":"B24","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B25","sourceId":"B25","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B26","sourceId":"B26","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B27","sourceId":"B27","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300}];
+const KEY='stageCueSheetLiteV1';
+const MAX_SPEED=1500,MAX_ACCEL=750,FIXED_ACC=0.1,FIXED_DEC=0.1;
+const deep=x=>JSON.parse(JSON.stringify(x));
+const $=id=>document.getElementById(id);
+let devices=deep(BASE_DEVICES),cues=[{number:'001.00',name:'新規キュー',runs:[]}],selectedDevice='B1',selectedListIndex=0;
+let cueClipboard=null,runClipboard=[],hangingItemClipboard=null,undoStack=[],redoStack=[],saveTimer=null,historyInputKey=null,historyInputTimer=null;
+
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function dev(id){return devices.find(d=>d.id===id)}
+function isMemoEntry(q){return !!q&&q.kind==='memo'}
+function fixedDeviceSpeed(d){return d&&/^LB[1-3]$/.test(d.id)?83:167}
+function clamp(n,a,b){return Math.min(Math.max(n,a),b)}
+function csvCell(v){if(v===null||v===undefined)return '';const s=String(v);return /[",\r\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}
+function csvNumber(v,maxDecimals=6){if(v===null||v===undefined||v==='')return '';const n=Number(v);if(!Number.isFinite(n))return '';if(Math.abs(n-Math.round(n))<1e-9)return String(Math.round(n));return n.toFixed(maxDecimals).replace(/0+$/,'').replace(/\.$/,'')}
+function downloadText(text,name,type){const blob=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},0)}
+function stamp(){const n=new Date(),p=x=>String(x).padStart(2,'0');return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}_${p(n.getHours())}${p(n.getMinutes())}`}
+
+function normalizeDevice(d,base){
+ const out={...deep(base||{}),...deep(d||{})};
+ out.itemName=String(out.itemName||'');out.labels=Array.isArray(out.labels)?out.labels.filter(l=>l&&String(l.name||'').trim()!==''&&Number.isFinite(+l.pos)).map(l=>({name:String(l.name),pos:+l.pos})).slice(0,10):[];
+ out.machineMin=Number.isFinite(+out.machineMin)?+out.machineMin:+base?.machineMin||0;out.machineMax=Number.isFinite(+out.machineMax)?+out.machineMax:+base?.machineMax||0;
+ out.initialPosition=Number.isFinite(+out.initialPosition)?clamp(+out.initialPosition,out.machineMin,out.machineMax):out.machineMax;
+ if(out.initialLabelName!=null)out.initialLabelName=String(out.initialLabelName);
+ if(out.type==='constant'){out.defaultSpeed=fixedDeviceSpeed(out);out.defaultAcc=FIXED_ACC;out.defaultDec=FIXED_DEC}
+ delete out.toolHeight;delete out.hangOffset;delete out.displayColor;delete out.displayOpacity;
+ return out;
+}
+function normalizeRun(r){
+ const d=dev(r.device)||devices[0];
+ const out={device:d.id,targetMode:r.targetMode||'direct',target:Number.isFinite(+r.target)?+r.target:+d.machineMax,speed:Number.isFinite(+r.speed)?+r.speed:(d.type==='constant'?fixedDeviceSpeed(d):1000),acc:Number.isFinite(+r.acc)?+r.acc:(d.type==='constant'?FIXED_ACC:2),dec:Number.isFinite(+r.dec)?+r.dec:(d.type==='constant'?FIXED_DEC:2),delay:Number.isFinite(+r.delay)?+r.delay:0,use2:!!r.use2,pos2:r.pos2===''?'':(Number.isFinite(+r.pos2)?+r.pos2:''),speed2:r.speed2===''?'':(Number.isFinite(+r.speed2)?+r.speed2:'')};
+ if(d.type==='constant'){out.speed=fixedDeviceSpeed(d);out.acc=FIXED_ACC;out.dec=FIXED_DEC;out.use2=false;out.pos2='';out.speed2=''}
+ inferRunTargetMode(out);return out;
+}
+function normalizeAll(){
+ const old=new Map((devices||[]).map(d=>[d.id,d]));devices=BASE_DEVICES.map(b=>normalizeDevice(old.get(b.id)||b,b));
+ if(!Array.isArray(cues))cues=[];cues=cues.map(q=>isMemoEntry(q)?{kind:'memo',text:String(q.text??q.name??'')}:{number:formatCueNumber(q.number)||'000.00',name:String(q.name||''),runs:Array.isArray(q.runs)?q.runs.map(normalizeRun):[]});
+ if(!cues.length)cues=[{number:'001.00',name:'新規キュー',runs:[]}];selectedListIndex=clamp(selectedListIndex,0,cues.length-1);selectedDevice=dev(selectedDevice)?.id||(dev('B1')?'B1':devices[0].id);
+}
+
+function saveNow(){try{localStorage.setItem(KEY,JSON.stringify({app:'stage-cue-sheet',formatVersion:1,devices,cues}));$('saveState').textContent='保存済み';$('saveState').className='save-state'}catch(e){$('saveState').textContent='保存失敗';$('saveState').className='save-state error'}}
+function scheduleSave(){try{$('saveState').textContent='保存中…';$('saveState').className='save-state saving'}catch{}clearTimeout(saveTimer);saveTimer=setTimeout(saveNow,250)}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x?.devices&&x?.cues){devices=x.devices;cues=x.cues}}catch{}normalizeAll()}
+window.addEventListener('pagehide',saveNow);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveNow()});
+function snapshot(){return {devices:deep(devices),cues:deep(cues),selectedDevice,selectedListIndex}}
+function pushUndoSnapshot(){endInputGroup();undoStack.push(snapshot());if(undoStack.length>60)undoStack.shift();redoStack=[];updateHistoryButtons()}
+function pushUndoSnapshotForInput(key){if(historyInputKey!==key){endInputGroup();undoStack.push(snapshot());if(undoStack.length>60)undoStack.shift();redoStack=[];historyInputKey=key;updateHistoryButtons()}clearTimeout(historyInputTimer);historyInputTimer=setTimeout(()=>{historyInputKey=null;historyInputTimer=null},700)}
+function endInputGroup(){historyInputKey=null;clearTimeout(historyInputTimer);historyInputTimer=null}
+function restoreSnapshot(s){if(!s)return;devices=deep(s.devices);cues=deep(s.cues);selectedDevice=s.selectedDevice;selectedListIndex=s.selectedListIndex;normalizeAll();saveNow();renderAll();updateHistoryButtons()}
+function undoEdit(){if(!undoStack.length)return;endInputGroup();redoStack.push(snapshot());restoreSnapshot(undoStack.pop())}
+function redoEdit(){if(!redoStack.length)return;endInputGroup();undoStack.push(snapshot());restoreSnapshot(redoStack.pop())}
+function updateHistoryButtons(){$('undoBtn').disabled=!undoStack.length;$('redoBtn').disabled=!redoStack.length}
+
+function formatCueNumber(value){const s=String(value??'').trim();if(s==='')return null;const n=Number(s);if(!Number.isFinite(n)||n<0)return null;return n.toFixed(2).padStart(6,'0')}
+function nextQNumber(s){const n=Math.round((parseFloat(s)||0)*100)+10;return formatCueNumber(n/100)||'000.10'}
+function nextWholeCueNumber(s){return formatCueNumber((parseFloat(s)||0)+1)||'001.00'}
+function lastPlayableNumber(){for(let i=cues.length-1;i>=0;i--)if(!isMemoEntry(cues[i]))return cues[i].number;return '000.00'}
+function previousPlayableNumber(index){for(let i=Math.min(index,cues.length-1);i>=0;i--)if(!isMemoEntry(cues[i]))return cues[i].number;return '000.00'}
+function playableCueCount(){return cues.filter(q=>!isMemoEntry(q)).length}
+
+function labelMatchAt(d,pos){return (d?.labels||[]).filter(l=>Math.abs(+l.pos-(+pos))<=1)}
+function currentLabelName(d,pos,preferredName=null){if(!d)return '—';const m=labelMatchAt(d,pos);if(preferredName){const x=m.find(l=>l.name===preferredName);if(x)return x.name}return m.length===1?m[0].name:'—'}
+function positionDisplayText(d,pos,preferredName=null){const label=currentLabelName(d,pos,preferredName),mm=Math.round(+pos||0);return label==='—'?`${mm} mm`:`${label} · ${mm}mm`}
+function inferredInitialLabelName(d){if(d.initialLabelName&&labelMatchAt(d,d.initialPosition).some(l=>l.name===d.initialLabelName))return d.initialLabelName;const m=labelMatchAt(d,d.initialPosition);return m.length===1?m[0].name:null}
+function initialPosition(d){return Number.isFinite(+d.initialPosition)?+d.initialPosition:+d.machineMax}
+function buildInitialState(){const pos={},labels={};devices.forEach(d=>{pos[d.id]=initialPosition(d);labels[d.id]=inferredInitialLabelName(d)});return {pos,labels}}
+function labelForRunTarget(d,r){if(r.targetMode&&r.targetMode!=='direct'&&labelMatchAt(d,r.target).some(l=>l.name===r.targetMode))return r.targetMode;return null}
+function positionStateBeforeCue(index){
+ const st=buildInitialState();
+ for(let i=0;i<index;i++){
+   const q=cues[i];if(!q||isMemoEntry(q))continue;const seen=new Set();
+   for(const r of q.runs||[]){const d=dev(r.device);if(!d||seen.has(r.device)){continue}seen.add(r.device);syncRunTargetFromLabel(r);const v=validateRun(r,st.pos[r.device]);if(!v.ok)continue;st.pos[r.device]=+r.target;st.labels[r.device]=labelForRunTarget(d,r)}
+ }
+ return st;
+}
+function positionBeforeCue(index){return positionStateBeforeCue(index).pos}
+
+function inferRunTargetMode(r){const d=dev(r.device);if(!d)return 'direct';if(r.targetMode&&r.targetMode!=='direct'&&labelMatchAt(d,r.target).some(l=>l.name===r.targetMode))return r.targetMode;const m=labelMatchAt(d,r.target);r.targetMode=m.length===1?m[0].name:'direct';return r.targetMode}
+function syncRunTargetFromLabel(r){const d=dev(r.device);if(!d)return;inferRunTargetMode(r);if(r.targetMode&&r.targetMode!=='direct'){const l=(d.labels||[]).find(x=>x.name===r.targetMode&&Math.abs(+x.pos-(+r.target))<=1)||(d.labels||[]).find(x=>x.name===r.targetMode);if(l)r.target=+l.pos;else r.targetMode='direct'}}
+function targetOptions(d,r){const mode=inferRunTargetMode(r);return (d.labels||[]).map((l,i)=>`<option value="label:${i}" ${mode===l.name&&Math.abs(+l.pos-(+r.target))<=1?'selected':''}>${escapeHtml(l.name)} · ${Math.round(+l.pos)}mm</option>`).join('')+`<option value="direct" ${mode==='direct'?'selected':''}>直入力</option>`}
+
+function floorTenthSafe(n){return Math.floor((n+1e-9)*10)/10}
+function machineBaseTime(distance,speed){return Math.floor((distance/speed)*10+1e-9)/10}
+function transitionDisplayTime(v1,v2){return Math.floor((Math.abs(v1-v2)/1000)*10+1e-9)/10}
+function minRampTime(speed){return Math.ceil((speed/MAX_ACCEL)*10-1e-9)/10}
+function between(p,a,b){return p>=Math.min(a,b)&&p<=Math.max(a,b)}
+function validateRun(r,start){
+ const d=dev(r.device);if(!d)return {ok:false,msg:'機器を確認してください'};syncRunTargetFromLabel(r);const end=+r.target;
+ if(!Number.isFinite(start)||!Number.isFinite(end))return {ok:false,msg:'現在地・目標を確認してください'};
+ if((+r.delay||0)<0)return {ok:false,msg:'ディレイは0秒以上にしてください'};
+ if(start===end)return {ok:false,msg:'現在地と目標が同じです'};
+ const D=Math.abs(end-start);if(D<=0)return {ok:false,msg:'移動距離は0より大きくしてください'};if(D>20000&&d.type!=='curtain')return {ok:false,msg:'移動距離が実機範囲（最大20000 mm）を超えています'};
+ const lo=+d.machineMin,hi=+d.machineMax;if(start<lo||start>hi||end<lo||end>hi)return {ok:false,msg:`位置が装置限界（${Math.round(lo)}〜${Math.round(hi)} mm）外です`};
+ if(d.type==='constant'){const sp=fixedDeviceSpeed(d);const total=Math.max(FIXED_ACC+FIXED_DEC,machineBaseTime(D,sp)+(FIXED_ACC+FIXED_DEC)/2);return {ok:true,total,tTrans:0,D}}
+ const v1=+r.speed,acc=+r.acc,dec=+r.dec;if(![v1,acc,dec].every(Number.isFinite))return {ok:false,msg:'数値を確認してください'};if(v1<=0||v1>MAX_SPEED)return {ok:false,msg:'基本速度が実機範囲（1〜1500 mm/s）外です'};if(acc<0||dec<0)return {ok:false,msg:'加減速時間は0以上にしてください'};
+ const minRamp=minRampTime(v1);if(acc+1e-9<minRamp)return {ok:false,msg:`速度 ${Math.round(v1)} には加速 ${minRamp.toFixed(1)}秒以上が必要です`};if(dec+1e-9<minRamp)return {ok:false,msg:`速度 ${Math.round(v1)} には減速 ${minRamp.toFixed(1)}秒以上が必要です`};
+ if(!r.use2){const dAcc=v1*acc/2,dDec=v1*dec/2;if(D+1e-9<dAcc+dDec){const minRequired=v1*minRamp;if(D+1e-9>=minRequired){const lim=floorTenthSafe(D/v1);return {ok:false,msg:`移動距離不足。加速・減速を同値にするなら各 ${lim.toFixed(1)}秒以下（実機最低 ${minRamp.toFixed(1)}秒）`}}return {ok:false,msg:'移動距離不足。速度を下げるか距離を延ばしてください'}}return {ok:true,total:machineBaseTime(D,v1)+(acc+dec)/2,tTrans:0,D}}
+ const p2=+r.pos2,v2=+r.speed2;if(!Number.isFinite(p2)||!Number.isFinite(v2))return {ok:false,msg:'2位置・2速度を確認してください'};if(!between(p2,start,end)||p2===start||p2===end)return {ok:false,msg:'2位置が現在地と目標の間にありません'};if(v2<=0||v2>MAX_SPEED)return {ok:false,msg:'2速度が実機範囲（1〜1500 mm/s）外です'};
+ const minDecV2=minRampTime(v2);if(dec+1e-9<minDecV2)return {ok:false,msg:`2速度 ${Math.round(v2)} からの減速には ${minDecV2.toFixed(1)}秒以上必要です`};
+ const D1=Math.abs(p2-start),D2=D-D1,dAcc=v1*acc/2,tBase=(D1-dAcc)/v1;if(tBase<0)return {ok:false,msg:'2位置までに始動加速を完了できません'};const tTrans=transitionDisplayTime(v1,v2),dTrans=((v1+v2)/2)*tTrans,dDec=v2*dec/2,tV2=(D2-dTrans-dDec)/v2;if(tV2<0)return {ok:false,msg:'2位置から目標までの距離が不足しています'};const total=acc+tBase+tTrans+tV2+dec;return {ok:true,total,tTrans,D,D1,D2};
+}
+function cueValidation(index){const q=cues[index];if(!q||isMemoEntry(q))return [];const starts=positionStateBeforeCue(index).pos,errors=[],seen=new Set();(q.runs||[]).forEach((r,i)=>{if(seen.has(r.device)){errors.push({index:i,device:r.device,msg:'同じCue内に同一機構が重複しています'});return}seen.add(r.device);const v=validateRun(r,starts[r.device]);if(!v.ok)errors.push({index:i,device:r.device,msg:v.msg})});return errors}
+function solveSpeedForTime(r,start,targetTime){const d=dev(r.device);if(!d||d.type==='constant'||!Number.isFinite(targetTime)||targetTime<=0)return null;let best=null;const orig=r.speed;for(let sp=1;sp<=MAX_SPEED;sp++){r.speed=sp;const v=validateRun(r,start);if(!v.ok)continue;const err=Math.abs(v.total-targetTime);if(!best||err<best.err-1e-9||(Math.abs(err-best.err)<1e-9&&sp<best.speed))best={speed:sp,time:v.total,err};}r.speed=orig;return best}
+
+function renderCueList(){const list=$('cueList');list.innerHTML='';cues.forEach((q,i)=>{const b=document.createElement('button');b.className='cue-item '+(i===selectedListIndex?'active ':'')+(isMemoEntry(q)?'memo':'');if(isMemoEntry(q))b.innerHTML=`<span class="memo-text">● ${escapeHtml(q.text||'メモ')}</span>`;else b.innerHTML=`<span class="cue-num">${escapeHtml(formatCueNumber(q.number)||'000.00')}</span><span class="cue-name">${escapeHtml(q.name||'')}</span>`;b.onclick=()=>{selectedListIndex=i;renderCueList();renderCueEditor()};list.appendChild(b)});$('cueCount').textContent=`${playableCueCount()} Q / ${cues.filter(isMemoEntry).length} memo`;requestAnimationFrame(()=>list.querySelector('.active')?.scrollIntoView({block:'nearest'}))}
+function selectedRunIndexes(){return [...document.querySelectorAll('#cueEditor [data-rowcheck]:checked')].map(x=>+x.dataset.rowcheck).sort((a,b)=>a-b)}
+function runDirection(start,target){return target>start?'▲':target<start?'▼':''}
+function newDefaultRun(){const d=dev('B1')||devices[0],target=d.labels[0]?.pos??d.machineMax;return normalizeRun({device:d.id,targetMode:d.labels[0]?.name||'direct',target,speed:d.type==='constant'?fixedDeviceSpeed(d):1000,acc:d.type==='constant'?FIXED_ACC:2,dec:d.type==='constant'?FIXED_DEC:2,delay:0,use2:false,pos2:'',speed2:''})}
+function renderCueEditor(){
+ const box=$('cueEditor'),q=cues[selectedListIndex];if(!q){box.innerHTML='<div class="editor-empty">Cueがありません</div>';return}
+ if(isMemoEntry(q)){
+   box.innerHTML=`<div class="memo-editor"><div class="section-head"><h2>メモ</h2></div><textarea id="editMemoText">${escapeHtml(q.text||'')}</textarea><div class="memo-actions"><button id="moveMemoUp">↑ 上へ</button><button id="moveMemoDown">↓ 下へ</button><button id="deleteMemo" class="danger">削除</button></div></div>`;
+   $('editMemoText').oninput=e=>{pushUndoSnapshotForInput(`memo:${selectedListIndex}`);q.text=e.target.value;scheduleSave();renderCueList()};$('moveMemoUp').onclick=()=>moveListItem(-1);$('moveMemoDown').onclick=()=>moveListItem(1);$('deleteMemo').onclick=()=>{pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveNow();renderAll()};return;
+ }
+ const state=positionStateBeforeCue(selectedListIndex),starts=state.pos,startLabels=state.labels,errs=cueValidation(selectedListIndex);const errBy=new Map(errs.map(e=>[e.index,e.msg]));
+ const rows=(q.runs||[]).map((r,ri)=>{const d=dev(r.device)||devices[0];syncRunTargetFromLabel(r);const st=starts[r.device]??initialPosition(d),direction=runDirection(st,+r.target),v=validateRun(r,st),fixed=d.type==='constant',time=v.ok?v.total:null,dist=Math.abs((+r.target)-st),targetLabel=labelForRunTarget(d,r);return `<article class="run-card ${v.ok?'':'invalid'}" data-run-card="${ri}">
+   <div class="run-card-head"><input class="run-check" type="checkbox" data-rowcheck="${ri}"><select data-ri="${ri}" data-f="device" aria-label="機構">${devices.map(x=>`<option value="${escapeHtml(x.id)}" ${x.id===r.device?'selected':''}>${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('')}</select><span class="run-index">RUN ${ri+1}</span></div>
+   <div class="run-route"><div class="route-box"><div class="route-label">現在地</div><div class="route-value">${escapeHtml(positionDisplayText(d,st,startLabels[r.device]))}</div></div><div class="direction ${direction==='▲'?'up':direction==='▼'?'down':''}">${direction}</div><div class="route-box"><div class="route-label">目標</div><div class="target-grid"><select data-ri="${ri}" data-f="targetSelect">${targetOptions(d,r)}</select><input data-ri="${ri}" data-f="target" type="number" inputmode="numeric" value="${Number.isFinite(+r.target)?+r.target:''}" ${inferRunTargetMode(r)==='direct'?'':'disabled'}></div><div class="small" style="margin-top:4px">${targetLabel?escapeHtml(targetLabel):'直入力'} · ${Math.round(+r.target)}mm</div></div></div>
+   <div class="metrics"><div class="metric"><label>距離 mm</label><div class="metric-read">${Math.round(dist)}</div></div><div class="metric"><label>運転タイム s</label><input data-ri="${ri}" data-f="opTime" type="number" step=".1" inputmode="decimal" value="${time===null?'':time.toFixed(1)}" ${fixed?'readonly':''}></div><div class="metric"><label>速度 mm/s</label><input data-ri="${ri}" data-f="speed" type="number" inputmode="numeric" value="${fixed?fixedDeviceSpeed(d):r.speed}" ${fixed?'readonly':''}></div><div class="metric"><label>加速 s</label><input data-ri="${ri}" data-f="acc" type="number" step=".1" value="${fixed?FIXED_ACC:r.acc}" ${fixed?'readonly':''}></div><div class="metric"><label>減速 s</label><input data-ri="${ri}" data-f="dec" type="number" step=".1" value="${fixed?FIXED_DEC:r.dec}" ${fixed?'readonly':''}></div><div class="metric"><label>Delay s</label><input data-ri="${ri}" data-f="delay" type="number" step=".1" value="${r.delay||0}"></div><div class="metric"><label>速度 %</label><div class="metric-read">${((fixed?fixedDeviceSpeed(d):(+r.speed||0))/15).toFixed(1)}%</div></div></div>
+   <div class="second-row"><label class="second-toggle"><input data-ri="${ri}" data-f="use2" type="checkbox" ${r.use2?'checked':''} ${fixed?'disabled':''}>2位置</label><div class="metric"><label>2位置 mm</label><input data-ri="${ri}" data-f="pos2" type="number" value="${r.pos2??''}" ${(!r.use2||fixed)?'disabled':''}></div><div class="metric"><label>2速度 mm/s</label><input data-ri="${ri}" data-f="speed2" type="number" value="${r.speed2??''}" ${(!r.use2||fixed)?'disabled':''}></div><div class="metric"><label>2加減 s</label><div class="metric-read">${r.use2&&!fixed?transitionDisplayTime(+r.speed||0,+r.speed2||0).toFixed(1):'0.0'}</div></div></div>
+   ${errBy.has(ri)?`<div class="run-error">⚠ ${escapeHtml(errBy.get(ri))}</div>`:''}</article>`}).join('');
+ box.innerHTML=`<div class="q-head"><input id="editQNum" class="q-number" value="${escapeHtml(formatCueNumber(q.number)||'000.00')}"><input id="editQName" class="q-name" value="${escapeHtml(q.name||'')}"><div class="q-actions"><span class="badge">${q.runs.length} runs</span></div></div>
+ <div class="q-toolbar"><button id="moveCueUp">↑ 上へ</button><button id="moveCueDown">↓ 下へ</button><button id="copyCue">Qコピー</button><button id="duplicateQ">Q複製</button><button id="deleteCue" class="danger">Q削除</button><button id="copyRows">選択コピー</button><button id="cutRows">選択カット</button><button id="pasteRows">貼付</button><button id="swapRows">2行入替</button><button id="deleteRows" class="danger">選択削除</button></div>
+ <div id="cueValidation" class="validation ${errs.length?'show':''}">${errs.map(e=>`<div>⚠ ${escapeHtml(e.device)}: ${escapeHtml(e.msg)}</div>`).join('')}</div>
+ <div id="renumberBox" class="renumber"><div class="field"><label>開始位置</label><input id="rnStartIndex" type="number" min="1" value="1"></div><div class="field"><label>終了位置</label><input id="rnEndIndex" type="number" min="1" value="${cues.length}"></div><div class="field"><label>開始Q番号</label><input id="rnStartNumber" value="${escapeHtml(q.number)}"></div><div class="field"><label>刻み</label><input id="rnStep" value="1.00"></div><button id="runRenumber" class="primary">振り直す</button></div>
+ <div class="run-list">${rows}</div><button id="addRun" class="add-run">＋ 運転行を追加</button>`;
+ bindCueEditor(q,starts);
+}
+function bindCueEditor(q,starts){
+ $('editQNum').oninput=e=>{pushUndoSnapshotForInput(`qnum:${selectedListIndex}`);q.number=e.target.value;scheduleSave();renderCueList()};$('editQNum').onblur=e=>{const f=formatCueNumber(e.target.value);if(!f){e.target.value=q.number;return}q.number=f;e.target.value=f;scheduleSave();renderCueList()};$('editQName').oninput=e=>{pushUndoSnapshotForInput(`qname:${selectedListIndex}`);q.name=e.target.value;scheduleSave();renderCueList()};
+ $('moveCueUp').onclick=()=>moveListItem(-1);$('moveCueDown').onclick=()=>moveListItem(1);$('copyCue').onclick=()=>{cueClipboard=deep(q);$('pasteCueBtn').disabled=false};$('duplicateQ').onclick=()=>{pushUndoSnapshot();const c=deep(q);c.number=nextQNumber(q.number);c.name=(c.name||'')+' コピー';cues.splice(selectedListIndex+1,0,c);selectedListIndex++;saveNow();renderAll()};$('deleteCue').onclick=()=>{if(playableCueCount()<=1)return;if(!confirm('このCueを削除しますか？'))return;pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveNow();renderAll()};
+ $('copyRows').onclick=()=>{const idx=selectedRunIndexes();runClipboard=idx.map(i=>deep(q.runs[i]))};$('cutRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();runClipboard=idx.map(i=>deep(q.runs[i]));for(const i of [...idx].reverse())q.runs.splice(i,1);saveNow();renderCueEditor()};$('pasteRows').onclick=()=>{if(!runClipboard.length)return;pushUndoSnapshot();q.runs.push(...deep(runClipboard));saveNow();renderCueEditor()};$('swapRows').onclick=()=>{const idx=selectedRunIndexes();if(idx.length!==2){alert('入れ替える2行だけ選択してください。');return}pushUndoSnapshot();[q.runs[idx[0]],q.runs[idx[1]]]=[q.runs[idx[1]],q.runs[idx[0]]];saveNow();renderCueEditor()};$('deleteRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();for(const i of [...idx].reverse())q.runs.splice(i,1);saveNow();renderCueEditor()};$('addRun').onclick=()=>{pushUndoSnapshot();q.runs.push(newDefaultRun());saveNow();renderCueEditor()};
+ document.querySelectorAll('#cueEditor [data-ri][data-f]').forEach(el=>{const handler=()=>{const ri=+el.dataset.ri,f=el.dataset.f,r=q.runs[ri];if(!r)return;pushUndoSnapshot();if(f==='device'){const d=dev(el.value);r.device=d.id;r.targetMode=d.labels[0]?.name||'direct';r.target=d.labels[0]?.pos??d.machineMax;r.speed=d.type==='constant'?fixedDeviceSpeed(d):(r.speed||1000);r.acc=d.type==='constant'?FIXED_ACC:(r.acc||2);r.dec=d.type==='constant'?FIXED_DEC:(r.dec||2);r.use2=d.type==='constant'?false:r.use2;if(d.type==='constant'){r.pos2='';r.speed2=''}}else if(f==='targetSelect'){const d=dev(r.device);if(el.value==='direct')r.targetMode='direct';else{const i=+el.value.split(':')[1],l=d.labels[i];if(l){r.targetMode=l.name;r.target=+l.pos}}}else if(f==='use2'){r.use2=el.checked}else if(f==='opTime'){const desired=+el.value,st=positionStateBeforeCue(selectedListIndex).pos[r.device],best=solveSpeedForTime(r,st,desired);if(!best){alert('この運転タイムでは成立する速度が見つかりません。')}else r.speed=best.speed}else{const n=+el.value;r[f]=Number.isFinite(n)?n:el.value;if(f==='target')r.targetMode='direct'}saveNow();renderCueEditor()};el.addEventListener('change',handler)});
+ if($('renumberBox')){}if($('runRenumber'))$('runRenumber').onclick=runRenumber;
+}
+function moveListItem(dir){const to=selectedListIndex+dir;if(to<0||to>=cues.length)return;pushUndoSnapshot();[cues[selectedListIndex],cues[to]]=[cues[to],cues[selectedListIndex]];selectedListIndex=to;saveNow();renderAll()}
+function runRenumber(){pushUndoSnapshot();let a=Math.max(1,+$('rnStartIndex').value||1)-1,b=Math.min(cues.length,+$('rnEndIndex').value||cues.length)-1;if(b<a)[a,b]=[b,a];const start=parseFloat($('rnStartNumber').value)||0,step=parseFloat($('rnStep').value)||1;let n=0;for(let i=a;i<=b;i++){if(isMemoEntry(cues[i]))continue;cues[i].number=(start+n*step).toFixed(2).padStart(6,'0');n++}saveNow();renderCueList();renderCueEditor()}
+
+function renderDeviceList(){const box=$('deviceList');box.innerHTML='';devices.forEach(d=>{const b=document.createElement('button');b.className='device-btn '+(d.id===selectedDevice?'active':'');b.innerHTML=`<strong>${escapeHtml(d.id)}</strong><small>${escapeHtml(d.itemName||'')}</small>`;b.onclick=()=>{selectedDevice=d.id;renderDeviceList();renderSettings()};box.appendChild(b)})}
+function hangingPackage(d){return {itemName:d.itemName||'',labels:deep(d.labels||[])}}
+function applyHangingPackage(d,p){d.itemName=p.itemName||'';d.labels=deep(p.labels||[]).slice(0,10)}
+function clearHangingPackage(d){d.itemName='';d.labels=[];d.initialLabelName=null}
+function refreshHangingClipboardUI(){$('pasteHangingBtn').disabled=!hangingItemClipboard;$('hangingClipState').textContent=hangingItemClipboard?`${hangingItemClipboard.sourceId} ${hangingItemClipboard.data.itemName||'（名称なし）'}`:'コピーなし'}
+function refreshAfterDeviceEdit(){saveNow();renderDeviceList();renderSettings();renderInitialBulk();renderCueList();renderCueEditor()}
+function renderSettings(){const d=dev(selectedDevice);if(!d)return;$('setTitle').textContent=`${d.id}  ${d.itemName||''}`;$('s_id').textContent=d.id;$('s_item').value=d.itemName||'';$('s_range').textContent=`${Math.round(d.machineMin)} ～ ${Math.round(d.machineMax)} mm`;$('deviceSpecBadge').textContent=d.type==='constant'?`${fixedDeviceSpeed(d)} mm/s 固定`:d.type==='curtain'?'割UD':'通常機構';$('specialNotice').innerHTML=d.type==='constant'?`<div class="notice">${d.id}: 速度 ${fixedDeviceSpeed(d)} mm/s 固定 / 加速 ${FIXED_ACC.toFixed(1)}s / 減速 ${FIXED_DEC.toFixed(1)}s</div>`:'';
+ const body=$('labelBody');body.innerHTML='';for(let i=0;i<10;i++){const l=d.labels[i]||{name:'',pos:''};const tr=document.createElement('tr');tr.innerHTML=`<td>${i+1}</td><td><input data-k="name" value="${escapeHtml(l.name)}"></td><td><input data-k="pos" type="number" value="${l.pos}"></td>`;body.appendChild(tr)}
+ $('swapDeviceSelect').innerHTML=devices.filter(x=>x.id!==d.id).map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('');refreshHangingClipboardUI()}
+function syncSettingsFromUI(){const d=dev(selectedDevice);d.itemName=$('s_item').value;const arr=[];document.querySelectorAll('#labelBody tr').forEach(tr=>{const n=tr.querySelector('[data-k="name"]').value.trim(),p=tr.querySelector('[data-k="pos"]').value;if(n!==''&&p!=='')arr.push({name:n,pos:+p})});d.labels=arr;scheduleSave();renderDeviceList();renderInitialBulk();renderCueEditor()}
+$('s_item').addEventListener('input',()=>{pushUndoSnapshotForInput(`item:${selectedDevice}`);syncSettingsFromUI()});$('labelBody').addEventListener('input',e=>{const tr=e.target.closest('tr'),i=tr?[...$('labelBody').children].indexOf(tr):-1;pushUndoSnapshotForInput(`label:${selectedDevice}:${i}:${e.target.dataset.k}`);syncSettingsFromUI()});
+$('copyHangingBtn').onclick=()=>{const d=dev(selectedDevice);hangingItemClipboard={sourceId:d.id,data:hangingPackage(d)};refreshHangingClipboardUI()};$('cutHangingBtn').onclick=()=>{const d=dev(selectedDevice);pushUndoSnapshot();hangingItemClipboard={sourceId:d.id,data:hangingPackage(d)};clearHangingPackage(d);refreshAfterDeviceEdit()};$('pasteHangingBtn').onclick=()=>{const d=dev(selectedDevice);if(!hangingItemClipboard)return;if((d.itemName||d.labels.length)&&!confirm(`${d.id} の吊り物名とラベルを上書きしますか？`))return;pushUndoSnapshot();applyHangingPackage(d,hangingItemClipboard.data);refreshAfterDeviceEdit()};$('deleteHangingBtn').onclick=()=>{const d=dev(selectedDevice);if(!confirm(`${d.id} の吊り物名とラベルを削除しますか？`))return;pushUndoSnapshot();clearHangingPackage(d);refreshAfterDeviceEdit()};$('swapDeviceBtn').onclick=()=>{const a=dev(selectedDevice),b=dev($('swapDeviceSelect').value);if(!a||!b)return;pushUndoSnapshot();const pa=hangingPackage(a),pb=hangingPackage(b);applyHangingPackage(a,pb);applyHangingPackage(b,pa);refreshAfterDeviceEdit()};
+
+function initialLabelOptions(d){const p=initialPosition(d),name=inferredInitialLabelName(d);return (d.labels||[]).map((l,i)=>`<option value="label:${i}" ${name===l.name&&Math.abs(+l.pos-p)<=1?'selected':''}>${escapeHtml(l.name)} · ${Math.round(+l.pos)}mm</option>`).join('')+`<option value="direct" ${name?'':'selected'}>直接入力</option>`}
+function renderInitialBulk(){const body=$('initialBulkBody');body.innerHTML='';devices.forEach((d,i)=>{const p=initialPosition(d),tr=document.createElement('tr');tr.innerHTML=`<td><strong>${escapeHtml(d.id)}</strong></td><td>${escapeHtml(d.itemName||'—')}</td><td><select data-init-i="${i}" data-f="label">${initialLabelOptions(d)}</select></td><td><input data-init-i="${i}" data-f="pos" type="number" value="${Math.round(p)}"></td><td>${Math.round(d.machineMin)} ～ ${Math.round(d.machineMax)}</td>`;body.appendChild(tr)});body.querySelectorAll('[data-init-i]').forEach(el=>el.addEventListener('change',()=>{const i=+el.dataset.initI,d=devices[i];pushUndoSnapshot();if(el.dataset.f==='label'){if(el.value==='direct')d.initialLabelName=null;else{const l=d.labels[+el.value.split(':')[1]];if(l){d.initialPosition=+l.pos;d.initialLabelName=l.name}}}else{d.initialPosition=clamp(+el.value||d.machineMax,+d.machineMin,+d.machineMax);d.initialLabelName=null}saveNow();renderInitialBulk();renderCueEditor()}))}
+$('setAllTop').onclick=()=>{pushUndoSnapshot();devices.forEach(d=>{d.initialPosition=+d.machineMax;d.initialLabelName=null});saveNow();renderInitialBulk();renderCueEditor()};$('setEmptyUpper').onclick=()=>{pushUndoSnapshot();devices.forEach(d=>{if(/^B\d+$/.test(d.id)&&!(d.itemName||'').trim()){d.initialPosition=+d.machineMax;d.initialLabelName=null}});saveNow();renderInitialBulk();renderCueEditor()};
+
+function parseCsvLine(line){const out=[];let cur='',quoted=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(quoted&&line[i+1]==='"'){cur+='"';i++}else quoted=!quoted}else if(ch===','&&!quoted){out.push(cur);cur=''}else cur+=ch}out.push(cur);return out}
+function decodeCsvBuffer(buf){try{return new TextDecoder('utf-8',{fatal:true}).decode(buf).replace(/^\uFEFF/,'')}catch{}try{return new TextDecoder('shift-jis').decode(buf)}catch{return new TextDecoder('utf-8').decode(buf)}}
+function isTargetCsvDevice(id){return id==='割UD'||id==='暗転幕'||id==='UHL'||/^LB[1-3]$/.test(id)||/^B(?:[1-9]|1\d|2[0-7])$/.test(id)}
+function normalizeCsvNumber(v){if(v==null)return null;const s=String(v).trim().replace(/,/g,'');if(s==='')return null;const n=Number(s);return Number.isFinite(n)?n:null}
+function importInitialSetupCsv(text){const lines=text.replace(/\r\n?/g,'\n').split('\n').filter(x=>x.trim()!=='');const rows=lines.map(parseCsvLine).filter(r=>isTargetCsvDevice((r[0]||'').trim()));if(!rows.length){alert('対象装置が見つかりません。');return}pushUndoSnapshot();const old=new Map(devices.map(d=>[d.id,d]));const imported=new Map();for(const cols of rows){const id=(cols[0]||'').trim(),base=BASE_DEVICES.find(d=>d.id===id),prev=old.get(id)||base;if(!base)continue;const d=normalizeDevice(prev,base);d.itemName=(cols[1]||'').trim();d.labels=[];for(let i=0;i<10;i++){const name=(cols[8+i*2]||'').trim(),pos=normalizeCsvNumber(cols[9+i*2]);if(name!==''&&pos!==null)d.labels.push({name,pos})}imported.set(id,d)}devices=BASE_DEVICES.map(b=>imported.get(b.id)||normalizeDevice(old.get(b.id)||b,b));selectedDevice=dev('B1')?'B1':devices[0].id;saveNow();renderAll();alert(`装置CSVを読み込みました。対象機構 ${imported.size}件`)}
+
+function csvPositionLabel(d,pos,preferredName=null){const l=currentLabelName(d,pos,preferredName);return l==='—'?'直入力':l}
+function csvTargetLabel(d,r){return labelForRunTarget(d,r)||'直入力'}
+function exportDeviceSetupCsv(){
+ const ordered=[...devices].reverse(),names=[],seen=new Set(),conflicts=new Map(),firstOrder=new Map();const addName=name=>{if(!seen.has(name)){seen.add(name);firstOrder.set(name,names.length);names.push(name);conflicts.set(name,new Set())}};
+ ordered.forEach(d=>{const rn=[],rs=new Set();(d.labels||[]).forEach(l=>{const name=String(l?.name||'').trim();if(!name)return;addName(name);if(!rs.has(name)){rs.add(name);rn.push(name)}});for(let i=0;i<rn.length;i++)for(let j=i+1;j<rn.length;j++){conflicts.get(rn[i]).add(rn[j]);conflicts.get(rn[j]).add(rn[i])}});
+ const slotOf=new Map(),seedSlot=(name,slot)=>{if(!seen.has(name))return;const occupied=[...slotOf.entries()].some(([other,s])=>s===slot&&conflicts.get(name)?.has(other));if(!occupied)slotOf.set(name,slot)};seedSlot('トビ',0);seedSlot('カザリ',1);names.filter(n=>!slotOf.has(n)).sort((a,b)=>(conflicts.get(b)?.size||0)-(conflicts.get(a)?.size||0)||(firstOrder.get(a)||0)-(firstOrder.get(b)||0)).forEach(name=>{const used=new Set([...(conflicts.get(name)||[])].map(n=>slotOf.get(n)).filter(Number.isInteger));let slot=0;while(used.has(slot))slot++;slotOf.set(name,slot)});
+ let slotCount=0;slotOf.forEach(s=>slotCount=Math.max(slotCount,s+1));let duplicateExtra=0;ordered.forEach(d=>{const c=new Map();(d.labels||[]).forEach(l=>{const n=String(l?.name||'').trim();if(n)c.set(n,(c.get(n)||0)+1)});c.forEach(n=>duplicateExtra=Math.max(duplicateExtra,Math.max(0,n-1)))});const totalSlots=slotCount+duplicateExtra,header=['バトン','吊り物名称','荷重'];for(let i=0;i<totalSlots;i++)header.push(`ラベル${i+1}`,`位置${i+1}(mm)`);const rows=[header];ordered.forEach(d=>{const row=new Array(3+totalSlots*2).fill('');row[0]=d.id;row[1]=d.itemName||'';const used=new Set(),dc=new Map();(d.labels||[]).forEach(l=>{const name=String(l?.name||'').trim();if(!name||l.pos===''||l.pos==null)return;const dup=dc.get(name)||0;dc.set(name,dup+1);let slot=dup===0?slotOf.get(name):slotCount+(dup-1);while(used.has(slot))slot++;if(!Number.isInteger(slot))return;used.add(slot);row[3+slot*2]=name;row[4+slot*2]=csvNumber(+l.pos)});rows.push(row)});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`stage_tappa_${stamp()}.csv`,'text/csv;charset=utf-8;')
+}
+function exportCueSheetCsv(){const header=['CUE','バトン/吊り物','現在','現在(ｍｍ)','方向','目標','目標(mm)','距離','動作時間','速度','％','加速','減速','ﾃﾞｨﾚｲ','2位置','2速度','2加減'],rows=[header];cues.forEach((q,qi)=>{if(isMemoEntry(q)){const row=new Array(header.length).fill('');row[1]=q.text||'';rows.push(row);return}const state=positionStateBeforeCue(qi),starts=state.pos,startLabels=state.labels,runs=q.runs||[];if(!runs.length){const row=new Array(header.length).fill('');row[0]=formatCueNumber(q.number)||'000.00';rows.push(row);return}runs.forEach((r,ri)=>{const d=dev(r.device);if(!d)return;syncRunTargetFromLabel(r);const start=starts[r.device]??initialPosition(d),target=+r.target,distance=Math.abs(target-start),validation=validateRun(r,start),fixed=d.type==='constant',speed=fixed?fixedDeviceSpeed(d):(+r.speed||0),acc=fixed?FIXED_ACC:(+r.acc||0),dec=fixed?FIXED_DEC:(+r.dec||0),direction=runDirection(start,target);rows.push([ri===0?(formatCueNumber(q.number)||'000.00'):'',`${r.device}${d.itemName?' '+d.itemName:''}`,csvPositionLabel(d,start,startLabels[r.device]),csvNumber(start),direction,csvTargetLabel(d,r),csvNumber(target),csvNumber(distance),validation.ok?csvNumber(validation.total,1):'',csvNumber(speed),csvNumber(speed/1500,6),csvNumber(acc,1),csvNumber(dec,1),(+r.delay||0)>0?csvNumber(+r.delay,1):'',r.use2?csvNumber(+r.pos2):'',r.use2?csvNumber(+r.speed2):'',r.use2?csvNumber(transitionDisplayTime(speed,+r.speed2||0),1):''])})});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`stage_cue_sheet_${stamp()}.csv`,'text/csv;charset=utf-8;')}
+function exportProjectJson(){downloadText(JSON.stringify({app:'stage-cue-sheet',formatVersion:1,savedAt:new Date().toISOString(),devices,cues},null,2),`stage_cue_sheet_${stamp()}.json`,'application/json')}
+function importProjectJson(obj){if(!obj||!Array.isArray(obj.devices)||!Array.isArray(obj.cues))throw new Error('devices / cues が見つかりません');pushUndoSnapshot();devices=deep(obj.devices);cues=deep(obj.cues);selectedListIndex=0;normalizeAll();saveNow();renderAll()}
+
+function renderAll(){renderCueList();renderCueEditor();renderDeviceList();renderSettings();renderInitialBulk();$('pasteCueBtn').disabled=!cueClipboard;updateHistoryButtons()}
+function setTab(id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));if(id==='settings'){renderDeviceList();renderSettings()}if(id==='initial')renderInitialBulk()}
+document.querySelectorAll('.tab-btn').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+$('newCueBtn').onclick=()=>{pushUndoSnapshot();cues.push({number:nextWholeCueNumber(lastPlayableNumber()),name:'新規キュー',runs:[]});selectedListIndex=cues.length-1;saveNow();renderAll()};$('newMemoBtn').onclick=()=>{pushUndoSnapshot();const at=clamp(selectedListIndex+1,0,cues.length);cues.splice(at,0,{kind:'memo',text:'新規メモ'});selectedListIndex=at;saveNow();renderAll()};$('pasteCueBtn').onclick=()=>{if(!cueClipboard)return;pushUndoSnapshot();const c=deep(cueClipboard);c.number=nextQNumber(previousPlayableNumber(selectedListIndex));c.name=(c.name||'')+' 貼付';const at=selectedListIndex+1;cues.splice(at,0,c);selectedListIndex=at;saveNow();renderAll()};$('renumberOpenBtn').onclick=()=>{if(isMemoEntry(cues[selectedListIndex])){const i=cues.findIndex((q,j)=>j>=selectedListIndex&&!isMemoEntry(q));if(i>=0)selectedListIndex=i;else return;renderAll()}$('renumberBox')?.classList.toggle('open')};
+$('undoBtn').onclick=undoEdit;$('redoBtn').onclick=redoEdit;
+$('openIoBtn').onclick=()=>{$('ioModal').classList.add('open');$('ioModal').setAttribute('aria-hidden','false')};$('closeIoBtn').onclick=()=>{$('ioModal').classList.remove('open');$('ioModal').setAttribute('aria-hidden','true')};$('ioModal').addEventListener('click',e=>{if(e.target===$('ioModal'))$('closeIoBtn').click()});
+$('csvInitBtn').onclick=()=>$('csvInitFile').click();$('csvInitFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importInitialSetupCsv(decodeCsvBuffer(await f.arrayBuffer()))}catch(err){alert('CSV読込に失敗しました。')}e.target.value=''};$('exportDeviceCsvBtn').onclick=exportDeviceSetupCsv;$('exportCueCsvBtn').onclick=exportCueSheetCsv;$('exportJsonBtn').onclick=exportProjectJson;$('importJsonBtn').onclick=()=>$('importJsonFile').click();$('importJsonFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importProjectJson(JSON.parse(await f.text()));alert('JSONを読み込みました。')}catch(err){alert('JSON読込に失敗しました: '+err.message)}e.target.value=''};$('resetProjectBtn').onclick=()=>{if(!confirm('装置設定・初期位置・Cue・メモをすべて初期化しますか？'))return;pushUndoSnapshot();devices=deep(BASE_DEVICES);cues=[{number:'001.00',name:'新規キュー',runs:[]}];selectedListIndex=0;selectedDevice='B1';saveNow();renderAll()};
+document.addEventListener('keydown',e=>{const mod=e.ctrlKey||e.metaKey;if(!mod)return;const tag=document.activeElement?.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;if(e.key.toLowerCase()==='z'&&!e.shiftKey){e.preventDefault();undoEdit()}else if(e.key.toLowerCase()==='y'||(e.key.toLowerCase()==='z'&&e.shiftKey)){e.preventDefault();redoEdit()}});
+
+function formatShaku(n){if(!Number.isFinite(n))return '';return n.toFixed(4).replace(/0+$/,'').replace(/\.$/,'')}
+function fromShaku(){const n=+$('shakuInput').value;if(!Number.isFinite(n))return;$('mmInput').value=Math.round(n*303);$('shakuResult').innerHTML=`<strong>${formatShaku(n)} 尺 = ${Math.round(n*303).toLocaleString()} mm</strong>`}
+function fromMm(){const n=+$('mmInput').value;if(!Number.isFinite(n))return;const sh=n/303;$('shakuInput').value=formatShaku(sh);$('shakuResult').innerHTML=`<strong>${Math.round(n).toLocaleString()} mm = ${formatShaku(sh)} 尺</strong>`}
+$('shakuInput').addEventListener('input',fromShaku);$('mmInput').addEventListener('input',fromMm);
+function updateCalc(){const a=+$('calcA').value,b=+$('calcB').value;if(!Number.isFinite(a)||!Number.isFinite(b)){ $('calcResult').value='';return}const r=$('calcOp').value==='+'?a+b:a-b;$('calcResult').value=String(r);$('calcMessage').textContent=`${a} ${$('calcOp').value} ${b} = ${r}`}
+['calcA','calcB'].forEach(id=>$(id).addEventListener('input',updateCalc));$('calcOp').addEventListener('change',updateCalc);
+
+load();renderAll();updateHistoryButtons();
+</script>
+</body>
+</html>
