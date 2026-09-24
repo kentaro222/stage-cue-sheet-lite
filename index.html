@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0f14">
-<title>Stage Cue Sheet / Lite v5</title>
+<meta name="theme-color" content="#151515">
+<title>Stage Cue Sheet / Lite v8</title>
 <style>
 :root{
-  --bg:#0b0f14;--panel:#121821;--panel2:#18212c;--panel3:#202b38;--line:#2b3a49;
-  --text:#e8eef4;--muted:#8da0b1;--accent:#42d5d2;--accent2:#7ee6e4;--blue:#4ca3ff;
-  --danger:#ff637a;--warn:#ffcb57;--up:#5fe28a;--down:#ff8ab3;--ok:#68d391;
-  --input:#0f151d;--shadow:0 12px 34px rgba(0,0,0,.28);--radius:14px;
+  --bg:#151515;--panel:#202020;--panel2:#292929;--panel3:#343434;--line:#484848;
+  --text:#e9e6df;--muted:#aaa69f;--accent:#c6c1b7;--accent2:#d8d3c9;--blue:#aaa6a0;
+  --danger:#e47780;--warn:#d3b16e;--up:#5fe28a;--down:#ff8ab3;--ok:#9ebca2;
+  --input:#1b1b1b;--shadow:0 4px 14px rgba(0,0,0,.18);--radius:12px;
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:"BIZ UDGothic","BIZ UDゴシック","Yu Gothic UI","MS Gothic",monospace;font-variant-numeric:tabular-nums}
@@ -73,6 +73,175 @@ button.icon{min-width:40px;padding:7px 9px}
 }
 @media(max-width:560px){
  .save-state{display:none}.brand-title{font-size:12px}.header-main{height:50px}.header-actions button{min-width:38px;padding:6px 8px}.tabbar{padding:0 5px 6px}.tab-btn{font-size:11px;min-height:36px}.page{padding:6px}.cue-list{max-height:176px}.rail-actions{grid-template-columns:repeat(4,1fr)}.rail-actions button{font-size:11px;padding:5px 3px}.q-head{grid-template-columns:84px 1fr;gap:6px}.q-toolbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.q-toolbar button{font-size:11px;padding:6px 4px}.renumber{grid-template-columns:1fr 1fr}.run-route{grid-template-columns:minmax(0,1fr) 38px minmax(0,1.2fr);padding:8px;gap:5px}.route-value{font-size:13px}.direction{font-size:21px}.target-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr));padding:8px}.second-row{grid-template-columns:1fr 1fr;padding:0 8px 8px;overflow:visible}.settings-grid{grid-template-columns:1fr}.compat-grid{grid-template-columns:1fr}.clipbar{display:grid;grid-template-columns:repeat(3,1fr)}.clipbar .clip-state,.clipbar .swap-wrap{grid-column:1/-1}.shaku-row{grid-template-columns:1fr 34px 1fr}.simple-row{grid-template-columns:1fr 60px 1fr}.simple-eq{display:none}.simple-row input:last-child{grid-column:1/-1}.io-grid{grid-template-columns:1fr}.app-header{position:sticky}.run-card-head{padding:7px 8px}.run-item{font-size:11px}
+}
+
+/* Cue運転カード */
+.run-list{gap:15px}.run-card{border-color:#354656;background:#141d27;box-shadow:0 3px 12px #0004}.run-card.invalid{border-color:#b65266}.run-card-head{background:#1b2935;border-bottom:0;min-height:76px;cursor:pointer;flex-wrap:wrap;padding:10px 12px}.run-card.open .run-card-head{border-bottom:1px solid #354656}.run-card-head:hover{background:#223342}.run-card-head:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}.run-chevron{font-size:13px;color:#a8cbd4;width:18px;flex:none}.run-card-head select{width:min(260px,calc(100% - 100px));min-width:0}.run-summary{display:flex;flex:1 1 340px;align-items:center;justify-content:space-between;gap:8px 18px;flex-wrap:wrap;min-width:0}.summary-route,.summary-values{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}.summary-route{font-weight:800}.summary-route span:not(.direction){overflow-wrap:anywhere}.summary-values{font-size:12px;color:#d3e1e9}.summary-values span{white-space:nowrap}.summary-route .direction{font-size:18px}.special-badge{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:5px;background:#28424d;color:#bce7ed;font-weight:900}.run-index{white-space:nowrap}.run-card.invalid .run-index{color:#ff9daf}.run-body[hidden]{display:none}.run-group{padding:12px;border-bottom:1px solid #293947}.run-group:last-of-type{border-bottom:0}.run-group h3{font-size:12px;color:#b6c9d5;margin:0 0 9px;letter-spacing:.04em}.run-route{padding:0;border:0}.route-box{background:#101922}.position-pair{display:grid;grid-template-columns:50px minmax(0,1fr);gap:6px;align-items:center}.position-pair>span,.position-pair>label{color:var(--muted);font-size:11px}.position-pair strong{overflow-wrap:anywhere}.position-pair select,.position-pair input{width:100%;min-width:0}.calculated{margin-top:8px;color:#b9d6df;font-size:12px}.calculated strong{font-size:15px;color:#e3f0f4;margin-left:8px}.drive-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px;max-width:660px}.reference{font-size:11px;color:#a6b7c0;margin-top:4px}.extra-group{background:#111a23}.extra-grid,.second-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px;max-width:660px}.second-details{margin-top:12px}.second-toggle{align-self:end;min-height:38px;background:transparent}.q-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.q-actions button{min-height:38px}.run-card input[readonly]{background:#17222b;color:#b3c4ce;border-color:#354452}
+@media(max-width:560px){.run-card-head{align-items:center;padding:10px;gap:8px}.run-card-head select{flex:1;width:auto}.run-summary{flex-basis:100%;order:2;padding-left:26px}.run-index{margin-left:0}.run-route{grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr);gap:5px}.route-box{padding:7px}.position-pair{grid-template-columns:1fr;gap:3px}.position-pair strong,.position-pair select,.position-pair input{margin-bottom:5px}.run-group{padding:10px}.drive-grid,.extra-grid,.second-details{gap:9px}.q-actions{grid-column:1/-1}}
+@media(max-width:350px){.drive-grid,.extra-grid,.second-details{grid-template-columns:1fr}}
+
+/* v7: low saturation work surface */
+input:focus,select:focus,textarea:focus{border-color:#9d9992;box-shadow:0 0 0 1px #8b877f}
+button:hover{border-color:#77736d;background:#3b3b3b}
+button.primary{background:#4b4a48;border-color:#85817a;color:#f2eee7;font-weight:800}
+button.primary:hover{background:#585653}
+button.danger{background:#382629;border-color:#89505a;color:#f3c8cc}
+button.danger:hover{background:#4b2a30}
+.app-header{background:#1a1a1a;backdrop-filter:none}
+.brand-mark{background:#77736c;box-shadow:none;border:1px solid #a19a90}
+.save-state{color:#a8bca9}
+.tab-btn.active{color:var(--text);background:#303030;border-color:#555;box-shadow:inset 0 -2px 0 #aaa69e}
+.card{background:var(--panel);box-shadow:var(--shadow)}
+.badge{background:#303030;color:#c8c3b9}
+.cue-rail{background:#1b1b1b;border-color:#393939;box-shadow:none}
+.rail-title strong{font-size:15px;letter-spacing:.08em;color:#c6c1b7}
+.cue-list{background:transparent;border:0;border-top:1px solid #383838;border-radius:0;padding:4px 0}
+.cue-item{border:0;border-left:3px solid transparent;border-radius:0;margin:0;padding:9px 8px;background:transparent;border-bottom:1px solid #303030}
+.cue-item:hover{background:#282828}
+.cue-item.active{background:#343434;border-left-color:#d4d0c7}
+.cue-item.memo{background:#25231f;color:#c7bba6}
+.cue-item.memo.active{background:#39352e;border-left-color:#c7bba6}
+.cue-num{color:#d6d1c7}
+.editor{background:#222;border-color:#4c4c4c;box-shadow:none;padding:0 12px 12px}
+.cue-work-head{margin:0 -12px 12px;padding:16px 14px 12px;background:#2b2b2b;border-bottom:1px solid #505050}
+.cue-title{display:flex;align-items:center;gap:7px;min-width:0}
+.q-prefix{font-size:19px;font-weight:900;color:#bdb8ae}
+.cue-title input{background:transparent;border:1px solid transparent;border-bottom-color:#65615c;border-radius:3px;min-width:0;padding:5px 6px;min-height:40px;color:var(--text)}
+.cue-title input:hover{border-bottom-color:#aca79e}
+.cue-title input:focus{background:#343434;border-color:#9d9992;box-shadow:none}
+.cue-title .q-number{width:112px;flex:none;text-align:left;font-size:20px;font-weight:900;color:#f1eee7}
+.cue-title .q-name{flex:1;font-size:20px;font-weight:800}
+.cue-head-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:9px}
+.cue-head-meta .badge{margin-right:auto}
+.cue-head-meta button{background:#363636;min-height:38px;padding:6px 10px}
+.cue-actions-panel[hidden],.row-action-bar[hidden]{display:none}
+.cue-actions-panel{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:0 0 12px;padding:11px;background:#292929;border:1px solid #505050;border-radius:8px}
+.cue-actions-panel .danger{margin-left:auto;border-left-width:2px}
+.row-action-bar{position:sticky;top:102px;z-index:30;box-shadow:0 3px 10px #0005;display:flex;align-items:center;gap:7px;flex-wrap:wrap;background:#36322a;border:1px solid #6c604b;padding:9px 10px;border-radius:9px;margin:0 0 12px}
+.row-action-bar strong{color:#e0cda8;margin-right:5px;white-space:nowrap}
+.row-action-bar .danger{margin-left:auto}
+.add-run-actions{display:flex;gap:8px;align-items:stretch;margin-top:12px}
+.add-run-actions .add-run{margin:0;flex:1;width:auto;background:#313131;border:1px dashed #777}
+.add-run-actions #pasteRows{min-width:84px;background:#303030}
+.renumber{background:#282828}
+.run-card{background:#282828;border-color:#5a5a5a;box-shadow:0 2px 8px #0003}
+.run-card.invalid{border-color:#a65361;background:#302629}
+.run-card-head{background:#353535}
+.run-card-head:hover{background:#3c3c3c}
+.run-card.open .run-card-head{border-bottom-color:#555}
+.run-chevron{color:#d0cbc2}
+.summary-values{color:#d5d0c7}
+.special-badge{background:#453b2b;color:#e0c284}
+.run-group{border-bottom-color:#454545}
+.run-group h3{color:#c8c1b5}
+.route-box{background:#222;border-color:#4a4a4a}
+.calculated{color:#c2bdb3}.calculated strong{color:#e9e6df}
+.reference{color:#a8a39b}.extra-group{background:#242424}
+.second-toggle{border-color:#4a4a4a;background:#252525}
+.run-card input[readonly]{background:#292929;color:#c5c0b7;border-color:#4e4e4e}
+.run-error{color:#efa4ac}
+.device-btn.active{background:#373737;border-color:#777}
+.readbox,.calc-result,.compat-box,.share-box{background:#242424;border-color:#4a4a4a;color:#d3cec4}
+.notice{background:#322c22;border-color:#726049;color:#dfc89b}
+.labels-table th,.initial-table th{background:#2b2b2b}
+.io-sheet{background:#252525;border-color:#5a5a5a;box-shadow:0 -8px 24px #0005}
+.calc-arrow{color:#bdb7ac}
+@media(max-width:900px){.cue-rail{border-bottom:2px solid #666}.editor{margin-top:3px}}
+@media(max-width:560px){.row-action-bar{top:92px}.editor{padding:0 9px 9px}.cue-work-head{margin:0 -9px 10px;padding:12px 10px}.cue-title .q-number{width:98px;font-size:17px}.cue-title .q-name{font-size:17px}.cue-head-meta .badge{margin-right:0}.cue-actions-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.cue-actions-panel button{min-width:0;padding:7px 5px}.cue-actions-panel .danger{margin-left:0;grid-column:1/-1;margin-top:5px}.row-action-bar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.row-action-bar strong{grid-column:1/-1}.row-action-bar .danger{margin-left:0}.add-run-actions #pasteRows{min-width:72px}}
+
+/* v8: portrait phone sizing for device settings and I/O */
+@media(max-width:560px){
+  #settings,.settings-shell,.device-rail,.settings-main{
+    width:100%;max-width:100%;min-width:0;
+  }
+  .settings-shell{grid-template-columns:minmax(0,1fr)}
+  .device-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(88px,1fr));
+    gap:6px;
+    width:100%;max-width:100%;min-width:0;
+    max-height:none;overflow:visible;
+  }
+  .device-btn{
+    width:100%;min-width:0;height:auto;min-height:58px;
+    display:flex;flex-direction:column;align-items:flex-start;
+    gap:2px;padding:7px 8px;margin:0;overflow:hidden;
+  }
+  .device-btn strong{max-width:100%;white-space:nowrap}
+  .device-btn small{
+    display:block;width:100%;min-width:0;max-width:100%;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .settings-main .settings-grid,.settings-main .compat-grid{
+    grid-template-columns:minmax(0,1fr);min-width:0;width:100%;
+  }
+  .settings-main .field,.settings-main .field input,
+  .settings-main .field select,.settings-main .readbox,
+  .settings-main .compat-box,.settings-main .compat-inner{
+    min-width:0;max-width:100%;
+  }
+  .settings-main .field input,.settings-main .field select,
+  .settings-main .readbox,.settings-main .compat-box{width:100%}
+  .clipbar{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;width:100%;max-width:100%;min-width:0;
+  }
+  .clipbar>button{width:100%;min-width:0;min-height:42px}
+  .clipbar .clip-state{
+    grid-column:1/-1;display:block;min-width:0;max-width:100%;
+    overflow-wrap:anywhere;line-height:1.45;padding:2px 1px;
+  }
+  .clipbar .swap-wrap{
+    grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr);
+    gap:7px;width:100%;max-width:100%;min-width:0;
+  }
+  .swap-wrap select,.swap-wrap button{
+    display:block;width:100%;max-width:100%;min-width:0;min-height:42px;
+  }
+  .labels-wrap{width:100%;max-width:100%;min-width:0}
+  .labels-table{
+    width:100%;max-width:100%;min-width:0;table-layout:fixed;
+  }
+  .labels-table th:first-child{width:40px!important}
+  .labels-table th:last-child{width:108px!important}
+  .labels-table th,.labels-table td{padding:5px 3px;min-width:0}
+  .labels-table input{width:100%;max-width:100%;min-width:0;padding:7px 5px}
+  .io-modal{
+    padding:7px;
+    padding:7px max(7px,env(safe-area-inset-right))
+      calc(7px + env(safe-area-inset-bottom))
+      max(7px,env(safe-area-inset-left));
+  }
+  .io-sheet{
+    width:100%;max-width:100%;min-width:0;
+    max-height:calc(100vh - 14px);
+    max-height:calc(100dvh - 14px - env(safe-area-inset-bottom));
+    padding:12px;
+  }
+  .io-sheet .section-head{min-width:0}
+  .io-sheet .section-head .small{min-width:0;overflow-wrap:anywhere}
+  .io-grid,.share-box,.share-actions{
+    width:100%;max-width:100%;min-width:0;
+  }
+  .io-grid{grid-template-columns:minmax(0,1fr)}
+  .io-grid button,.share-actions button,.io-close{
+    width:100%;max-width:100%;min-width:0;min-height:44px;
+  }
+  .share-box textarea{
+    display:block;width:100%;max-width:100%;min-width:0;
+  }
+  .share-actions{
+    display:grid;grid-template-columns:minmax(0,1fr);gap:7px;
+  }
+  .share-actions button{flex:none}
+  .share-message{min-width:0;overflow-wrap:anywhere}
+}
+@media(max-width:360px){
+  .header-main{gap:6px}
+  .brand-mark{display:none}
+  .brand-title{font-size:11px}
+  .header-actions{gap:4px}
+  .header-actions button{min-width:36px;padding:5px 6px}
 }
 </style>
 </head>
@@ -281,30 +450,44 @@ function renderCueList(){const list=$('cueList');list.innerHTML='';cues.forEach(
 function selectedRunIndexes(){return [...document.querySelectorAll('#cueEditor [data-rowcheck]:checked')].map(x=>+x.dataset.rowcheck).sort((a,b)=>a-b)}
 function runDirection(start,target){return target>start?'▲':target<start?'▼':''}
 function newDefaultRun(){const d=dev('B1')||devices[0],target=d.labels[0]?.pos??d.machineMax;return normalizeRun({device:d.id,targetMode:d.labels[0]?.name||'direct',target,speed:d.type==='constant'?fixedDeviceSpeed(d):1000,acc:d.type==='constant'?FIXED_ACC:2,dec:d.type==='constant'?FIXED_DEC:2,delay:0,use2:false,pos2:'',speed2:''})}
+let runOpenState=new WeakMap(),openStateCue=null,cueActionsOpen=false,cueActionsCue=null;
 function renderCueEditor(){
- const box=$('cueEditor'),q=cues[selectedListIndex];if(!q){box.innerHTML='<div class="editor-empty">Cueがありません</div>';return}
+ const box=$('cueEditor'),q=cues[selectedListIndex];if(q!==openStateCue){runOpenState=new WeakMap();openStateCue=q}if(q!==cueActionsCue){cueActionsOpen=false;cueActionsCue=q}if(!q){box.innerHTML='<div class="editor-empty">Cueがありません</div>';return}
  if(isMemoEntry(q)){
    box.innerHTML=`<div class="memo-editor"><div class="section-head"><h2>メモ</h2></div><textarea id="editMemoText">${escapeHtml(q.text||'')}</textarea><div class="memo-actions"><button id="moveMemoUp">↑ 上へ</button><button id="moveMemoDown">↓ 下へ</button><button id="deleteMemo" class="danger">削除</button></div></div>`;
    $('editMemoText').oninput=e=>{pushUndoSnapshotForInput(`memo:${selectedListIndex}`);q.text=e.target.value;scheduleSave();renderCueList()};$('moveMemoUp').onclick=()=>moveListItem(-1);$('moveMemoDown').onclick=()=>moveListItem(1);$('deleteMemo').onclick=()=>{pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveNow();renderAll()};return;
  }
  const state=positionStateBeforeCue(selectedListIndex),starts=state.pos,startLabels=state.labels,errs=cueValidation(selectedListIndex);const errBy=new Map(errs.map(e=>[e.index,e.msg]));
- const rows=(q.runs||[]).map((r,ri)=>{const d=dev(r.device)||devices[0];syncRunTargetFromLabel(r);const st=starts[r.device]??initialPosition(d),direction=runDirection(st,+r.target),v=validateRun(r,st),fixed=d.type==='constant',time=v.ok?v.total:null,dist=Math.abs((+r.target)-st),targetLabel=labelForRunTarget(d,r);return `<article class="run-card ${v.ok?'':'invalid'}" data-run-card="${ri}">
-   <div class="run-card-head"><input class="run-check" type="checkbox" data-rowcheck="${ri}"><select data-ri="${ri}" data-f="device" aria-label="機構">${devices.map(x=>`<option value="${escapeHtml(x.id)}" ${x.id===r.device?'selected':''}>${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('')}</select><span class="run-index">RUN ${ri+1}</span></div>
-   <div class="run-route"><div class="route-box"><div class="route-label">現在地</div><div class="route-value">${escapeHtml(positionDisplayText(d,st,startLabels[r.device]))}</div></div><div class="direction ${direction==='▲'?'up':direction==='▼'?'down':''}">${direction}</div><div class="route-box"><div class="route-label">目標</div><div class="target-grid"><select data-ri="${ri}" data-f="targetSelect">${targetOptions(d,r)}</select><input data-ri="${ri}" data-f="target" type="number" inputmode="numeric" value="${Number.isFinite(+r.target)?+r.target:''}" ${inferRunTargetMode(r)==='direct'?'':'disabled'}></div><div class="small" style="margin-top:4px">${targetLabel?escapeHtml(targetLabel):'直入力'} · ${Math.round(+r.target)}mm</div></div></div>
-   <div class="metrics"><div class="metric"><label>距離 mm</label><div class="metric-read">${Math.round(dist)}</div></div><div class="metric"><label>運転タイム s</label><input data-ri="${ri}" data-f="opTime" type="number" step=".1" inputmode="decimal" value="${time===null?'':time.toFixed(1)}" ${fixed?'readonly':''}></div><div class="metric"><label>速度 mm/s</label><input data-ri="${ri}" data-f="speed" type="number" inputmode="numeric" value="${fixed?fixedDeviceSpeed(d):r.speed}" ${fixed?'readonly':''}></div><div class="metric"><label>加速 s</label><input data-ri="${ri}" data-f="acc" type="number" step=".1" value="${fixed?FIXED_ACC:r.acc}" ${fixed?'readonly':''}></div><div class="metric"><label>減速 s</label><input data-ri="${ri}" data-f="dec" type="number" step=".1" value="${fixed?FIXED_DEC:r.dec}" ${fixed?'readonly':''}></div><div class="metric"><label>Delay s</label><input data-ri="${ri}" data-f="delay" type="number" step=".1" value="${r.delay||0}"></div><div class="metric"><label>速度 %</label><div class="metric-read">${((fixed?fixedDeviceSpeed(d):(+r.speed||0))/15).toFixed(1)}%</div></div></div>
-   <div class="second-row"><label class="second-toggle"><input data-ri="${ri}" data-f="use2" type="checkbox" ${r.use2?'checked':''} ${fixed?'disabled':''}>2位置</label><div class="metric"><label>2位置 mm</label><input data-ri="${ri}" data-f="pos2" type="number" value="${r.pos2??''}" ${(!r.use2||fixed)?'disabled':''}></div><div class="metric"><label>2速度 mm/s</label><input data-ri="${ri}" data-f="speed2" type="number" value="${r.speed2??''}" ${(!r.use2||fixed)?'disabled':''}></div><div class="metric"><label>2加減 s</label><div class="metric-read">${r.use2&&!fixed?transitionDisplayTime(+r.speed||0,+r.speed2||0).toFixed(1):'0.0'}</div></div></div>
-   ${errBy.has(ri)?`<div class="run-error">⚠ ${escapeHtml(errBy.get(ri))}</div>`:''}</article>`}).join('');
- box.innerHTML=`<div class="q-head"><input id="editQNum" class="q-number" value="${escapeHtml(formatCueNumber(q.number)||'000.00')}"><input id="editQName" class="q-name" value="${escapeHtml(q.name||'')}"><div class="q-actions"><span class="badge">${q.runs.length} runs</span></div></div>
- <div class="q-toolbar"><button id="moveCueUp">↑ 上へ</button><button id="moveCueDown">↓ 下へ</button><button id="copyCue">Qコピー</button><button id="duplicateQ">Q複製</button><button id="deleteCue" class="danger">Q削除</button><button id="copyRows">選択コピー</button><button id="cutRows">選択カット</button><button id="pasteRows">貼付</button><button id="swapRows">2行入替</button><button id="deleteRows" class="danger">選択削除</button></div>
+ const rows=(q.runs||[]).map((r,ri)=>{const d=dev(r.device)||devices[0];syncRunTargetFromLabel(r);const st=starts[r.device]??initialPosition(d),direction=runDirection(st,+r.target),v=validateRun(r,st),fixed=d.type==='constant',time=v.ok?v.total:null,dist=Math.abs((+r.target)-st),targetLabel=labelForRunTarget(d,r),currentLabel=currentLabelName(d,st,startLabels[r.device]),opened=runOpenState.get(r)===true,dirClass=direction==='▲'?'up':direction==='▼'?'down':'';return `<article class="run-card ${errBy.has(ri)||!v.ok?'invalid':''} ${opened?'open':''}" data-run-card="${ri}">
+   <div class="run-card-head" data-run-toggle="${ri}" role="button" tabindex="0" aria-expanded="${opened}" aria-label="${escapeHtml(d.id)} の詳細を${opened?'閉じる':'開く'}">
+     <span class="run-chevron" aria-hidden="true">${opened?'▼':'▶'}</span><input class="run-check" type="checkbox" data-rowcheck="${ri}" aria-label="RUN ${ri+1} を選択"><select data-ri="${ri}" data-f="device" aria-label="機構">${devices.map(x=>`<option value="${escapeHtml(x.id)}" ${x.id===r.device?'selected':''}>${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('')}</select>
+     <div class="run-summary"><div class="summary-route"><span>${escapeHtml(currentLabel)}</span><span class="direction ${dirClass}">${direction||'—'}</span><span>${escapeHtml(targetLabel||'直入力')}</span></div><div class="summary-values"><span>${fixed?fixedDeviceSpeed(d):r.speed} mm/s</span><span>${time===null?'—':time.toFixed(1)} s</span><span>加 ${fixed?FIXED_ACC:r.acc}</span><span>減 ${fixed?FIXED_DEC:r.dec}</span>${(+r.delay||0)>0?'<span class="special-badge" title="Delayあり">D</span>':''}${r.use2?'<span class="special-badge" title="2位置あり">2</span>':''}</div></div><span class="run-index">${errBy.has(ri)||!v.ok?'⚠ ':''}RUN ${ri+1}</span>
+   </div>
+   <div class="run-body" ${opened?'':'hidden'}>
+    <section class="run-group"><h3>位置情報</h3><div class="run-route"><div class="route-box"><div class="route-label">現在地</div><div class="position-pair"><span>ラベル</span><strong>${escapeHtml(currentLabel)}</strong><span>mm</span><strong>${Math.round(st)}</strong></div></div><div class="direction ${dirClass}">${direction}</div><div class="route-box"><div class="route-label">目標地</div><div class="position-pair"><label for="target-label-${ri}">ラベル</label><select id="target-label-${ri}" data-ri="${ri}" data-f="targetSelect">${targetOptions(d,r)}</select><label for="target-mm-${ri}">mm</label><input id="target-mm-${ri}" data-ri="${ri}" data-f="target" type="number" inputmode="numeric" value="${Number.isFinite(+r.target)?+r.target:''}" ${inferRunTargetMode(r)==='direct'?'':'disabled'}></div></div></div><div class="calculated">距離 <strong>${Math.round(dist)} mm</strong></div></section>
+    <section class="run-group"><h3>基本運転設定</h3><div class="drive-grid"><div class="metric"><label>速度 mm/s</label><input data-ri="${ri}" data-f="speed" type="number" inputmode="numeric" value="${fixed?fixedDeviceSpeed(d):r.speed}" ${fixed?'readonly':''}><div class="reference">参考 ${((fixed?fixedDeviceSpeed(d):(+r.speed||0))/15).toFixed(1)}%</div></div><div class="metric"><label>運転タイム s</label><input data-ri="${ri}" data-f="opTime" type="number" step=".1" inputmode="decimal" value="${time===null?'':time.toFixed(1)}" ${fixed?'readonly':''}></div><div class="metric"><label>加速 s</label><input data-ri="${ri}" data-f="acc" type="number" step=".1" value="${fixed?FIXED_ACC:r.acc}" ${fixed?'readonly':''}></div><div class="metric"><label>減速 s</label><input data-ri="${ri}" data-f="dec" type="number" step=".1" value="${fixed?FIXED_DEC:r.dec}" ${fixed?'readonly':''}></div></div></section>
+    <section class="run-group extra-group"><h3>追加設定</h3><div class="extra-grid"><div class="metric"><label>Delay s</label><input data-ri="${ri}" data-f="delay" type="number" step=".1" value="${r.delay||0}"></div><label class="second-toggle"><input data-ri="${ri}" data-f="use2" type="checkbox" ${r.use2?'checked':''} ${fixed?'disabled':''}>2位置</label></div>${r.use2&&!fixed?`<div class="second-details"><div class="metric"><label>2位置 mm</label><input data-ri="${ri}" data-f="pos2" type="number" value="${r.pos2??''}"></div><div class="metric"><label>2速度 mm/s</label><input data-ri="${ri}" data-f="speed2" type="number" value="${r.speed2??''}"></div><div class="metric"><label>2加減 s</label><div class="calculated">${transitionDisplayTime(+r.speed||0,+r.speed2||0).toFixed(1)} s</div></div></div>`:''}</section>
+    ${errBy.has(ri)?`<div class="run-error">⚠ ${escapeHtml(errBy.get(ri))}</div>`:''}
+   </div></article>`}).join('');
+ box.innerHTML=`<header class="cue-work-head"><div class="cue-title"><span class="q-prefix">Q</span><input id="editQNum" class="q-number" aria-label="Cue番号" value="${escapeHtml(formatCueNumber(q.number)||'000.00')}"><input id="editQName" class="q-name" aria-label="Cue名称" value="${escapeHtml(q.name||'')}"></div><div class="cue-head-meta"><span class="badge">${q.runs.length} runs</span><button id="openAllRuns" type="button">全て開く</button><button id="closeAllRuns" type="button">全て閉じる</button><button id="toggleCueActions" type="button" aria-controls="cueActionsPanel" aria-expanded="${cueActionsOpen}">Cue操作 ${cueActionsOpen?'▼':'▸'}</button></div></header>
+ <div id="cueActionsPanel" class="cue-actions-panel" ${cueActionsOpen?'':'hidden'}><button id="moveCueUp">↑ Cueを上へ</button><button id="moveCueDown">↓ Cueを下へ</button><button id="copyCue">Cueコピー</button><button id="duplicateQ">Cue複製</button><button id="deleteCue" class="danger">Cue削除</button></div>
  <div id="cueValidation" class="validation ${errs.length?'show':''}">${errs.map(e=>`<div>⚠ ${escapeHtml(e.device)}: ${escapeHtml(e.msg)}</div>`).join('')}</div>
  <div id="renumberBox" class="renumber"><div class="field"><label>開始位置</label><input id="rnStartIndex" type="number" min="1" value="1"></div><div class="field"><label>終了位置</label><input id="rnEndIndex" type="number" min="1" value="${cues.length}"></div><div class="field"><label>開始Q番号</label><input id="rnStartNumber" value="${escapeHtml(q.number)}"></div><div class="field"><label>刻み</label><input id="rnStep" value="1.00"></div><button id="runRenumber" class="primary">振り直す</button></div>
- <div class="run-list">${rows}</div><button id="addRun" class="add-run">＋ 運転行を追加</button>`;
+ <div id="rowActionBar" class="row-action-bar" hidden><strong id="selectedRowsCount">0行選択中</strong><button id="copyRows">コピー</button><button id="cutRows">カット</button><button id="swapRows" disabled>入替</button><button id="deleteRows" class="danger">削除</button></div>
+ <div class="run-list">${rows}</div><div class="add-run-actions"><button id="addRun" class="add-run">＋ 運転行を追加</button><button id="pasteRows" type="button" ${runClipboard.length?'':'disabled'}>貼付</button></div>`;
  bindCueEditor(q,starts);
 }
 function bindCueEditor(q,starts){
+ const setOpen=(ri,open)=>{const r=q.runs[ri],card=document.querySelector(`#cueEditor [data-run-card="${ri}"]`);if(!r||!card)return;runOpenState.set(r,open);card.classList.toggle('open',open);card.querySelector('.run-body').hidden=!open;const head=card.querySelector('.run-card-head');head.setAttribute('aria-expanded',String(open));head.setAttribute('aria-label',`${r.device} の詳細を${open?'閉じる':'開く'}`);card.querySelector('.run-chevron').textContent=open?'▼':'▶'};
+ document.querySelectorAll('#cueEditor [data-run-toggle]').forEach(head=>{const toggle=()=>{const ri=+head.dataset.runToggle;setOpen(ri,runOpenState.get(q.runs[ri])!==true)};head.addEventListener('click',e=>{if(e.target.closest('input,select,button,label'))return;toggle()});head.addEventListener('keydown',e=>{if(e.target!==head||!['Enter',' '].includes(e.key))return;e.preventDefault();toggle()})});
+ $('openAllRuns').onclick=()=>q.runs.forEach((_,i)=>setOpen(i,true));$('closeAllRuns').onclick=()=>q.runs.forEach((_,i)=>setOpen(i,false));
+ const updateRowActionBar=()=>{const n=selectedRunIndexes().length,bar=$('rowActionBar');bar.hidden=n===0;$('selectedRowsCount').textContent=`${n}行選択中`;$('swapRows').disabled=n!==2};
+ document.querySelectorAll('#cueEditor [data-rowcheck]').forEach(el=>el.addEventListener('change',updateRowActionBar));
+ $('toggleCueActions').onclick=()=>{cueActionsOpen=!cueActionsOpen;$('cueActionsPanel').hidden=!cueActionsOpen;const btn=$('toggleCueActions');btn.setAttribute('aria-expanded',String(cueActionsOpen));btn.textContent=`Cue操作 ${cueActionsOpen?'▼':'▸'}`};
+ updateRowActionBar();$('pasteRows').disabled=!runClipboard.length;
  $('editQNum').oninput=e=>{pushUndoSnapshotForInput(`qnum:${selectedListIndex}`);q.number=e.target.value;scheduleSave();renderCueList()};$('editQNum').onblur=e=>{const f=formatCueNumber(e.target.value);if(!f){e.target.value=q.number;return}q.number=f;e.target.value=f;scheduleSave();renderCueList()};$('editQName').oninput=e=>{pushUndoSnapshotForInput(`qname:${selectedListIndex}`);q.name=e.target.value;scheduleSave();renderCueList()};
  $('moveCueUp').onclick=()=>moveListItem(-1);$('moveCueDown').onclick=()=>moveListItem(1);$('copyCue').onclick=()=>{cueClipboard=deep(q);$('pasteCueBtn').disabled=false};$('duplicateQ').onclick=()=>{pushUndoSnapshot();const c=deep(q);c.number=nextQNumber(q.number);c.name=(c.name||'')+' コピー';cues.splice(selectedListIndex+1,0,c);selectedListIndex++;saveNow();renderAll()};$('deleteCue').onclick=()=>{if(playableCueCount()<=1)return;if(!confirm('このCueを削除しますか？'))return;pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveNow();renderAll()};
- $('copyRows').onclick=()=>{const idx=selectedRunIndexes();runClipboard=idx.map(i=>deep(q.runs[i]))};$('cutRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();runClipboard=idx.map(i=>deep(q.runs[i]));for(const i of [...idx].reverse())q.runs.splice(i,1);saveNow();renderCueEditor()};$('pasteRows').onclick=()=>{if(!runClipboard.length)return;pushUndoSnapshot();q.runs.push(...deep(runClipboard));saveNow();renderCueEditor()};$('swapRows').onclick=()=>{const idx=selectedRunIndexes();if(idx.length!==2){alert('入れ替える2行だけ選択してください。');return}pushUndoSnapshot();[q.runs[idx[0]],q.runs[idx[1]]]=[q.runs[idx[1]],q.runs[idx[0]]];saveNow();renderCueEditor()};$('deleteRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();for(const i of [...idx].reverse())q.runs.splice(i,1);saveNow();renderCueEditor()};$('addRun').onclick=()=>{pushUndoSnapshot();q.runs.push(newDefaultRun());saveNow();renderCueEditor()};
+ $('copyRows').onclick=()=>{const idx=selectedRunIndexes();runClipboard=idx.map(i=>deep(q.runs[i]));$('pasteRows').disabled=!runClipboard.length};$('cutRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();runClipboard=idx.map(i=>deep(q.runs[i]));for(const i of [...idx].reverse())q.runs.splice(i,1);saveNow();renderCueEditor()};$('pasteRows').onclick=()=>{if(!runClipboard.length)return;pushUndoSnapshot();q.runs.push(...deep(runClipboard));saveNow();renderCueEditor()};$('swapRows').onclick=()=>{const idx=selectedRunIndexes();if(idx.length!==2){alert('入れ替える2行だけ選択してください。');return}pushUndoSnapshot();[q.runs[idx[0]],q.runs[idx[1]]]=[q.runs[idx[1]],q.runs[idx[0]]];saveNow();renderCueEditor()};$('deleteRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();for(const i of [...idx].reverse())q.runs.splice(i,1);saveNow();renderCueEditor()};$('addRun').onclick=()=>{pushUndoSnapshot();q.runs.push(newDefaultRun());saveNow();renderCueEditor()};
  document.querySelectorAll('#cueEditor [data-ri][data-f]').forEach(el=>{const handler=()=>{const ri=+el.dataset.ri,f=el.dataset.f,r=q.runs[ri];if(!r)return;pushUndoSnapshot();if(f==='device'){const d=dev(el.value);r.device=d.id;r.targetMode=d.labels[0]?.name||'direct';r.target=d.labels[0]?.pos??d.machineMax;r.speed=d.type==='constant'?fixedDeviceSpeed(d):(r.speed||1000);r.acc=d.type==='constant'?FIXED_ACC:(r.acc||2);r.dec=d.type==='constant'?FIXED_DEC:(r.dec||2);r.use2=d.type==='constant'?false:r.use2;if(d.type==='constant'){r.pos2='';r.speed2=''}}else if(f==='targetSelect'){const d=dev(r.device);if(el.value==='direct')r.targetMode='direct';else{const i=+el.value.split(':')[1],l=d.labels[i];if(l){r.targetMode=l.name;r.target=+l.pos}}}else if(f==='use2'){r.use2=el.checked}else if(f==='opTime'){const desired=+el.value,st=positionStateBeforeCue(selectedListIndex).pos[r.device],best=solveSpeedForTime(r,st,desired);if(!best){alert('この運転タイムでは成立する速度が見つかりません。')}else r.speed=best.speed}else{const n=+el.value;r[f]=Number.isFinite(n)?n:el.value;if(f==='target')r.targetMode='direct'}saveNow();renderCueEditor()};el.addEventListener('change',handler)});
  if($('renumberBox')){}if($('runRenumber'))$('runRenumber').onclick=runRenumber;
 }
