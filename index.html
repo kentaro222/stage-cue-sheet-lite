@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#151515">
-<title>Stage Cue Sheet / Lite v8</title>
+<title>Stage Cue Sheet / Lite v9</title>
 <style>
 :root{
   --bg:#151515;--panel:#202020;--panel2:#292929;--panel3:#343434;--line:#484848;
@@ -243,13 +243,37 @@ button.danger:hover{background:#4b2a30}
   .header-actions{gap:4px}
   .header-actions button{min-width:36px;padding:5px 6px}
 }
+
+/* v9 project metadata */
+.brand{flex:none;color:#bbb7af;font-size:12px}
+.project-heading{flex:1;min-width:0;max-width:480px;border-left:1px solid #5a5752;padding-left:10px}
+.project-name-input{width:100%;max-width:100%;min-width:0;min-height:36px;padding:5px 7px;background:transparent;border:1px solid transparent;color:#f0ede6;font-size:15px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+.project-name-input::placeholder{color:#aaa59c;opacity:1}
+.project-name-input:hover{border-bottom-color:#69645d}
+.project-name-input:focus{background:#282828;border-color:#8f8980;box-shadow:none}
+.io-project-info,.share-project-info{min-width:0;overflow-wrap:anywhere;color:#c7c2b9;font-size:12px}
+.io-project-info{display:flex;flex-wrap:wrap;gap:4px 14px;padding:8px 10px;margin-bottom:10px;border:1px solid #4b4843;border-radius:8px;background:#2c2b29}
+.io-project-info strong{color:#e4dfd5}
+.share-project-info{display:grid;gap:5px;padding:8px 0}
+.share-project-info div{display:flex;gap:9px;flex-wrap:wrap}
+.share-project-info span{color:#aaa59c;min-width:72px}
+.share-project-info strong{font-weight:700;color:#e3ded5;min-width:0}
+@media(max-width:560px){
+ .header-main{height:auto;min-height:54px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 7px;padding:6px 8px}
+ .header-main .brand{grid-column:1;grid-row:1;min-width:0}
+ .brand-title{font-size:11px}
+ .header-actions{grid-column:2;grid-row:1}
+ .project-heading{grid-column:1/-1;grid-row:2;width:100%;max-width:100%;padding-left:0;border-left:0}
+ .project-name-input{min-height:36px;font-size:14px}
+ .row-action-bar{top:138px}
+}
 </style>
 </head>
 <body>
 <header class="app-header">
   <div class="header-main">
     <div class="brand"><span class="brand-mark"></span><span class="brand-title">STAGE CUE SHEET</span></div>
-    <div class="header-spacer"></div>
+    <div class="project-heading"><input id="projectNameInput" class="project-name-input" type="text" aria-label="プロジェクト名" placeholder="プロジェクト名を入力" autocomplete="off"></div>
     <span id="saveState" class="save-state">保存済み</span>
     <div class="header-actions"><button id="undoBtn" class="icon" title="戻す">↶</button><button id="redoBtn" class="icon" title="やり直し">↷</button><button id="openIoBtn" class="primary">入出力</button></div>
   </div>
@@ -325,13 +349,15 @@ button.danger:hover{background:#4b2a30}
 
 <div id="ioModal" class="io-modal" aria-hidden="true"><div class="io-sheet">
   <div class="section-head"><h3>入出力</h3><div class="grow"></div><span class="small">計算ロジックはCSV書出と共通</span></div>
+  <div id="ioProjectInfo" class="io-project-info"></div>
   <div class="io-grid">
     <button id="csvInitBtn" class="primary">装置CSV読込</button><button id="exportDeviceCsvBtn">装置CSV書出</button><button id="exportCueCsvBtn" class="primary">キューCSV書出</button><button id="exportShareBtn" class="primary">共有コード書出</button><button id="importShareBtn">共有コード読込</button><button id="exportJsonBtn">JSON保存</button><button id="importJsonBtn">JSON読込</button><button id="resetProjectBtn" class="danger">全データリセット</button>
   </div>
   <div id="shareBox" class="share-box">
     <div class="section-head"><strong id="shareTitle">共有コード</strong><span class="grow"></span><span id="shareMeta" class="small"></span></div>
+    <div id="shareProjectInfo" class="share-project-info"></div>
     <textarea id="shareCode" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="SCUE1:... の共有コードをここへ貼り付け"></textarea>
-    <div class="share-actions"><button id="copyShareCode" class="primary">コードをコピー</button><button id="restoreShareCode">このコードを読込</button><button id="clearShareCode">クリア</button></div>
+    <div class="share-actions"><button id="copyShareCode" class="primary">コードをコピー</button><button id="copyShareTextBtn">共有用テキストをコピー</button><button id="restoreShareCode">このコードを読込</button><button id="clearShareCode">クリア</button></div>
     <div id="shareMessage" class="share-message small">Google Keep・LINE・メール等へそのまま貼り付けできます。共有コードは暗号化ではありません。</div>
   </div>
   <button id="closeIoBtn" class="io-close">閉じる</button>
@@ -346,6 +372,7 @@ const deep=x=>JSON.parse(JSON.stringify(x));
 const $=id=>document.getElementById(id);
 let devices=deep(BASE_DEVICES),cues=[{number:'001.00',name:'新規キュー',runs:[]}],selectedDevice='B1',selectedListIndex=0;
 let cueClipboard=null,runClipboard=[],hangingItemClipboard=null,undoStack=[],redoStack=[],saveTimer=null,historyInputKey=null,historyInputTimer=null;
+let projectName='',updatedAt=null,lastProjectContent=null;
 
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function dev(id){return devices.find(d=>d.id===id)}
@@ -356,6 +383,22 @@ function csvCell(v){if(v===null||v===undefined)return '';const s=String(v);retur
 function csvNumber(v,maxDecimals=6){if(v===null||v===undefined||v==='')return '';const n=Number(v);if(!Number.isFinite(n))return '';if(Math.abs(n-Math.round(n))<1e-9)return String(Math.round(n));return n.toFixed(maxDecimals).replace(/0+$/,'').replace(/\.$/,'')}
 function downloadText(text,name,type){const blob=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},0)}
 function stamp(){const n=new Date(),p=x=>String(x).padStart(2,'0');return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}_${p(n.getHours())}${p(n.getMinutes())}`}
+
+
+function validUpdatedAt(value){if(typeof value!=='string'||!value.trim())return null;const d=new Date(value);return Number.isNaN(d.getTime())?null:d.toISOString()}
+function localUpdatedAt(value){if(!value)return '不明';const d=new Date(value);if(Number.isNaN(d.getTime()))return '不明';const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())}
+function projectFileStem(){return projectName.trim().replace(/[\\/:*?"<>|\x00-\x1f\x7f]/g,'_').replace(/\s+/g,'_').replace(/[._ ]+$/g,'').replace(/^[._ ]+/g,'').slice(0,80)||'stage_cue'}
+function projectContentSignature(){return JSON.stringify({projectName,devices,cues})}
+function renderProjectInfo(){
+ const input=$('projectNameInput');if(input&&document.activeElement!==input)input.value=projectName;
+ const label=escapeHtml(projectName||'プロジェクト名未設定'),date=escapeHtml(localUpdatedAt(updatedAt));
+ $('ioProjectInfo').innerHTML='<strong>'+label+'</strong><span>最終更新 '+date+'</span>';
+ $('shareProjectInfo').innerHTML='<div><span>プロジェクト</span><strong>'+label+'</strong></div><div><span>最終更新</span><strong>'+date+'</strong></div>';
+}
+function touchProject(){const current=projectContentSignature();if(current===lastProjectContent)return false;lastProjectContent=current;updatedAt=new Date().toISOString();renderProjectInfo();return true}
+function saveChangedProject(){touchProject();saveNow()}
+function scheduleChangedProject(){touchProject();scheduleSave()}
+function commitProjectName(){const input=$('projectNameInput'),name=input.value.trim();if(name!==projectName){projectName=name;saveChangedProject()}input.value=projectName}
 
 function normalizeDevice(d,base){
  const out={...deep(base||{}),...deep(d||{})};
@@ -382,15 +425,15 @@ function normalizeAll(){
  if(!cues.length)cues=[{number:'001.00',name:'新規キュー',runs:[]}];selectedListIndex=clamp(selectedListIndex,0,cues.length-1);selectedDevice=dev(selectedDevice)?.id||(dev('B1')?'B1':devices[0].id);
 }
 
-function saveNow(){try{localStorage.setItem(KEY,JSON.stringify({app:'stage-cue-sheet',formatVersion:1,devices,cues}));$('saveState').textContent='保存済み';$('saveState').className='save-state'}catch(e){$('saveState').textContent='保存失敗';$('saveState').className='save-state error'}}
+function saveNow(){try{localStorage.setItem(KEY,JSON.stringify({app:'stage-cue-sheet',formatVersion:1,projectName,updatedAt,devices,cues}));$('saveState').textContent='保存済み';$('saveState').className='save-state'}catch(e){$('saveState').textContent='保存失敗';$('saveState').className='save-state error'}}
 function scheduleSave(){try{$('saveState').textContent='保存中…';$('saveState').className='save-state saving'}catch{}clearTimeout(saveTimer);saveTimer=setTimeout(saveNow,250)}
-function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x?.devices&&x?.cues){devices=x.devices;cues=x.cues}}catch{}normalizeAll()}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x?.devices&&x?.cues){devices=x.devices;cues=x.cues;projectName=typeof x.projectName==='string'?x.projectName:'';updatedAt=validUpdatedAt(x.updatedAt)}}catch{}normalizeAll();lastProjectContent=projectContentSignature()}
 window.addEventListener('pagehide',saveNow);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveNow()});
 function snapshot(){return {devices:deep(devices),cues:deep(cues),selectedDevice,selectedListIndex}}
 function pushUndoSnapshot(){endInputGroup();undoStack.push(snapshot());if(undoStack.length>60)undoStack.shift();redoStack=[];updateHistoryButtons()}
 function pushUndoSnapshotForInput(key){if(historyInputKey!==key){endInputGroup();undoStack.push(snapshot());if(undoStack.length>60)undoStack.shift();redoStack=[];historyInputKey=key;updateHistoryButtons()}clearTimeout(historyInputTimer);historyInputTimer=setTimeout(()=>{historyInputKey=null;historyInputTimer=null},700)}
 function endInputGroup(){historyInputKey=null;clearTimeout(historyInputTimer);historyInputTimer=null}
-function restoreSnapshot(s){if(!s)return;devices=deep(s.devices);cues=deep(s.cues);selectedDevice=s.selectedDevice;selectedListIndex=s.selectedListIndex;normalizeAll();saveNow();renderAll();updateHistoryButtons()}
+function restoreSnapshot(s){if(!s)return;devices=deep(s.devices);cues=deep(s.cues);selectedDevice=s.selectedDevice;selectedListIndex=s.selectedListIndex;normalizeAll();saveChangedProject();renderAll();updateHistoryButtons()}
 function undoEdit(){if(!undoStack.length)return;endInputGroup();redoStack.push(snapshot());restoreSnapshot(undoStack.pop())}
 function redoEdit(){if(!redoStack.length)return;endInputGroup();undoStack.push(snapshot());restoreSnapshot(redoStack.pop())}
 function updateHistoryButtons(){$('undoBtn').disabled=!undoStack.length;$('redoBtn').disabled=!redoStack.length}
@@ -455,7 +498,7 @@ function renderCueEditor(){
  const box=$('cueEditor'),q=cues[selectedListIndex];if(q!==openStateCue){runOpenState=new WeakMap();openStateCue=q}if(q!==cueActionsCue){cueActionsOpen=false;cueActionsCue=q}if(!q){box.innerHTML='<div class="editor-empty">Cueがありません</div>';return}
  if(isMemoEntry(q)){
    box.innerHTML=`<div class="memo-editor"><div class="section-head"><h2>メモ</h2></div><textarea id="editMemoText">${escapeHtml(q.text||'')}</textarea><div class="memo-actions"><button id="moveMemoUp">↑ 上へ</button><button id="moveMemoDown">↓ 下へ</button><button id="deleteMemo" class="danger">削除</button></div></div>`;
-   $('editMemoText').oninput=e=>{pushUndoSnapshotForInput(`memo:${selectedListIndex}`);q.text=e.target.value;scheduleSave();renderCueList()};$('moveMemoUp').onclick=()=>moveListItem(-1);$('moveMemoDown').onclick=()=>moveListItem(1);$('deleteMemo').onclick=()=>{pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveNow();renderAll()};return;
+   $('editMemoText').oninput=e=>{pushUndoSnapshotForInput(`memo:${selectedListIndex}`);q.text=e.target.value;scheduleChangedProject();renderCueList()};$('moveMemoUp').onclick=()=>moveListItem(-1);$('moveMemoDown').onclick=()=>moveListItem(1);$('deleteMemo').onclick=()=>{pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveChangedProject();renderAll()};return;
  }
  const state=positionStateBeforeCue(selectedListIndex),starts=state.pos,startLabels=state.labels,errs=cueValidation(selectedListIndex);const errBy=new Map(errs.map(e=>[e.index,e.msg]));
  const rows=(q.runs||[]).map((r,ri)=>{const d=dev(r.device)||devices[0];syncRunTargetFromLabel(r);const st=starts[r.device]??initialPosition(d),direction=runDirection(st,+r.target),v=validateRun(r,st),fixed=d.type==='constant',time=v.ok?v.total:null,dist=Math.abs((+r.target)-st),targetLabel=labelForRunTarget(d,r),currentLabel=currentLabelName(d,st,startLabels[r.device]),opened=runOpenState.get(r)===true,dirClass=direction==='▲'?'up':direction==='▼'?'down':'';return `<article class="run-card ${errBy.has(ri)||!v.ok?'invalid':''} ${opened?'open':''}" data-run-card="${ri}">
@@ -485,37 +528,37 @@ function bindCueEditor(q,starts){
  document.querySelectorAll('#cueEditor [data-rowcheck]').forEach(el=>el.addEventListener('change',updateRowActionBar));
  $('toggleCueActions').onclick=()=>{cueActionsOpen=!cueActionsOpen;$('cueActionsPanel').hidden=!cueActionsOpen;const btn=$('toggleCueActions');btn.setAttribute('aria-expanded',String(cueActionsOpen));btn.textContent=`Cue操作 ${cueActionsOpen?'▼':'▸'}`};
  updateRowActionBar();$('pasteRows').disabled=!runClipboard.length;
- $('editQNum').oninput=e=>{pushUndoSnapshotForInput(`qnum:${selectedListIndex}`);q.number=e.target.value;scheduleSave();renderCueList()};$('editQNum').onblur=e=>{const f=formatCueNumber(e.target.value);if(!f){e.target.value=q.number;return}q.number=f;e.target.value=f;scheduleSave();renderCueList()};$('editQName').oninput=e=>{pushUndoSnapshotForInput(`qname:${selectedListIndex}`);q.name=e.target.value;scheduleSave();renderCueList()};
- $('moveCueUp').onclick=()=>moveListItem(-1);$('moveCueDown').onclick=()=>moveListItem(1);$('copyCue').onclick=()=>{cueClipboard=deep(q);$('pasteCueBtn').disabled=false};$('duplicateQ').onclick=()=>{pushUndoSnapshot();const c=deep(q);c.number=nextQNumber(q.number);c.name=(c.name||'')+' コピー';cues.splice(selectedListIndex+1,0,c);selectedListIndex++;saveNow();renderAll()};$('deleteCue').onclick=()=>{if(playableCueCount()<=1)return;if(!confirm('このCueを削除しますか？'))return;pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveNow();renderAll()};
- $('copyRows').onclick=()=>{const idx=selectedRunIndexes();runClipboard=idx.map(i=>deep(q.runs[i]));$('pasteRows').disabled=!runClipboard.length};$('cutRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();runClipboard=idx.map(i=>deep(q.runs[i]));for(const i of [...idx].reverse())q.runs.splice(i,1);saveNow();renderCueEditor()};$('pasteRows').onclick=()=>{if(!runClipboard.length)return;pushUndoSnapshot();q.runs.push(...deep(runClipboard));saveNow();renderCueEditor()};$('swapRows').onclick=()=>{const idx=selectedRunIndexes();if(idx.length!==2){alert('入れ替える2行だけ選択してください。');return}pushUndoSnapshot();[q.runs[idx[0]],q.runs[idx[1]]]=[q.runs[idx[1]],q.runs[idx[0]]];saveNow();renderCueEditor()};$('deleteRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();for(const i of [...idx].reverse())q.runs.splice(i,1);saveNow();renderCueEditor()};$('addRun').onclick=()=>{pushUndoSnapshot();q.runs.push(newDefaultRun());saveNow();renderCueEditor()};
- document.querySelectorAll('#cueEditor [data-ri][data-f]').forEach(el=>{const handler=()=>{const ri=+el.dataset.ri,f=el.dataset.f,r=q.runs[ri];if(!r)return;pushUndoSnapshot();if(f==='device'){const d=dev(el.value);r.device=d.id;r.targetMode=d.labels[0]?.name||'direct';r.target=d.labels[0]?.pos??d.machineMax;r.speed=d.type==='constant'?fixedDeviceSpeed(d):(r.speed||1000);r.acc=d.type==='constant'?FIXED_ACC:(r.acc||2);r.dec=d.type==='constant'?FIXED_DEC:(r.dec||2);r.use2=d.type==='constant'?false:r.use2;if(d.type==='constant'){r.pos2='';r.speed2=''}}else if(f==='targetSelect'){const d=dev(r.device);if(el.value==='direct')r.targetMode='direct';else{const i=+el.value.split(':')[1],l=d.labels[i];if(l){r.targetMode=l.name;r.target=+l.pos}}}else if(f==='use2'){r.use2=el.checked}else if(f==='opTime'){const desired=+el.value,st=positionStateBeforeCue(selectedListIndex).pos[r.device],best=solveSpeedForTime(r,st,desired);if(!best){alert('この運転タイムでは成立する速度が見つかりません。')}else r.speed=best.speed}else{const n=+el.value;r[f]=Number.isFinite(n)?n:el.value;if(f==='target')r.targetMode='direct'}saveNow();renderCueEditor()};el.addEventListener('change',handler)});
+ $('editQNum').oninput=e=>{pushUndoSnapshotForInput(`qnum:${selectedListIndex}`);q.number=e.target.value;scheduleChangedProject();renderCueList()};$('editQNum').onblur=e=>{const f=formatCueNumber(e.target.value);if(!f){e.target.value=q.number;return}q.number=f;e.target.value=f;scheduleChangedProject();renderCueList()};$('editQName').oninput=e=>{pushUndoSnapshotForInput(`qname:${selectedListIndex}`);q.name=e.target.value;scheduleChangedProject();renderCueList()};
+ $('moveCueUp').onclick=()=>moveListItem(-1);$('moveCueDown').onclick=()=>moveListItem(1);$('copyCue').onclick=()=>{cueClipboard=deep(q);$('pasteCueBtn').disabled=false};$('duplicateQ').onclick=()=>{pushUndoSnapshot();const c=deep(q);c.number=nextQNumber(q.number);c.name=(c.name||'')+' コピー';cues.splice(selectedListIndex+1,0,c);selectedListIndex++;saveChangedProject();renderAll()};$('deleteCue').onclick=()=>{if(playableCueCount()<=1)return;if(!confirm('このCueを削除しますか？'))return;pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveChangedProject();renderAll()};
+ $('copyRows').onclick=()=>{const idx=selectedRunIndexes();runClipboard=idx.map(i=>deep(q.runs[i]));$('pasteRows').disabled=!runClipboard.length};$('cutRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();runClipboard=idx.map(i=>deep(q.runs[i]));for(const i of [...idx].reverse())q.runs.splice(i,1);saveChangedProject();renderCueEditor()};$('pasteRows').onclick=()=>{if(!runClipboard.length)return;pushUndoSnapshot();q.runs.push(...deep(runClipboard));saveChangedProject();renderCueEditor()};$('swapRows').onclick=()=>{const idx=selectedRunIndexes();if(idx.length!==2){alert('入れ替える2行だけ選択してください。');return}pushUndoSnapshot();[q.runs[idx[0]],q.runs[idx[1]]]=[q.runs[idx[1]],q.runs[idx[0]]];saveChangedProject();renderCueEditor()};$('deleteRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();for(const i of [...idx].reverse())q.runs.splice(i,1);saveChangedProject();renderCueEditor()};$('addRun').onclick=()=>{pushUndoSnapshot();q.runs.push(newDefaultRun());saveChangedProject();renderCueEditor()};
+ document.querySelectorAll('#cueEditor [data-ri][data-f]').forEach(el=>{const handler=()=>{const ri=+el.dataset.ri,f=el.dataset.f,r=q.runs[ri];if(!r)return;pushUndoSnapshot();if(f==='device'){const d=dev(el.value);r.device=d.id;r.targetMode=d.labels[0]?.name||'direct';r.target=d.labels[0]?.pos??d.machineMax;r.speed=d.type==='constant'?fixedDeviceSpeed(d):(r.speed||1000);r.acc=d.type==='constant'?FIXED_ACC:(r.acc||2);r.dec=d.type==='constant'?FIXED_DEC:(r.dec||2);r.use2=d.type==='constant'?false:r.use2;if(d.type==='constant'){r.pos2='';r.speed2=''}}else if(f==='targetSelect'){const d=dev(r.device);if(el.value==='direct')r.targetMode='direct';else{const i=+el.value.split(':')[1],l=d.labels[i];if(l){r.targetMode=l.name;r.target=+l.pos}}}else if(f==='use2'){r.use2=el.checked}else if(f==='opTime'){const desired=+el.value,st=positionStateBeforeCue(selectedListIndex).pos[r.device],best=solveSpeedForTime(r,st,desired);if(!best){alert('この運転タイムでは成立する速度が見つかりません。')}else r.speed=best.speed}else{const n=+el.value;r[f]=Number.isFinite(n)?n:el.value;if(f==='target')r.targetMode='direct'}saveChangedProject();renderCueEditor()};el.addEventListener('change',handler)});
  if($('renumberBox')){}if($('runRenumber'))$('runRenumber').onclick=runRenumber;
 }
-function moveListItem(dir){const to=selectedListIndex+dir;if(to<0||to>=cues.length)return;pushUndoSnapshot();[cues[selectedListIndex],cues[to]]=[cues[to],cues[selectedListIndex]];selectedListIndex=to;saveNow();renderAll()}
-function runRenumber(){pushUndoSnapshot();let a=Math.max(1,+$('rnStartIndex').value||1)-1,b=Math.min(cues.length,+$('rnEndIndex').value||cues.length)-1;if(b<a)[a,b]=[b,a];const start=parseFloat($('rnStartNumber').value)||0,step=parseFloat($('rnStep').value)||1;let n=0;for(let i=a;i<=b;i++){if(isMemoEntry(cues[i]))continue;cues[i].number=(start+n*step).toFixed(2).padStart(6,'0');n++}saveNow();renderCueList();renderCueEditor()}
+function moveListItem(dir){const to=selectedListIndex+dir;if(to<0||to>=cues.length)return;pushUndoSnapshot();[cues[selectedListIndex],cues[to]]=[cues[to],cues[selectedListIndex]];selectedListIndex=to;saveChangedProject();renderAll()}
+function runRenumber(){pushUndoSnapshot();let a=Math.max(1,+$('rnStartIndex').value||1)-1,b=Math.min(cues.length,+$('rnEndIndex').value||cues.length)-1;if(b<a)[a,b]=[b,a];const start=parseFloat($('rnStartNumber').value)||0,step=parseFloat($('rnStep').value)||1;let n=0;for(let i=a;i<=b;i++){if(isMemoEntry(cues[i]))continue;cues[i].number=(start+n*step).toFixed(2).padStart(6,'0');n++}saveChangedProject();renderCueList();renderCueEditor()}
 
 function renderDeviceList(){const box=$('deviceList');box.innerHTML='';devices.forEach(d=>{const b=document.createElement('button');b.className='device-btn '+(d.id===selectedDevice?'active':'');b.innerHTML=`<strong>${escapeHtml(d.id)}</strong><small>${escapeHtml(d.itemName||'')}</small>`;b.onclick=()=>{selectedDevice=d.id;renderDeviceList();renderSettings()};box.appendChild(b)})}
 function hangingPackage(d){return {itemName:d.itemName||'',toolHeight:Number.isFinite(+d.toolHeight)?+d.toolHeight:(d.type==='curtain'?10000:0),hangOffset:Number.isFinite(+d.hangOffset)?+d.hangOffset:0,labels:deep(d.labels||[]),displayColor:d.displayColor|| (d.type==='curtain'?'#b51f2e':'#6f767a'),displayOpacity:Number.isFinite(+d.displayOpacity)?+d.displayOpacity:1}}
 function applyHangingPackage(d,p){d.itemName=p.itemName||'';d.toolHeight=Number.isFinite(+p.toolHeight)?+p.toolHeight:0;d.hangOffset=Number.isFinite(+p.hangOffset)?+p.hangOffset:0;d.labels=deep(p.labels||[]).slice(0,10);d.displayColor=String(p.displayColor||'#6f767a');d.displayOpacity=clamp(Number.isFinite(+p.displayOpacity)?+p.displayOpacity:1,0,1)}
 function clearHangingPackage(d){d.itemName='';d.toolHeight=0;d.hangOffset=0;d.labels=[];d.displayColor=d.type==='curtain'?'#b51f2e':'#6f767a';d.displayOpacity=1;d.initialLabelName=null}
 function refreshHangingClipboardUI(){$('pasteHangingBtn').disabled=!hangingItemClipboard;$('hangingClipState').textContent=hangingItemClipboard?`${hangingItemClipboard.sourceId} ${hangingItemClipboard.data.itemName||'（名称なし）'}`:'コピーなし'}
-function refreshAfterDeviceEdit(){saveNow();renderDeviceList();renderSettings();renderInitialBulk();renderCueList();renderCueEditor()}
+function refreshAfterDeviceEdit(){saveChangedProject();renderDeviceList();renderSettings();renderInitialBulk();renderCueList();renderCueEditor()}
 function renderSettings(){const d=dev(selectedDevice);if(!d)return;$('setTitle').textContent=`${d.id}  ${d.itemName||''}`;$('s_id').textContent=d.id;$('s_item').value=d.itemName||'';$('s_range').textContent=`${Math.round(d.machineMin)} ～ ${Math.round(d.machineMax)} mm`;$('s_toolHeight').value=Number.isFinite(+d.toolHeight)?+d.toolHeight:(d.type==='curtain'?10000:0);$('s_hangOffset').value=Number.isFinite(+d.hangOffset)?+d.hangOffset:0;$('s_displayColor').value=d.displayColor|| (d.type==='curtain'?'#b51f2e':'#6f767a');$('s_displayOpacity').value=Math.round(clamp(Number.isFinite(+d.displayOpacity)?+d.displayOpacity:1,0,1)*100);$('deviceSpecBadge').textContent=d.type==='constant'?`${fixedDeviceSpeed(d)} mm/s 固定`:d.type==='curtain'?'割UD':'通常機構';$('specialNotice').innerHTML=d.type==='constant'?`<div class="notice">${d.id}: 速度 ${fixedDeviceSpeed(d)} mm/s 固定 / 加速 ${FIXED_ACC.toFixed(1)}s / 減速 ${FIXED_DEC.toFixed(1)}s</div>`:'';
  const body=$('labelBody');body.innerHTML='';for(let i=0;i<10;i++){const l=d.labels[i]||{name:'',pos:''};const tr=document.createElement('tr');tr.innerHTML=`<td>${i+1}</td><td><input data-k="name" value="${escapeHtml(l.name)}"></td><td><input data-k="pos" type="number" value="${l.pos}"></td>`;body.appendChild(tr)}
  $('swapDeviceSelect').innerHTML=devices.filter(x=>x.id!==d.id).map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('');refreshHangingClipboardUI()}
-function syncSettingsFromUI(){const d=dev(selectedDevice);d.itemName=$('s_item').value;d.toolHeight=Number.isFinite(+$('s_toolHeight').value)?+$('s_toolHeight').value:0;d.hangOffset=Number.isFinite(+$('s_hangOffset').value)?+$('s_hangOffset').value:0;d.displayColor=$('s_displayColor').value.trim()|| (d.type==='curtain'?'#b51f2e':'#6f767a');d.displayOpacity=clamp((Number.isFinite(+$('s_displayOpacity').value)?+$('s_displayOpacity').value:100)/100,0,1);const arr=[];document.querySelectorAll('#labelBody tr').forEach(tr=>{const n=tr.querySelector('[data-k="name"]').value.trim(),p=tr.querySelector('[data-k="pos"]').value;if(n!==''&&p!=='')arr.push({name:n,pos:+p})});d.labels=arr;scheduleSave();renderDeviceList();renderInitialBulk();renderCueEditor()}
+function syncSettingsFromUI(){const d=dev(selectedDevice);d.itemName=$('s_item').value;d.toolHeight=Number.isFinite(+$('s_toolHeight').value)?+$('s_toolHeight').value:0;d.hangOffset=Number.isFinite(+$('s_hangOffset').value)?+$('s_hangOffset').value:0;d.displayColor=$('s_displayColor').value.trim()|| (d.type==='curtain'?'#b51f2e':'#6f767a');d.displayOpacity=clamp((Number.isFinite(+$('s_displayOpacity').value)?+$('s_displayOpacity').value:100)/100,0,1);const arr=[];document.querySelectorAll('#labelBody tr').forEach(tr=>{const n=tr.querySelector('[data-k="name"]').value.trim(),p=tr.querySelector('[data-k="pos"]').value;if(n!==''&&p!=='')arr.push({name:n,pos:+p})});d.labels=arr;scheduleChangedProject();renderDeviceList();renderInitialBulk();renderCueEditor()}
 $('s_item').addEventListener('input',()=>{pushUndoSnapshotForInput(`item:${selectedDevice}`);syncSettingsFromUI()});['s_toolHeight','s_hangOffset','s_displayColor','s_displayOpacity'].forEach(id=>$(id).addEventListener('input',()=>{pushUndoSnapshotForInput(`compat:${selectedDevice}:${id}`);syncSettingsFromUI()}));$('labelBody').addEventListener('input',e=>{const tr=e.target.closest('tr'),i=tr?[...$('labelBody').children].indexOf(tr):-1;pushUndoSnapshotForInput(`label:${selectedDevice}:${i}:${e.target.dataset.k}`);syncSettingsFromUI()});
 $('copyHangingBtn').onclick=()=>{const d=dev(selectedDevice);hangingItemClipboard={sourceId:d.id,data:hangingPackage(d)};refreshHangingClipboardUI()};$('cutHangingBtn').onclick=()=>{const d=dev(selectedDevice);pushUndoSnapshot();hangingItemClipboard={sourceId:d.id,data:hangingPackage(d)};clearHangingPackage(d);refreshAfterDeviceEdit()};$('pasteHangingBtn').onclick=()=>{const d=dev(selectedDevice);if(!hangingItemClipboard)return;if((d.itemName||d.labels.length||(+d.toolHeight||0)!==0||(+d.hangOffset||0)!==0)&&!confirm(`${d.id} の吊り物設定を上書きしますか？`))return;pushUndoSnapshot();applyHangingPackage(d,hangingItemClipboard.data);refreshAfterDeviceEdit()};$('deleteHangingBtn').onclick=()=>{const d=dev(selectedDevice);if(!confirm(`${d.id} の吊り物設定を削除しますか？`))return;pushUndoSnapshot();clearHangingPackage(d);refreshAfterDeviceEdit()};$('swapDeviceBtn').onclick=()=>{const a=dev(selectedDevice),b=dev($('swapDeviceSelect').value);if(!a||!b)return;pushUndoSnapshot();const pa=hangingPackage(a),pb=hangingPackage(b);applyHangingPackage(a,pb);applyHangingPackage(b,pa);refreshAfterDeviceEdit()};
 
 function initialLabelOptions(d){const p=initialPosition(d),name=inferredInitialLabelName(d);return (d.labels||[]).map((l,i)=>`<option value="label:${i}" ${name===l.name&&Math.abs(+l.pos-p)<=1?'selected':''}>${escapeHtml(l.name)} · ${Math.round(+l.pos)}mm</option>`).join('')+`<option value="direct" ${name?'':'selected'}>直接入力</option>`}
-function renderInitialBulk(){const body=$('initialBulkBody');body.innerHTML='';devices.forEach((d,i)=>{const p=initialPosition(d),tr=document.createElement('tr');tr.innerHTML=`<td><strong>${escapeHtml(d.id)}</strong></td><td>${escapeHtml(d.itemName||'—')}</td><td><select data-init-i="${i}" data-f="label">${initialLabelOptions(d)}</select></td><td><input data-init-i="${i}" data-f="pos" type="number" value="${Math.round(p)}"></td><td>${Math.round(d.machineMin)} ～ ${Math.round(d.machineMax)}</td>`;body.appendChild(tr)});body.querySelectorAll('[data-init-i]').forEach(el=>el.addEventListener('change',()=>{const i=+el.dataset.initI,d=devices[i];pushUndoSnapshot();if(el.dataset.f==='label'){if(el.value==='direct')d.initialLabelName=null;else{const l=d.labels[+el.value.split(':')[1]];if(l){d.initialPosition=+l.pos;d.initialLabelName=l.name}}}else{d.initialPosition=clamp(+el.value||d.machineMax,+d.machineMin,+d.machineMax);d.initialLabelName=null}saveNow();renderInitialBulk();renderCueEditor()}))}
-$('setAllTop').onclick=()=>{pushUndoSnapshot();devices.forEach(d=>{d.initialPosition=+d.machineMax;d.initialLabelName=null});saveNow();renderInitialBulk();renderCueEditor()};$('setEmptyUpper').onclick=()=>{pushUndoSnapshot();devices.forEach(d=>{if(/^B\d+$/.test(d.id)&&!(d.itemName||'').trim()){d.initialPosition=+d.machineMax;d.initialLabelName=null}});saveNow();renderInitialBulk();renderCueEditor()};
+function renderInitialBulk(){const body=$('initialBulkBody');body.innerHTML='';devices.forEach((d,i)=>{const p=initialPosition(d),tr=document.createElement('tr');tr.innerHTML=`<td><strong>${escapeHtml(d.id)}</strong></td><td>${escapeHtml(d.itemName||'—')}</td><td><select data-init-i="${i}" data-f="label">${initialLabelOptions(d)}</select></td><td><input data-init-i="${i}" data-f="pos" type="number" value="${Math.round(p)}"></td><td>${Math.round(d.machineMin)} ～ ${Math.round(d.machineMax)}</td>`;body.appendChild(tr)});body.querySelectorAll('[data-init-i]').forEach(el=>el.addEventListener('change',()=>{const i=+el.dataset.initI,d=devices[i];pushUndoSnapshot();if(el.dataset.f==='label'){if(el.value==='direct')d.initialLabelName=null;else{const l=d.labels[+el.value.split(':')[1]];if(l){d.initialPosition=+l.pos;d.initialLabelName=l.name}}}else{d.initialPosition=clamp(+el.value||d.machineMax,+d.machineMin,+d.machineMax);d.initialLabelName=null}saveChangedProject();renderInitialBulk();renderCueEditor()}))}
+$('setAllTop').onclick=()=>{pushUndoSnapshot();devices.forEach(d=>{d.initialPosition=+d.machineMax;d.initialLabelName=null});saveChangedProject();renderInitialBulk();renderCueEditor()};$('setEmptyUpper').onclick=()=>{pushUndoSnapshot();devices.forEach(d=>{if(/^B\d+$/.test(d.id)&&!(d.itemName||'').trim()){d.initialPosition=+d.machineMax;d.initialLabelName=null}});saveChangedProject();renderInitialBulk();renderCueEditor()};
 
 function parseCsvLine(line){const out=[];let cur='',quoted=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(quoted&&line[i+1]==='"'){cur+='"';i++}else quoted=!quoted}else if(ch===','&&!quoted){out.push(cur);cur=''}else cur+=ch}out.push(cur);return out}
 function decodeCsvBuffer(buf){try{return new TextDecoder('utf-8',{fatal:true}).decode(buf).replace(/^\uFEFF/,'')}catch{}try{return new TextDecoder('shift-jis').decode(buf)}catch{return new TextDecoder('utf-8').decode(buf)}}
 function isTargetCsvDevice(id){return id==='割UD'||id==='暗転幕'||id==='UHL'||/^LB[1-3]$/.test(id)||/^B(?:[1-9]|1\d|2[0-7])$/.test(id)}
 function normalizeCsvNumber(v){if(v==null)return null;const s=String(v).trim().replace(/,/g,'');if(s==='')return null;const n=Number(s);return Number.isFinite(n)?n:null}
-function importInitialSetupCsv(text){const lines=text.replace(/\r\n?/g,'\n').split('\n').filter(x=>x.trim()!=='');const rows=lines.map(parseCsvLine).filter(r=>isTargetCsvDevice((r[0]||'').trim()));if(!rows.length){alert('対象装置が見つかりません。');return}pushUndoSnapshot();const old=new Map(devices.map(d=>[d.id,d]));const imported=new Map();for(const cols of rows){const id=(cols[0]||'').trim(),base=BASE_DEVICES.find(d=>d.id===id),prev=old.get(id)||base;if(!base)continue;const d=normalizeDevice(prev,base);d.itemName=(cols[1]||'').trim();d.labels=[];for(let i=0;i<10;i++){const name=(cols[8+i*2]||'').trim(),pos=normalizeCsvNumber(cols[9+i*2]);if(name!==''&&pos!==null)d.labels.push({name,pos})}imported.set(id,d)}devices=BASE_DEVICES.map(b=>imported.get(b.id)||normalizeDevice(old.get(b.id)||b,b));selectedDevice=dev('B1')?'B1':devices[0].id;saveNow();renderAll();alert(`装置CSVを読み込みました。対象機構 ${imported.size}件`)}
+function importInitialSetupCsv(text){const lines=text.replace(/\r\n?/g,'\n').split('\n').filter(x=>x.trim()!=='');const rows=lines.map(parseCsvLine).filter(r=>isTargetCsvDevice((r[0]||'').trim()));if(!rows.length){alert('対象装置が見つかりません。');return}pushUndoSnapshot();const old=new Map(devices.map(d=>[d.id,d]));const imported=new Map();for(const cols of rows){const id=(cols[0]||'').trim(),base=BASE_DEVICES.find(d=>d.id===id),prev=old.get(id)||base;if(!base)continue;const d=normalizeDevice(prev,base);d.itemName=(cols[1]||'').trim();d.labels=[];for(let i=0;i<10;i++){const name=(cols[8+i*2]||'').trim(),pos=normalizeCsvNumber(cols[9+i*2]);if(name!==''&&pos!==null)d.labels.push({name,pos})}imported.set(id,d)}devices=BASE_DEVICES.map(b=>imported.get(b.id)||normalizeDevice(old.get(b.id)||b,b));selectedDevice=dev('B1')?'B1':devices[0].id;saveChangedProject();renderAll();alert(`装置CSVを読み込みました。対象機構 ${imported.size}件`)}
 
 function csvPositionLabel(d,pos,preferredName=null){const l=currentLabelName(d,pos,preferredName);return l==='—'?'直入力':l}
 function csvTargetLabel(d,r){return labelForRunTarget(d,r)||'直入力'}
@@ -523,9 +566,9 @@ function exportDeviceSetupCsv(){
  const ordered=[...devices].reverse(),names=[],seen=new Set(),conflicts=new Map(),firstOrder=new Map();const addName=name=>{if(!seen.has(name)){seen.add(name);firstOrder.set(name,names.length);names.push(name);conflicts.set(name,new Set())}};
  ordered.forEach(d=>{const rn=[],rs=new Set();(d.labels||[]).forEach(l=>{const name=String(l?.name||'').trim();if(!name)return;addName(name);if(!rs.has(name)){rs.add(name);rn.push(name)}});for(let i=0;i<rn.length;i++)for(let j=i+1;j<rn.length;j++){conflicts.get(rn[i]).add(rn[j]);conflicts.get(rn[j]).add(rn[i])}});
  const slotOf=new Map(),seedSlot=(name,slot)=>{if(!seen.has(name))return;const occupied=[...slotOf.entries()].some(([other,s])=>s===slot&&conflicts.get(name)?.has(other));if(!occupied)slotOf.set(name,slot)};seedSlot('トビ',0);seedSlot('カザリ',1);names.filter(n=>!slotOf.has(n)).sort((a,b)=>(conflicts.get(b)?.size||0)-(conflicts.get(a)?.size||0)||(firstOrder.get(a)||0)-(firstOrder.get(b)||0)).forEach(name=>{const used=new Set([...(conflicts.get(name)||[])].map(n=>slotOf.get(n)).filter(Number.isInteger));let slot=0;while(used.has(slot))slot++;slotOf.set(name,slot)});
- let slotCount=0;slotOf.forEach(s=>slotCount=Math.max(slotCount,s+1));let duplicateExtra=0;ordered.forEach(d=>{const c=new Map();(d.labels||[]).forEach(l=>{const n=String(l?.name||'').trim();if(n)c.set(n,(c.get(n)||0)+1)});c.forEach(n=>duplicateExtra=Math.max(duplicateExtra,Math.max(0,n-1)))});const totalSlots=slotCount+duplicateExtra,header=['バトン','吊り物名称','荷重'];for(let i=0;i<totalSlots;i++)header.push(`ラベル${i+1}`,`位置${i+1}(mm)`);const rows=[header];ordered.forEach(d=>{const row=new Array(3+totalSlots*2).fill('');row[0]=d.id;row[1]=d.itemName||'';const used=new Set(),dc=new Map();(d.labels||[]).forEach(l=>{const name=String(l?.name||'').trim();if(!name||l.pos===''||l.pos==null)return;const dup=dc.get(name)||0;dc.set(name,dup+1);let slot=dup===0?slotOf.get(name):slotCount+(dup-1);while(used.has(slot))slot++;if(!Number.isInteger(slot))return;used.add(slot);row[3+slot*2]=name;row[4+slot*2]=csvNumber(+l.pos)});rows.push(row)});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`stage_tappa_${stamp()}.csv`,'text/csv;charset=utf-8;')
+ let slotCount=0;slotOf.forEach(s=>slotCount=Math.max(slotCount,s+1));let duplicateExtra=0;ordered.forEach(d=>{const c=new Map();(d.labels||[]).forEach(l=>{const n=String(l?.name||'').trim();if(n)c.set(n,(c.get(n)||0)+1)});c.forEach(n=>duplicateExtra=Math.max(duplicateExtra,Math.max(0,n-1)))});const totalSlots=slotCount+duplicateExtra,header=['バトン','吊り物名称','荷重'];for(let i=0;i<totalSlots;i++)header.push(`ラベル${i+1}`,`位置${i+1}(mm)`);const rows=[header];ordered.forEach(d=>{const row=new Array(3+totalSlots*2).fill('');row[0]=d.id;row[1]=d.itemName||'';const used=new Set(),dc=new Map();(d.labels||[]).forEach(l=>{const name=String(l?.name||'').trim();if(!name||l.pos===''||l.pos==null)return;const dup=dc.get(name)||0;dc.set(name,dup+1);let slot=dup===0?slotOf.get(name):slotCount+(dup-1);while(used.has(slot))slot++;if(!Number.isInteger(slot))return;used.add(slot);row[3+slot*2]=name;row[4+slot*2]=csvNumber(+l.pos)});rows.push(row)});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`${projectFileStem()}_装置_${stamp()}.csv`,'text/csv;charset=utf-8;')
 }
-function exportCueSheetCsv(){const header=['CUE','バトン/吊り物','現在','現在(ｍｍ)','方向','目標','目標(mm)','距離','動作時間','速度','％','加速','減速','ﾃﾞｨﾚｲ','2位置','2速度','2加減'],rows=[header];cues.forEach((q,qi)=>{if(isMemoEntry(q)){const row=new Array(header.length).fill('');row[1]=q.text||'';rows.push(row);return}const state=positionStateBeforeCue(qi),starts=state.pos,startLabels=state.labels,runs=q.runs||[];if(!runs.length){const row=new Array(header.length).fill('');row[0]=formatCueNumber(q.number)||'000.00';rows.push(row);return}runs.forEach((r,ri)=>{const d=dev(r.device);if(!d)return;syncRunTargetFromLabel(r);const start=starts[r.device]??initialPosition(d),target=+r.target,distance=Math.abs(target-start),validation=validateRun(r,start),fixed=d.type==='constant',speed=fixed?fixedDeviceSpeed(d):(+r.speed||0),acc=fixed?FIXED_ACC:(+r.acc||0),dec=fixed?FIXED_DEC:(+r.dec||0),direction=runDirection(start,target);rows.push([ri===0?(formatCueNumber(q.number)||'000.00'):'',`${r.device}${d.itemName?' '+d.itemName:''}`,csvPositionLabel(d,start,startLabels[r.device]),csvNumber(start),direction,csvTargetLabel(d,r),csvNumber(target),csvNumber(distance),validation.ok?csvNumber(validation.total,1):'',csvNumber(speed),csvNumber(speed/1500,6),csvNumber(acc,1),csvNumber(dec,1),(+r.delay||0)>0?csvNumber(+r.delay,1):'',r.use2?csvNumber(+r.pos2):'',r.use2?csvNumber(+r.speed2):'',r.use2?csvNumber(transitionDisplayTime(speed,+r.speed2||0),1):''])})});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`stage_cue_sheet_${stamp()}.csv`,'text/csv;charset=utf-8;')}
+function exportCueSheetCsv(){const header=['CUE','バトン/吊り物','現在','現在(ｍｍ)','方向','目標','目標(mm)','距離','動作時間','速度','％','加速','減速','ﾃﾞｨﾚｲ','2位置','2速度','2加減'],rows=[header];cues.forEach((q,qi)=>{if(isMemoEntry(q)){const row=new Array(header.length).fill('');row[1]=q.text||'';rows.push(row);return}const state=positionStateBeforeCue(qi),starts=state.pos,startLabels=state.labels,runs=q.runs||[];if(!runs.length){const row=new Array(header.length).fill('');row[0]=formatCueNumber(q.number)||'000.00';rows.push(row);return}runs.forEach((r,ri)=>{const d=dev(r.device);if(!d)return;syncRunTargetFromLabel(r);const start=starts[r.device]??initialPosition(d),target=+r.target,distance=Math.abs(target-start),validation=validateRun(r,start),fixed=d.type==='constant',speed=fixed?fixedDeviceSpeed(d):(+r.speed||0),acc=fixed?FIXED_ACC:(+r.acc||0),dec=fixed?FIXED_DEC:(+r.dec||0),direction=runDirection(start,target);rows.push([ri===0?(formatCueNumber(q.number)||'000.00'):'',`${r.device}${d.itemName?' '+d.itemName:''}`,csvPositionLabel(d,start,startLabels[r.device]),csvNumber(start),direction,csvTargetLabel(d,r),csvNumber(target),csvNumber(distance),validation.ok?csvNumber(validation.total,1):'',csvNumber(speed),csvNumber(speed/1500,6),csvNumber(acc,1),csvNumber(dec,1),(+r.delay||0)>0?csvNumber(+r.delay,1):'',r.use2?csvNumber(+r.pos2):'',r.use2?csvNumber(+r.speed2):'',r.use2?csvNumber(transitionDisplayTime(speed,+r.speed2||0),1):''])})});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`${projectFileStem()}_Cue_${stamp()}.csv`,'text/csv;charset=utf-8;')}
 function simulatorCompatibleDevices(){
  return devices.map(d=>{
    const out=deep(d),base=BASE_DEVICES.find(b=>b.id===d.id);
@@ -539,10 +582,10 @@ function simulatorCompatibleDevices(){
  });
 }
 function projectPayload(){
- return {app:'stage-cue-simulator',formatVersion:1,exportedAt:new Date().toISOString(),devices:simulatorCompatibleDevices(),cues:deep(cues)};
+ return {app:'stage-cue-simulator',formatVersion:1,projectName,updatedAt,exportedAt:new Date().toISOString(),devices:simulatorCompatibleDevices(),cues:deep(cues)};
 }
 function exportProjectJson(){
- downloadText(JSON.stringify(projectPayload(),null,2),`stage_cue_project_${stamp()}.json`,'application/json');
+ downloadText(JSON.stringify(projectPayload(),null,2),`${projectFileStem()}_${stamp()}.json`,'application/json');
 }
 function bytesToBase64Url(bytes){
  let bin='';const chunk=0x8000;for(let i=0;i<bytes.length;i+=chunk)bin+=String.fromCharCode(...bytes.subarray(i,i+chunk));
@@ -566,14 +609,15 @@ async function makeShareCode(){
  return {code:'SCUE1:J:'+bytesToBase64Url(raw),rawBytes:raw.length,codeBytes:raw.length,compressed:false};
 }
 async function parseShareCode(text){
- const compact=String(text||'').trim().replace(/\s+/g,'');
- const m=/^SCUE1:([GJ]):([A-Za-z0-9_-]+)$/.exec(compact);if(!m)throw new Error('共有コードの形式が正しくありません');
+ const raw=String(text||'').trim(),compact=raw.replace(/\s+/g,'');
+ const embedded=raw.match(/(?:^|\s)SCUE1:[GJ]:[A-Za-z0-9_-]+(?=$|\s)/g)?.map(x=>x.trim());const code=/^SCUE1:[GJ]:[A-Za-z0-9_-]+$/.test(compact)?compact:(embedded?.length===1?embedded[0]:'');
+ const m=/^SCUE1:([GJ]):([A-Za-z0-9_-]+)$/.exec(code);if(!m)throw new Error('共有コードの形式が正しくありません');
  let bytes=base64UrlToBytes(m[2]);
  if(m[1]==='G'){if(!('DecompressionStream' in window))throw new Error('このブラウザは圧縮共有コードの読込に対応していません');bytes=await decompressBytes(bytes)}
  return JSON.parse(new TextDecoder().decode(bytes));
 }
 function openShareBox(mode){
- $('shareBox').classList.add('open');$('shareMessage').className='share-message small';
+ renderProjectInfo();$('shareBox').classList.add('open');$('shareMessage').className='share-message small';
  if(mode==='import'){$('shareTitle').textContent='共有コードを読込';$('shareMeta').textContent='';$('shareCode').value='';$('shareMessage').textContent='Google Keepなどから共有コードを貼り付け、「このコードを読込」を押してください。';setTimeout(()=>$('shareCode').focus(),0)}
 }
 async function showExportShareCode(){
@@ -586,6 +630,15 @@ async function copyShareCode(){
  if(!ok){try{el.focus();el.select();el.setSelectionRange(0,el.value.length);ok=document.execCommand('copy')}catch(e){}}
  $('shareMessage').textContent=ok?'共有コードをコピーしました。':'自動コピーできませんでした。コード欄を選択して手動でコピーしてください。';$('shareMessage').className='share-message small '+(ok?'ok':'error');
 }
+
+async function copyShareText(){
+ const code=$('shareCode').value.trim();if(!/^SCUE1:[GJ]:[A-Za-z0-9_-]+$/.test(code)){$('shareMessage').textContent='共有コードを書き出すか貼り付けてください。';$('shareMessage').className='share-message small error';return}
+ const text=(projectName||'プロジェクト名未設定')+'\n最終更新: '+localUpdatedAt(updatedAt)+'\n\n'+code;
+ let ok=false;try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);ok=true}}catch(e){}
+ if(!ok){const tmp=document.createElement('textarea');tmp.value=text;document.body.appendChild(tmp);tmp.select();try{ok=document.execCommand('copy')}catch(e){}tmp.remove()}
+ $('shareMessage').textContent=ok?'共有用テキストをコピーしました。':'自動コピーできませんでした。';$('shareMessage').className='share-message small '+(ok?'ok':'error');
+}
+
 async function restoreShareCode(){
  const code=$('shareCode').value.trim();if(!code){$('shareMessage').textContent='共有コードを貼り付けてください。';$('shareMessage').className='share-message small error';return}
  $('shareMessage').textContent='共有コードを確認しています…';$('shareMessage').className='share-message small';
@@ -595,16 +648,16 @@ function importProjectJson(obj){
  if(!obj||!Array.isArray(obj.devices)||!Array.isArray(obj.cues))throw new Error('devices / cues が見つかりません');
  const app=String(obj.app||'');
  if(app && app!=='stage-cue-simulator' && app!=='stage-cue-sheet')console.warn('Unknown project app:',app);
- pushUndoSnapshot();devices=deep(obj.devices);cues=deep(obj.cues);selectedListIndex=0;normalizeAll();saveNow();renderAll();
+ pushUndoSnapshot();devices=deep(obj.devices);cues=deep(obj.cues);projectName=typeof obj.projectName==='string'?obj.projectName:'';updatedAt=validUpdatedAt(obj.updatedAt);selectedListIndex=0;normalizeAll();renderAll();lastProjectContent=projectContentSignature();saveNow();renderProjectInfo();
 }
 
-function renderAll(){renderCueList();renderCueEditor();renderDeviceList();renderSettings();renderInitialBulk();$('pasteCueBtn').disabled=!cueClipboard;updateHistoryButtons()}
+function renderAll(){renderProjectInfo();renderCueList();renderCueEditor();renderDeviceList();renderSettings();renderInitialBulk();$('pasteCueBtn').disabled=!cueClipboard;updateHistoryButtons()}
 function setTab(id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));if(id==='settings'){renderDeviceList();renderSettings()}if(id==='initial')renderInitialBulk()}
 document.querySelectorAll('.tab-btn').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
-$('newCueBtn').onclick=()=>{pushUndoSnapshot();cues.push({number:nextWholeCueNumber(lastPlayableNumber()),name:'新規キュー',runs:[]});selectedListIndex=cues.length-1;saveNow();renderAll()};$('newMemoBtn').onclick=()=>{pushUndoSnapshot();const at=clamp(selectedListIndex+1,0,cues.length);cues.splice(at,0,{kind:'memo',text:'新規メモ'});selectedListIndex=at;saveNow();renderAll()};$('pasteCueBtn').onclick=()=>{if(!cueClipboard)return;pushUndoSnapshot();const c=deep(cueClipboard);c.number=nextQNumber(previousPlayableNumber(selectedListIndex));c.name=(c.name||'')+' 貼付';const at=selectedListIndex+1;cues.splice(at,0,c);selectedListIndex=at;saveNow();renderAll()};$('renumberOpenBtn').onclick=()=>{if(isMemoEntry(cues[selectedListIndex])){const i=cues.findIndex((q,j)=>j>=selectedListIndex&&!isMemoEntry(q));if(i>=0)selectedListIndex=i;else return;renderAll()}$('renumberBox')?.classList.toggle('open')};
+$('newCueBtn').onclick=()=>{pushUndoSnapshot();cues.push({number:nextWholeCueNumber(lastPlayableNumber()),name:'新規キュー',runs:[]});selectedListIndex=cues.length-1;saveChangedProject();renderAll()};$('newMemoBtn').onclick=()=>{pushUndoSnapshot();const at=clamp(selectedListIndex+1,0,cues.length);cues.splice(at,0,{kind:'memo',text:'新規メモ'});selectedListIndex=at;saveChangedProject();renderAll()};$('pasteCueBtn').onclick=()=>{if(!cueClipboard)return;pushUndoSnapshot();const c=deep(cueClipboard);c.number=nextQNumber(previousPlayableNumber(selectedListIndex));c.name=(c.name||'')+' 貼付';const at=selectedListIndex+1;cues.splice(at,0,c);selectedListIndex=at;saveChangedProject();renderAll()};$('renumberOpenBtn').onclick=()=>{if(isMemoEntry(cues[selectedListIndex])){const i=cues.findIndex((q,j)=>j>=selectedListIndex&&!isMemoEntry(q));if(i>=0)selectedListIndex=i;else return;renderAll()}$('renumberBox')?.classList.toggle('open')};
 $('undoBtn').onclick=undoEdit;$('redoBtn').onclick=redoEdit;
-$('openIoBtn').onclick=()=>{$('ioModal').classList.add('open');$('ioModal').setAttribute('aria-hidden','false')};$('closeIoBtn').onclick=()=>{$('ioModal').classList.remove('open');$('ioModal').setAttribute('aria-hidden','true')};$('ioModal').addEventListener('click',e=>{if(e.target===$('ioModal'))$('closeIoBtn').click()});
-$('csvInitBtn').onclick=()=>$('csvInitFile').click();$('csvInitFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importInitialSetupCsv(decodeCsvBuffer(await f.arrayBuffer()))}catch(err){alert('CSV読込に失敗しました。')}e.target.value=''};$('exportDeviceCsvBtn').onclick=exportDeviceSetupCsv;$('exportCueCsvBtn').onclick=exportCueSheetCsv;$('exportShareBtn').onclick=showExportShareCode;$('importShareBtn').onclick=()=>openShareBox('import');$('copyShareCode').onclick=copyShareCode;$('restoreShareCode').onclick=restoreShareCode;$('clearShareCode').onclick=()=>{$('shareCode').value='';$('shareMeta').textContent='';$('shareMessage').textContent='共有コード欄をクリアしました。';$('shareMessage').className='share-message small'};$('exportJsonBtn').onclick=exportProjectJson;$('importJsonBtn').onclick=()=>$('importJsonFile').click();$('importJsonFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importProjectJson(JSON.parse(await f.text()));alert('JSONを読み込みました。')}catch(err){alert('JSON読込に失敗しました: '+err.message)}e.target.value=''};$('resetProjectBtn').onclick=()=>{if(!confirm('装置設定・初期位置・Cue・メモをすべて初期化しますか？'))return;pushUndoSnapshot();devices=deep(BASE_DEVICES);cues=[{number:'001.00',name:'新規キュー',runs:[]}];selectedListIndex=0;selectedDevice='B1';saveNow();renderAll()};
+$('openIoBtn').onclick=()=>{renderProjectInfo();$('ioModal').classList.add('open');$('ioModal').setAttribute('aria-hidden','false')};$('closeIoBtn').onclick=()=>{$('ioModal').classList.remove('open');$('ioModal').setAttribute('aria-hidden','true')};$('ioModal').addEventListener('click',e=>{if(e.target===$('ioModal'))$('closeIoBtn').click()});
+$('csvInitBtn').onclick=()=>$('csvInitFile').click();$('csvInitFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importInitialSetupCsv(decodeCsvBuffer(await f.arrayBuffer()))}catch(err){alert('CSV読込に失敗しました。')}e.target.value=''};$('exportDeviceCsvBtn').onclick=exportDeviceSetupCsv;$('exportCueCsvBtn').onclick=exportCueSheetCsv;$('exportShareBtn').onclick=showExportShareCode;$('importShareBtn').onclick=()=>openShareBox('import');$('copyShareCode').onclick=copyShareCode;$('copyShareTextBtn').onclick=copyShareText;$('restoreShareCode').onclick=restoreShareCode;$('clearShareCode').onclick=()=>{$('shareCode').value='';$('shareMeta').textContent='';$('shareMessage').textContent='共有コード欄をクリアしました。';$('shareMessage').className='share-message small'};$('exportJsonBtn').onclick=exportProjectJson;$('importJsonBtn').onclick=()=>$('importJsonFile').click();$('importJsonFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importProjectJson(JSON.parse(await f.text()));alert('JSONを読み込みました。')}catch(err){alert('JSON読込に失敗しました: '+err.message)}e.target.value=''};$('resetProjectBtn').onclick=()=>{if(!confirm('プロジェクト名・装置設定・初期位置・Cue・メモをすべて初期化しますか？'))return;pushUndoSnapshot();devices=deep(BASE_DEVICES);cues=[{number:'001.00',name:'新規キュー',runs:[]}];selectedListIndex=0;selectedDevice='B1';projectName='';saveChangedProject();renderAll()};
 document.addEventListener('keydown',e=>{const mod=e.ctrlKey||e.metaKey;if(!mod)return;const tag=document.activeElement?.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;if(e.key.toLowerCase()==='z'&&!e.shiftKey){e.preventDefault();undoEdit()}else if(e.key.toLowerCase()==='y'||(e.key.toLowerCase()==='z'&&e.shiftKey)){e.preventDefault();redoEdit()}});
 
 function formatShaku(n){if(!Number.isFinite(n))return '';return n.toFixed(4).replace(/0+$/,'').replace(/\.$/,'')}
@@ -614,7 +667,9 @@ $('shakuInput').addEventListener('input',fromShaku);$('mmInput').addEventListene
 function updateCalc(){const a=+$('calcA').value,b=+$('calcB').value;if(!Number.isFinite(a)||!Number.isFinite(b)){ $('calcResult').value='';return}const r=$('calcOp').value==='+'?a+b:a-b;$('calcResult').value=String(r);$('calcMessage').textContent=`${a} ${$('calcOp').value} ${b} = ${r}`}
 ['calcA','calcB'].forEach(id=>$(id).addEventListener('input',updateCalc));$('calcOp').addEventListener('change',updateCalc);
 
-load();renderAll();updateHistoryButtons();
+$('projectNameInput').addEventListener('blur',commitProjectName);
+$('projectNameInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}});
+load();renderAll();lastProjectContent=projectContentSignature();updateHistoryButtons();
 </script>
 </body>
 </html>
