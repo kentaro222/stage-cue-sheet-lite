@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#151515">
-<title>Stage Cue Sheet / Lite v9</title>
+<title>Stage Cue Sheet / Lite v10</title>
 <style>
 :root{
   --bg:#151515;--panel:#202020;--panel2:#292929;--panel3:#343434;--line:#484848;
@@ -267,6 +267,39 @@ button.danger:hover{background:#4b2a30}
  .project-name-input{min-height:36px;font-size:14px}
  .row-action-bar{top:138px}
 }
+
+/* v10 device settings hierarchy */
+.settings-heading{padding-bottom:10px;border-bottom:1px solid #494949}
+.settings-heading h2{min-width:0;overflow-wrap:anywhere;font-size:20px}
+.settings-main .settings-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.settings-main .compat-box{margin-top:14px}
+.hanging-ops{margin-top:10px;min-width:0;max-width:100%;border:1px solid #494949;border-radius:11px;background:#242424}
+.hanging-ops summary{cursor:pointer;padding:11px;color:#c8c2b8;font-size:12px;font-weight:800;user-select:none;min-height:42px}
+.hanging-ops[open] summary{border-bottom:1px solid #494949}
+.hanging-ops-inner{padding:12px;min-width:0}
+.hanging-current{display:grid;gap:3px;min-width:0}
+.hanging-current span,.hanging-swap-block label{color:var(--muted);font-size:11px}
+.hanging-current strong{color:var(--text);font-size:15px;overflow-wrap:anywhere;min-width:0}
+.hanging-copy-block,.hanging-swap-block{margin-top:16px;min-width:0}
+.hanging-copy-block h3,.hanging-swap-block h3{font-size:12px;color:#ccc6bc;margin:0 0 9px}
+.hanging-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-width:420px}
+.hanging-buttons button{min-width:0;min-height:42px}
+.hanging-buttons #pasteHangingBtn{grid-column:1/-1}
+.hanging-ops .clip-state{margin-top:10px;padding:9px 10px;background:#2b2b2b;border:1px solid #454545;border-radius:8px;min-width:0;max-width:100%;overflow-wrap:anywhere;line-height:1.5}
+.hanging-ops .clip-state span,.hanging-ops .clip-state strong{display:block}
+.hanging-ops .clip-state span{color:var(--muted)}
+.hanging-ops .clip-state strong{color:var(--text)}
+.hanging-delete{margin-top:14px;width:100%;max-width:420px;min-height:42px}
+.hanging-swap-block{border-top:1px solid #505050;padding-top:15px}
+.hanging-swap-block .hanging-current{margin-bottom:12px}
+.hanging-swap-block label{display:block;margin-bottom:5px}
+.hanging-swap-block select,.hanging-swap-block button{display:block;width:100%;max-width:420px;min-width:0;min-height:42px}
+.hanging-swap-block button{margin-top:9px}
+@media(max-width:560px){
+ .settings-main .settings-grid{grid-template-columns:minmax(0,1fr)}
+ .hanging-ops,.hanging-ops-inner,.hanging-copy-block,.hanging-swap-block{width:100%;max-width:100%;min-width:0}
+ .hanging-buttons,.hanging-swap-block select,.hanging-swap-block button,.hanging-delete{max-width:100%}
+}
 </style>
 </head>
 <body>
@@ -301,18 +334,15 @@ button.danger:hover{background:#4b2a30}
   <div class="settings-shell">
     <aside class="device-rail card"><div class="section-head"><h3>装置</h3></div><div id="deviceList" class="device-list"></div></aside>
     <section class="settings-main card">
-      <div class="section-head"><h2 id="setTitle">B1</h2><div class="grow"></div><span id="deviceSpecBadge" class="badge"></span></div>
-      <div class="clipbar">
-        <button id="copyHangingBtn">コピー</button><button id="cutHangingBtn">カット</button><button id="pasteHangingBtn">貼付</button><button id="deleteHangingBtn" class="danger">削除</button>
-        <span id="hangingClipState" class="clip-state">コピーなし</span>
-        <span class="swap-wrap"><select id="swapDeviceSelect"></select> <button id="swapDeviceBtn">入れ替え</button></span>
-      </div>
+      <div class="section-head settings-heading"><h2 id="setTitle">B1</h2><div class="grow"></div><span id="deviceSpecBadge" class="badge"></span></div>
       <div class="settings-grid">
-        <div class="field"><label>機構名称</label><div id="s_id" class="readbox"></div></div>
         <div class="field"><label>吊り物名称</label><input id="s_item"></div>
+        <div class="field"><label>機構名称</label><div id="s_id" class="readbox"></div></div>
         <div class="field"><label>機械範囲</label><div id="s_range" class="readbox"></div></div>
       </div>
       <div id="specialNotice"></div>
+      <div class="section-head" style="margin-top:16px"><h3>目標地ラベル</h3><span class="small">名称 + mm を最大10組</span></div>
+      <div class="labels-wrap"><table class="labels-table"><thead><tr><th style="width:52px">No.</th><th>名称</th><th style="width:180px">位置 mm</th></tr></thead><tbody id="labelBody"></tbody></table></div>
       <details class="compat-box">
         <summary>シミュレーター互換設定</summary>
         <div class="compat-inner">
@@ -325,8 +355,27 @@ button.danger:hover{background:#4b2a30}
           <div class="compat-note">元シミュレーターとのJSON互換用です。このLiteアプリ内のCue計算・距離・動作時間・CSV出力には反映しません。吊り物セットのコピー／カット／貼付／入れ替えには含まれます。</div>
         </div>
       </details>
-      <div class="section-head" style="margin-top:12px"><h3>目標地ラベル</h3><span class="small">名称 + mm を最大10組</span></div>
-      <div class="labels-wrap"><table class="labels-table"><thead><tr><th style="width:52px">No.</th><th>名称</th><th style="width:180px">位置 mm</th></tr></thead><tbody id="labelBody"></tbody></table></div>
+      <details id="hangingOpsDetails" class="hanging-ops">
+        <summary>吊り物操作</summary>
+        <div class="hanging-ops-inner">
+          <div class="hanging-current"><span>現在の吊り物</span><strong id="hangingCurrentName"></strong></div>
+          <div class="hanging-copy-block">
+            <h3>吊り物セット</h3>
+            <div class="hanging-buttons">
+              <button id="copyHangingBtn">コピー</button><button id="cutHangingBtn">カット</button><button id="pasteHangingBtn">貼付</button>
+            </div>
+            <div id="hangingClipState" class="clip-state">コピー中の吊り物はありません</div>
+            <button id="deleteHangingBtn" class="danger hanging-delete">吊り物設定を削除</button>
+          </div>
+          <div class="hanging-swap-block">
+            <h3>入れ替え</h3>
+            <div class="hanging-current"><span>現在</span><strong id="swapCurrentName"></strong></div>
+            <label for="swapDeviceSelect">入れ替え先</label>
+            <select id="swapDeviceSelect"></select>
+            <button id="swapDeviceBtn">入れ替える</button>
+          </div>
+        </div>
+      </details>
     </section>
   </div>
 </section>
@@ -541,13 +590,27 @@ function renderDeviceList(){const box=$('deviceList');box.innerHTML='';devices.f
 function hangingPackage(d){return {itemName:d.itemName||'',toolHeight:Number.isFinite(+d.toolHeight)?+d.toolHeight:(d.type==='curtain'?10000:0),hangOffset:Number.isFinite(+d.hangOffset)?+d.hangOffset:0,labels:deep(d.labels||[]),displayColor:d.displayColor|| (d.type==='curtain'?'#b51f2e':'#6f767a'),displayOpacity:Number.isFinite(+d.displayOpacity)?+d.displayOpacity:1}}
 function applyHangingPackage(d,p){d.itemName=p.itemName||'';d.toolHeight=Number.isFinite(+p.toolHeight)?+p.toolHeight:0;d.hangOffset=Number.isFinite(+p.hangOffset)?+p.hangOffset:0;d.labels=deep(p.labels||[]).slice(0,10);d.displayColor=String(p.displayColor||'#6f767a');d.displayOpacity=clamp(Number.isFinite(+p.displayOpacity)?+p.displayOpacity:1,0,1)}
 function clearHangingPackage(d){d.itemName='';d.toolHeight=0;d.hangOffset=0;d.labels=[];d.displayColor=d.type==='curtain'?'#b51f2e':'#6f767a';d.displayOpacity=1;d.initialLabelName=null}
-function refreshHangingClipboardUI(){$('pasteHangingBtn').disabled=!hangingItemClipboard;$('hangingClipState').textContent=hangingItemClipboard?`${hangingItemClipboard.sourceId} ${hangingItemClipboard.data.itemName||'（名称なし）'}`:'コピーなし'}
+function refreshHangingClipboardUI(){
+ $('pasteHangingBtn').disabled=!hangingItemClipboard;
+ const box=$('hangingClipState');if(!hangingItemClipboard){box.textContent='コピー中の吊り物はありません';return}
+ const d=dev(selectedDevice),src=hangingItemClipboard.sourceId+'｜'+(hangingItemClipboard.data.itemName||'（吊物なし）'),dest=d.id+'｜'+(d.itemName||'（吊物なし）');
+ box.innerHTML='<span>コピー中</span><strong>'+escapeHtml(src)+'</strong><span>→ 現在の '+escapeHtml(dest)+' へ貼り付け</span>';
+}
+function updateSwapButtonLabel(){
+ const target=$('swapDeviceSelect').value,btn=$('swapDeviceBtn');btn.textContent=target?selectedDevice+' と '+target+' を入れ替える':'入れ替え先なし';btn.disabled=!target;
+}
+function updateHangingCurrentUI(){
+ const d=dev(selectedDevice);if(!d)return;const label=d.id+'｜'+(d.itemName||'（吊物なし）');
+ $('setTitle').textContent=label;$('hangingCurrentName').textContent=label;$('swapCurrentName').textContent=label;
+ updateSwapButtonLabel();refreshHangingClipboardUI();
+}
 function refreshAfterDeviceEdit(){saveChangedProject();renderDeviceList();renderSettings();renderInitialBulk();renderCueList();renderCueEditor()}
-function renderSettings(){const d=dev(selectedDevice);if(!d)return;$('setTitle').textContent=`${d.id}  ${d.itemName||''}`;$('s_id').textContent=d.id;$('s_item').value=d.itemName||'';$('s_range').textContent=`${Math.round(d.machineMin)} ～ ${Math.round(d.machineMax)} mm`;$('s_toolHeight').value=Number.isFinite(+d.toolHeight)?+d.toolHeight:(d.type==='curtain'?10000:0);$('s_hangOffset').value=Number.isFinite(+d.hangOffset)?+d.hangOffset:0;$('s_displayColor').value=d.displayColor|| (d.type==='curtain'?'#b51f2e':'#6f767a');$('s_displayOpacity').value=Math.round(clamp(Number.isFinite(+d.displayOpacity)?+d.displayOpacity:1,0,1)*100);$('deviceSpecBadge').textContent=d.type==='constant'?`${fixedDeviceSpeed(d)} mm/s 固定`:d.type==='curtain'?'割UD':'通常機構';$('specialNotice').innerHTML=d.type==='constant'?`<div class="notice">${d.id}: 速度 ${fixedDeviceSpeed(d)} mm/s 固定 / 加速 ${FIXED_ACC.toFixed(1)}s / 減速 ${FIXED_DEC.toFixed(1)}s</div>`:'';
+function renderSettings(){const d=dev(selectedDevice);if(!d)return;$('s_id').textContent=d.id;$('s_item').value=d.itemName||'';$('s_range').textContent=`${Math.round(d.machineMin)} ～ ${Math.round(d.machineMax)} mm`;$('s_toolHeight').value=Number.isFinite(+d.toolHeight)?+d.toolHeight:(d.type==='curtain'?10000:0);$('s_hangOffset').value=Number.isFinite(+d.hangOffset)?+d.hangOffset:0;$('s_displayColor').value=d.displayColor|| (d.type==='curtain'?'#b51f2e':'#6f767a');$('s_displayOpacity').value=Math.round(clamp(Number.isFinite(+d.displayOpacity)?+d.displayOpacity:1,0,1)*100);$('deviceSpecBadge').textContent=d.type==='constant'?`${fixedDeviceSpeed(d)} mm/s 固定`:d.type==='curtain'?'割UD':'通常機構';$('specialNotice').innerHTML=d.type==='constant'?`<div class="notice">${d.id}: 速度 ${fixedDeviceSpeed(d)} mm/s 固定 / 加速 ${FIXED_ACC.toFixed(1)}s / 減速 ${FIXED_DEC.toFixed(1)}s</div>`:'';
  const body=$('labelBody');body.innerHTML='';for(let i=0;i<10;i++){const l=d.labels[i]||{name:'',pos:''};const tr=document.createElement('tr');tr.innerHTML=`<td>${i+1}</td><td><input data-k="name" value="${escapeHtml(l.name)}"></td><td><input data-k="pos" type="number" value="${l.pos}"></td>`;body.appendChild(tr)}
- $('swapDeviceSelect').innerHTML=devices.filter(x=>x.id!==d.id).map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('');refreshHangingClipboardUI()}
-function syncSettingsFromUI(){const d=dev(selectedDevice);d.itemName=$('s_item').value;d.toolHeight=Number.isFinite(+$('s_toolHeight').value)?+$('s_toolHeight').value:0;d.hangOffset=Number.isFinite(+$('s_hangOffset').value)?+$('s_hangOffset').value:0;d.displayColor=$('s_displayColor').value.trim()|| (d.type==='curtain'?'#b51f2e':'#6f767a');d.displayOpacity=clamp((Number.isFinite(+$('s_displayOpacity').value)?+$('s_displayOpacity').value:100)/100,0,1);const arr=[];document.querySelectorAll('#labelBody tr').forEach(tr=>{const n=tr.querySelector('[data-k="name"]').value.trim(),p=tr.querySelector('[data-k="pos"]').value;if(n!==''&&p!=='')arr.push({name:n,pos:+p})});d.labels=arr;scheduleChangedProject();renderDeviceList();renderInitialBulk();renderCueEditor()}
+ $('swapDeviceSelect').innerHTML=devices.filter(x=>x.id!==d.id).map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('');updateHangingCurrentUI()}
+function syncSettingsFromUI(){const d=dev(selectedDevice);d.itemName=$('s_item').value;d.toolHeight=Number.isFinite(+$('s_toolHeight').value)?+$('s_toolHeight').value:0;d.hangOffset=Number.isFinite(+$('s_hangOffset').value)?+$('s_hangOffset').value:0;d.displayColor=$('s_displayColor').value.trim()|| (d.type==='curtain'?'#b51f2e':'#6f767a');d.displayOpacity=clamp((Number.isFinite(+$('s_displayOpacity').value)?+$('s_displayOpacity').value:100)/100,0,1);const arr=[];document.querySelectorAll('#labelBody tr').forEach(tr=>{const n=tr.querySelector('[data-k="name"]').value.trim(),p=tr.querySelector('[data-k="pos"]').value;if(n!==''&&p!=='')arr.push({name:n,pos:+p})});d.labels=arr;updateHangingCurrentUI();scheduleChangedProject();renderDeviceList();renderInitialBulk();renderCueEditor()}
 $('s_item').addEventListener('input',()=>{pushUndoSnapshotForInput(`item:${selectedDevice}`);syncSettingsFromUI()});['s_toolHeight','s_hangOffset','s_displayColor','s_displayOpacity'].forEach(id=>$(id).addEventListener('input',()=>{pushUndoSnapshotForInput(`compat:${selectedDevice}:${id}`);syncSettingsFromUI()}));$('labelBody').addEventListener('input',e=>{const tr=e.target.closest('tr'),i=tr?[...$('labelBody').children].indexOf(tr):-1;pushUndoSnapshotForInput(`label:${selectedDevice}:${i}:${e.target.dataset.k}`);syncSettingsFromUI()});
+$('swapDeviceSelect').addEventListener('change',updateSwapButtonLabel);
 $('copyHangingBtn').onclick=()=>{const d=dev(selectedDevice);hangingItemClipboard={sourceId:d.id,data:hangingPackage(d)};refreshHangingClipboardUI()};$('cutHangingBtn').onclick=()=>{const d=dev(selectedDevice);pushUndoSnapshot();hangingItemClipboard={sourceId:d.id,data:hangingPackage(d)};clearHangingPackage(d);refreshAfterDeviceEdit()};$('pasteHangingBtn').onclick=()=>{const d=dev(selectedDevice);if(!hangingItemClipboard)return;if((d.itemName||d.labels.length||(+d.toolHeight||0)!==0||(+d.hangOffset||0)!==0)&&!confirm(`${d.id} の吊り物設定を上書きしますか？`))return;pushUndoSnapshot();applyHangingPackage(d,hangingItemClipboard.data);refreshAfterDeviceEdit()};$('deleteHangingBtn').onclick=()=>{const d=dev(selectedDevice);if(!confirm(`${d.id} の吊り物設定を削除しますか？`))return;pushUndoSnapshot();clearHangingPackage(d);refreshAfterDeviceEdit()};$('swapDeviceBtn').onclick=()=>{const a=dev(selectedDevice),b=dev($('swapDeviceSelect').value);if(!a||!b)return;pushUndoSnapshot();const pa=hangingPackage(a),pb=hangingPackage(b);applyHangingPackage(a,pb);applyHangingPackage(b,pa);refreshAfterDeviceEdit()};
 
 function initialLabelOptions(d){const p=initialPosition(d),name=inferredInitialLabelName(d);return (d.labels||[]).map((l,i)=>`<option value="label:${i}" ${name===l.name&&Math.abs(+l.pos-p)<=1?'selected':''}>${escapeHtml(l.name)} · ${Math.round(+l.pos)}mm</option>`).join('')+`<option value="direct" ${name?'':'selected'}>直接入力</option>`}
