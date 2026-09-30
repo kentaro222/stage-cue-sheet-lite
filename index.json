@@ -1,0 +1,1241 @@
+{
+  "app": "stage-cue-simulator",
+  "formatVersion": 1,
+  "projectName": "スリーゴースト",
+  "updatedAt": "2026-09-29T23:42:15.049Z",
+  "exportedAt": "2026-09-30T04:30:06.976Z",
+  "devices": [
+    {
+      "id": "割UD",
+      "sourceId": "割UD",
+      "itemName": "緞帳",
+      "userMin": 0,
+      "userMax": 10100,
+      "machineMin": 0,
+      "machineMax": 10100,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 10100
+        },
+        {
+          "name": "中段",
+          "pos": 9000
+        },
+        {
+          "name": "下段",
+          "pos": 1000
+        },
+        {
+          "name": "トビ",
+          "pos": 10100
+        },
+        {
+          "name": "カザリ",
+          "pos": 0
+        },
+        {
+          "name": "ラベル6",
+          "pos": 6000
+        },
+        {
+          "name": "ヌスミ",
+          "pos": 9008
+        },
+        {
+          "name": "接地",
+          "pos": 50
+        },
+        {
+          "name": "ラベル9",
+          "pos": 9000
+        },
+        {
+          "name": "ラベル10",
+          "pos": 1000
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "curtain",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 10100,
+      "toolHeight": 10000,
+      "hangOffset": 0,
+      "displayColor": "#b51f2e",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "点吊6",
+      "sourceId": "点吊6",
+      "custom": true,
+      "type": "manual",
+      "itemName": "スクエアー吊り",
+      "initialPosition": 20300,
+      "machineMin": 20300,
+      "machineMax": 20300,
+      "userMin": 20300,
+      "userMax": 20300,
+      "labels": [],
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1
+    },
+    {
+      "id": "暗転幕",
+      "sourceId": "暗転幕",
+      "itemName": "袖パネル",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B1",
+      "sourceId": "B1",
+      "itemName": "暗転幕",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 20300
+        },
+        {
+          "name": "中段",
+          "pos": 9000
+        },
+        {
+          "name": "下段",
+          "pos": 11111
+        },
+        {
+          "name": "トビ",
+          "pos": 20300
+        },
+        {
+          "name": "カザリ",
+          "pos": 17558
+        },
+        {
+          "name": "25尺",
+          "pos": 18686
+        },
+        {
+          "name": "24尺",
+          "pos": 18383
+        },
+        {
+          "name": "23尺",
+          "pos": 18080
+        },
+        {
+          "name": "22尺",
+          "pos": 17777
+        },
+        {
+          "name": "21尺",
+          "pos": 17474
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 11000,
+      "hangOffset": 0,
+      "displayColor": "#333333",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B2",
+      "sourceId": "B2",
+      "itemName": "",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B3",
+      "sourceId": "B3",
+      "itemName": "ウイングパネル捨吊",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 20300
+        },
+        {
+          "name": "中段",
+          "pos": 9000
+        },
+        {
+          "name": "下段",
+          "pos": 11406
+        },
+        {
+          "name": "トビ",
+          "pos": 20300
+        },
+        {
+          "name": "カザリ",
+          "pos": 11406
+        },
+        {
+          "name": "ラベル6",
+          "pos": 6000
+        },
+        {
+          "name": "着地5月",
+          "pos": 11406
+        },
+        {
+          "name": "ラベル8",
+          "pos": 8000
+        },
+        {
+          "name": "ラベル９",
+          "pos": 9000
+        },
+        {
+          "name": "作業",
+          "pos": 1000
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 10500,
+      "hangOffset": 906,
+      "displayColor": "#333333",
+      "displayOpacity": 0.25,
+      "initialLabelName": null
+    },
+    {
+      "id": "LB1",
+      "sourceId": "LB1",
+      "itemName": "LX+SP",
+      "userMin": 850,
+      "userMax": 13850,
+      "machineMin": 850,
+      "machineMax": 13850,
+      "labels": [
+        {
+          "name": "乗込タッパ",
+          "pos": 8707
+        },
+        {
+          "name": "上限乗込み",
+          "pos": 9806
+        },
+        {
+          "name": "下限乗込み",
+          "pos": 6738
+        },
+        {
+          "name": "トビ",
+          "pos": 13850
+        },
+        {
+          "name": "カザリ",
+          "pos": 7975
+        },
+        {
+          "name": "ラベル6",
+          "pos": 6000
+        },
+        {
+          "name": "ラベル7",
+          "pos": 7000
+        },
+        {
+          "name": "ラベル8",
+          "pos": 8000
+        },
+        {
+          "name": "ラベル９",
+          "pos": 9000
+        },
+        {
+          "name": "作業",
+          "pos": 1200
+        }
+      ],
+      "defaultSpeed": 83,
+      "type": "constant",
+      "defaultAcc": 0.1,
+      "defaultDec": 0.1,
+      "initialPosition": 8707,
+      "toolHeight": 1000,
+      "hangOffset": 0,
+      "displayColor": "#d6bf28",
+      "displayOpacity": 1,
+      "initialLabelName": "乗込タッパ"
+    },
+    {
+      "id": "B4",
+      "sourceId": "B4",
+      "itemName": "スクエアー吊り",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B5",
+      "sourceId": "B5",
+      "itemName": "下手+上手 ミラー",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B6",
+      "sourceId": "B6",
+      "itemName": "",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B7",
+      "sourceId": "B7",
+      "itemName": "蛍光灯",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "LB2",
+      "sourceId": "LB2",
+      "itemName": "LX",
+      "userMin": 850,
+      "userMax": 13850,
+      "machineMin": 850,
+      "machineMax": 13850,
+      "labels": [
+        {
+          "name": "乗込タッパ",
+          "pos": 8722
+        },
+        {
+          "name": "上限乗込み",
+          "pos": 9806
+        },
+        {
+          "name": "下限乗込み",
+          "pos": 6738
+        },
+        {
+          "name": "トビ",
+          "pos": 13850
+        },
+        {
+          "name": "カザリ",
+          "pos": 8031
+        },
+        {
+          "name": "ラベル6",
+          "pos": 6000
+        },
+        {
+          "name": "ラベル7",
+          "pos": 7000
+        },
+        {
+          "name": "ラベル8",
+          "pos": 8000
+        },
+        {
+          "name": "ラベル９",
+          "pos": 9000
+        },
+        {
+          "name": "作業",
+          "pos": 1200
+        }
+      ],
+      "defaultSpeed": 83,
+      "type": "constant",
+      "defaultAcc": 0.1,
+      "defaultDec": 0.1,
+      "initialPosition": 8722,
+      "toolHeight": 1000,
+      "hangOffset": 0,
+      "displayColor": "#d6bf28",
+      "displayOpacity": 1,
+      "initialLabelName": "乗込タッパ"
+    },
+    {
+      "id": "B8",
+      "sourceId": "B8",
+      "itemName": "Mic",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "カザリ",
+          "pos": 10042
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B9",
+      "sourceId": "B9",
+      "itemName": "スクエアー吊り",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B10",
+      "sourceId": "B10",
+      "itemName": "蛍光灯",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B11",
+      "sourceId": "B11",
+      "itemName": "下手+上手 ミラー",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "LB3",
+      "sourceId": "LB3",
+      "itemName": "LX",
+      "userMin": 850,
+      "userMax": 13850,
+      "machineMin": 850,
+      "machineMax": 13850,
+      "labels": [
+        {
+          "name": "乗込タッパ",
+          "pos": 8701
+        },
+        {
+          "name": "上限乗込み",
+          "pos": 9806
+        },
+        {
+          "name": "下限乗込み",
+          "pos": 6738
+        },
+        {
+          "name": "トビ",
+          "pos": 13850
+        },
+        {
+          "name": "カザリ",
+          "pos": 8124
+        },
+        {
+          "name": "ラベル6",
+          "pos": 6000
+        },
+        {
+          "name": "ラベル7",
+          "pos": 7000
+        },
+        {
+          "name": "ラベル8",
+          "pos": 8000
+        },
+        {
+          "name": "ラベル９",
+          "pos": 9000
+        },
+        {
+          "name": "作業",
+          "pos": 1000
+        }
+      ],
+      "defaultSpeed": 83,
+      "type": "constant",
+      "defaultAcc": 0.1,
+      "defaultDec": 0.1,
+      "initialPosition": 8701,
+      "toolHeight": 1000,
+      "hangOffset": 0,
+      "displayColor": "#d6bf28",
+      "displayOpacity": 1,
+      "initialLabelName": "乗込タッパ"
+    },
+    {
+      "id": "B12",
+      "sourceId": "B12",
+      "itemName": "蛍光灯",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B13",
+      "sourceId": "B13",
+      "itemName": "下手+上手 ミラー",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B14",
+      "sourceId": "B14",
+      "itemName": "文字幕*2枚+UHL文字幕捨吊",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 20300
+        },
+        {
+          "name": "中段",
+          "pos": 9000
+        },
+        {
+          "name": "下段",
+          "pos": 4500
+        },
+        {
+          "name": "トビ",
+          "pos": 20300
+        },
+        {
+          "name": "カザリ",
+          "pos": 20300
+        },
+        {
+          "name": "25尺",
+          "pos": 12075
+        },
+        {
+          "name": "24尺",
+          "pos": 11772
+        },
+        {
+          "name": "23尺",
+          "pos": 11772
+        },
+        {
+          "name": "22尺",
+          "pos": 11166
+        },
+        {
+          "name": "21尺",
+          "pos": 10863
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 4500,
+      "hangOffset": 0,
+      "displayColor": "#333333",
+      "displayOpacity": 0.25,
+      "initialLabelName": null
+    },
+    {
+      "id": "B15",
+      "sourceId": "B15",
+      "itemName": "スクエアー吊り",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B16",
+      "sourceId": "B16",
+      "itemName": "Mic",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "カザリ",
+          "pos": 9891
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B17",
+      "sourceId": "B17",
+      "itemName": "文字幕*3枚捨吊",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 20300
+        },
+        {
+          "name": "中段",
+          "pos": 9000
+        },
+        {
+          "name": "下段",
+          "pos": 4500
+        },
+        {
+          "name": "トビ",
+          "pos": 20300
+        },
+        {
+          "name": "カザリ",
+          "pos": 20300
+        },
+        {
+          "name": "25尺",
+          "pos": 12075
+        },
+        {
+          "name": "24尺",
+          "pos": 11772
+        },
+        {
+          "name": "23尺",
+          "pos": 11772
+        },
+        {
+          "name": "22尺",
+          "pos": 11166
+        },
+        {
+          "name": "21尺",
+          "pos": 10863
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 4500,
+      "hangOffset": 0,
+      "displayColor": "#333333",
+      "displayOpacity": 0.25,
+      "initialLabelName": null
+    },
+    {
+      "id": "B18",
+      "sourceId": "B18",
+      "itemName": "スクエアー吊り",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B19",
+      "sourceId": "B19",
+      "itemName": "下手 ミラー",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B20",
+      "sourceId": "B20",
+      "itemName": "袖幕*4対捨吊",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 20300
+        },
+        {
+          "name": "中段",
+          "pos": 9000
+        },
+        {
+          "name": "下段",
+          "pos": 10500
+        },
+        {
+          "name": "トビ",
+          "pos": 20300
+        },
+        {
+          "name": "カザリ",
+          "pos": 10500
+        },
+        {
+          "name": "ラベル6",
+          "pos": 6000
+        },
+        {
+          "name": "袖",
+          "pos": 10500
+        },
+        {
+          "name": "ラベル8",
+          "pos": 8000
+        },
+        {
+          "name": "ラベル９",
+          "pos": 9000
+        },
+        {
+          "name": "作業",
+          "pos": 1000
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 10500,
+      "hangOffset": 0,
+      "displayColor": "#333333",
+      "displayOpacity": 0.25,
+      "initialLabelName": null
+    },
+    {
+      "id": "B21",
+      "sourceId": "B21",
+      "itemName": "プロジェクター",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "カザリ",
+          "pos": 8031
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B22",
+      "sourceId": "B22",
+      "itemName": "中割幕捨吊",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 20300
+        },
+        {
+          "name": "中段",
+          "pos": 10500
+        },
+        {
+          "name": "下段",
+          "pos": 10865
+        },
+        {
+          "name": "トビ",
+          "pos": 20300
+        },
+        {
+          "name": "カザリ",
+          "pos": 10865
+        },
+        {
+          "name": "ラベル6",
+          "pos": 6000
+        },
+        {
+          "name": "中割",
+          "pos": 10865
+        },
+        {
+          "name": "ラベル8",
+          "pos": 8000
+        },
+        {
+          "name": "ラベル９",
+          "pos": 9000
+        },
+        {
+          "name": "作業",
+          "pos": 1000
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 10500,
+      "hangOffset": 363,
+      "displayColor": "#333333",
+      "displayOpacity": 0.25,
+      "initialLabelName": null
+    },
+    {
+      "id": "B23",
+      "sourceId": "B23",
+      "itemName": "大黒幕捨吊",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 20300
+        },
+        {
+          "name": "中段",
+          "pos": 10533
+        },
+        {
+          "name": "下段",
+          "pos": 10500
+        },
+        {
+          "name": "トビ",
+          "pos": 20300
+        },
+        {
+          "name": "カザリ",
+          "pos": 10550
+        },
+        {
+          "name": "ケーブル有",
+          "pos": 10550
+        },
+        {
+          "name": "大黒",
+          "pos": 10500
+        },
+        {
+          "name": "ラベル8",
+          "pos": 8000
+        },
+        {
+          "name": "ラベル９",
+          "pos": 9000
+        },
+        {
+          "name": "作業",
+          "pos": 1000
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 10500,
+      "hangOffset": 0,
+      "displayColor": "#333333",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "UHL",
+      "sourceId": "UHL",
+      "itemName": "持込LX",
+      "userMin": 900,
+      "userMax": 13400,
+      "machineMin": 900,
+      "machineMax": 13400,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 13400
+        },
+        {
+          "name": "中段",
+          "pos": 5000
+        },
+        {
+          "name": "下段",
+          "pos": 2500
+        },
+        {
+          "name": "トビ",
+          "pos": 13400
+        },
+        {
+          "name": "カザリ",
+          "pos": 13399
+        },
+        {
+          "name": "ラベル6",
+          "pos": 6000
+        },
+        {
+          "name": "基本タッパ",
+          "pos": 8645
+        },
+        {
+          "name": "ラベル8",
+          "pos": 8000
+        },
+        {
+          "name": "ラベル９",
+          "pos": 9000
+        },
+        {
+          "name": "作業",
+          "pos": 1200
+        }
+      ],
+      "defaultSpeed": 167,
+      "type": "constant",
+      "defaultAcc": 0.1,
+      "defaultDec": 0.1,
+      "initialPosition": 13400,
+      "toolHeight": 2500,
+      "hangOffset": 0,
+      "displayColor": "#d97b16",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B24",
+      "sourceId": "B24",
+      "itemName": "UHL灯体捨吊",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B25",
+      "sourceId": "B25",
+      "itemName": "奥パネル",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B26",
+      "sourceId": "B26",
+      "itemName": "８Kスクリーン捨吊",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [
+        {
+          "name": "上段",
+          "pos": 20300
+        },
+        {
+          "name": "中段",
+          "pos": 9000
+        },
+        {
+          "name": "下段",
+          "pos": 3000
+        },
+        {
+          "name": "トビ",
+          "pos": 20300
+        },
+        {
+          "name": "カザリ",
+          "pos": 20299
+        },
+        {
+          "name": "ラベル6",
+          "pos": 6000
+        },
+        {
+          "name": "ラベル7",
+          "pos": 7000
+        },
+        {
+          "name": "ラベル8",
+          "pos": 8000
+        },
+        {
+          "name": "ラベル９",
+          "pos": 9000
+        },
+        {
+          "name": "作業",
+          "pos": 1000
+        }
+      ],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 10500,
+      "hangOffset": 0,
+      "displayColor": "#d9d9d9",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    },
+    {
+      "id": "B27",
+      "sourceId": "B27",
+      "itemName": "奥パネル",
+      "userMin": 300,
+      "userMax": 20300,
+      "machineMin": 300,
+      "machineMax": 20300,
+      "labels": [],
+      "defaultSpeed": 1000,
+      "type": "baton",
+      "defaultAcc": 2,
+      "defaultDec": 2,
+      "initialPosition": 20300,
+      "toolHeight": 0,
+      "hangOffset": 0,
+      "displayColor": "#6f767a",
+      "displayOpacity": 1,
+      "initialLabelName": null
+    }
+  ],
+  "cues": [
+    {
+      "number": "101.00",
+      "name": "",
+      "runs": []
+    }
+  ]
+}
