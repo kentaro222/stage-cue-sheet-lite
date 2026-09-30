@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#151515">
-<title>Stage Cue Sheet / Lite v12</title>
+<title>Stage Cue Sheet / Lite v13</title>
 <style>
 :root{
   --bg:#151515;--panel:#202020;--panel2:#292929;--panel3:#343434;--line:#484848;
@@ -497,7 +497,10 @@ function normalizeRun(r){
 }
 function normalizeAll(){
  const old=new Map((devices||[]).map(d=>[d.id,d]));
- const extras=(devices||[]).filter(d=>d?.custom===true&&d.type==='manual'&&String(d.id||'').trim()&&!BASE_DEVICES.some(b=>b.id===d.id)).map(d=>normalizeDevice(d,null));
+ const manualDevices=(devices||[]).filter(d=>d?.custom===true&&d.type==='manual'&&String(d.id||'').trim()&&!BASE_DEVICES.some(b=>b.id===d.id));
+ let nextManualOrder=Math.max(0,...manualDevices.map(d=>Number.isSafeInteger(d.manualOrder)&&d.manualOrder>0?d.manualOrder:0));
+ const extras=manualDevices.map(d=>normalizeDevice({...d,manualOrder:Number.isSafeInteger(d.manualOrder)&&d.manualOrder>0?d.manualOrder:++nextManualOrder},null))
+   .sort((a,b)=>b.manualOrder-a.manualOrder);
  devices=[...extras,...BASE_DEVICES.map(b=>normalizeDevice(old.get(b.id)||b,b))];
  if(!Array.isArray(cues))cues=[];cues=cues.map(q=>{const src=deep(q||{});return isMemoEntry(src)?{...src,kind:'memo',text:String(src.text??src.name??'')}:{...src,number:formatCueNumber(src.number)||'000.00',name:String(src.name||''),runs:Array.isArray(src.runs)?src.runs.map(normalizeRun):[]}});
  if(!cues.length)cues=[{number:'001.00',name:'新規キュー',runs:[]}];selectedListIndex=clamp(selectedListIndex,0,cues.length-1);selectedDevice=dev(selectedDevice)?.id||(dev('B1')?'B1':devices[0].id);
@@ -628,8 +631,8 @@ function addManualDeviceFromUI(){
  if(!id){alert('装置IDを入力してください。');$('manualDeviceId').focus();return}
  if(dev(id)){alert('同じ装置IDが既にあります。');$('manualDeviceId').focus();return}
  if(raw===''||!Number.isFinite(Number(raw))){alert('初期位置のmm値を入力してください。');$('manualInitialPosition').focus();return}
- pushUndoSnapshot();const pos=Number(raw),d={id,sourceId:id,custom:true,type:'manual',itemName:name,initialPosition:pos,machineMin:pos,machineMax:pos,userMin:pos,userMax:pos,labels:[],toolHeight:0,hangOffset:0,displayColor:'#6f767a',displayOpacity:1};
- const at=devices.filter(x=>x.custom===true&&x.type==='manual').length;devices.splice(at,0,d);selectedDevice=id;
+ pushUndoSnapshot();const pos=Number(raw),manualOrder=1+Math.max(0,...devices.filter(x=>x.custom===true&&x.type==='manual').map(x=>x.manualOrder||0)),d={id,sourceId:id,custom:true,type:'manual',manualOrder,itemName:name,initialPosition:pos,machineMin:pos,machineMax:pos,userMin:pos,userMax:pos,labels:[],toolHeight:0,hangOffset:0,displayColor:'#6f767a',displayOpacity:1};
+ devices.unshift(d);selectedDevice=id;
  $('manualDeviceId').value='';$('manualDeviceName').value='';$('manualInitialPosition').value='';$('manualAddDetails').open=false;
  saveChangedProject();renderAll();
 }
@@ -680,7 +683,7 @@ function importInitialSetupCsv(text){const lines=text.replace(/\r\n?/g,'\n').spl
 function csvPositionLabel(d,pos,preferredName=null){const l=currentLabelName(d,pos,preferredName);return l==='—'?'直入力':l}
 function csvTargetLabel(d,r){return labelForRunTarget(d,r)||'直入力'}
 function exportDeviceSetupCsv(){
- const ordered=[...devices.filter(d=>d.type!=='manual').reverse(),...devices.filter(d=>d.type==='manual')],names=[],seen=new Set(),conflicts=new Map(),firstOrder=new Map();const addName=name=>{if(!seen.has(name)){seen.add(name);firstOrder.set(name,names.length);names.push(name);conflicts.set(name,new Set())}};
+ const ordered=[...devices.filter(d=>d.type!=='manual').reverse(),...devices.filter(d=>d.type==='manual').reverse()],names=[],seen=new Set(),conflicts=new Map(),firstOrder=new Map();const addName=name=>{if(!seen.has(name)){seen.add(name);firstOrder.set(name,names.length);names.push(name);conflicts.set(name,new Set())}};
  ordered.forEach(d=>{const rn=[],rs=new Set();(d.labels||[]).forEach(l=>{const name=String(l?.name||'').trim();if(!name)return;addName(name);if(!rs.has(name)){rs.add(name);rn.push(name)}});for(let i=0;i<rn.length;i++)for(let j=i+1;j<rn.length;j++){conflicts.get(rn[i]).add(rn[j]);conflicts.get(rn[j]).add(rn[i])}});
  const slotOf=new Map(),seedSlot=(name,slot)=>{if(!seen.has(name))return;const occupied=[...slotOf.entries()].some(([other,s])=>s===slot&&conflicts.get(name)?.has(other));if(!occupied)slotOf.set(name,slot)};seedSlot('トビ',0);seedSlot('カザリ',1);names.filter(n=>!slotOf.has(n)).sort((a,b)=>(conflicts.get(b)?.size||0)-(conflicts.get(a)?.size||0)||(firstOrder.get(a)||0)-(firstOrder.get(b)||0)).forEach(name=>{const used=new Set([...(conflicts.get(name)||[])].map(n=>slotOf.get(n)).filter(Number.isInteger));let slot=0;while(used.has(slot))slot++;slotOf.set(name,slot)});
  let slotCount=0;slotOf.forEach(s=>slotCount=Math.max(slotCount,s+1));let duplicateExtra=0;ordered.forEach(d=>{const c=new Map();(d.labels||[]).forEach(l=>{const n=String(l?.name||'').trim();if(n)c.set(n,(c.get(n)||0)+1)});c.forEach(n=>duplicateExtra=Math.max(duplicateExtra,Math.max(0,n-1)))});const totalSlots=slotCount+duplicateExtra,header=['バトン','吊り物名称','荷重'];for(let i=0;i<totalSlots;i++)header.push(`ラベル${i+1}`,`位置${i+1}(mm)`);const rows=[header];ordered.forEach(d=>{const row=new Array(3+totalSlots*2).fill('');row[0]=d.id;row[1]=d.itemName||'';const used=new Set(),dc=new Map();(d.labels||[]).forEach(l=>{const name=String(l?.name||'').trim();if(!name||l.pos===''||l.pos==null)return;const dup=dc.get(name)||0;dc.set(name,dup+1);let slot=dup===0?slotOf.get(name):slotCount+(dup-1);while(used.has(slot))slot++;if(!Number.isInteger(slot))return;used.add(slot);row[3+slot*2]=name;row[4+slot*2]=csvNumber(+l.pos)});rows.push(row)});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`${projectFileStem()}_装置_${stamp()}.csv`,'text/csv;charset=utf-8;')
