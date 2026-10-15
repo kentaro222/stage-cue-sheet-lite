@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#151515">
-<title>Stage Cue Sheet / Lite v13</title>
+<title>Stage Cue Sheet Lite v2.1</title>
 <style>
 :root{
   --bg:#151515;--panel:#202020;--panel2:#292929;--panel3:#343434;--line:#484848;
@@ -246,7 +246,6 @@ button.danger:hover{background:#4b2a30}
 
 /* v9 project metadata */
 .brand{flex:none;color:#bbb7af;font-size:12px}
-.project-heading{flex:1;min-width:0;max-width:480px;border-left:1px solid #5a5752;padding-left:10px}
 .project-name-input{width:100%;max-width:100%;min-width:0;min-height:36px;padding:5px 7px;background:transparent;border:1px solid transparent;color:#f0ede6;font-size:15px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
 .project-name-input::placeholder{color:#aaa59c;opacity:1}
 .project-name-input:hover{border-bottom-color:#69645d}
@@ -263,7 +262,6 @@ button.danger:hover{background:#4b2a30}
  .header-main .brand{grid-column:1;grid-row:1;min-width:0}
  .brand-title{font-size:11px}
  .header-actions{grid-column:2;grid-row:1}
- .project-heading{grid-column:1/-1;grid-row:2;width:100%;max-width:100%;padding-left:0;border-left:0}
  .project-name-input{min-height:36px;font-size:14px}
  .row-action-bar{top:138px}
 }
@@ -295,29 +293,50 @@ button.danger:hover{background:#4b2a30}
 .hanging-swap-block label{display:block;margin-bottom:5px}
 .hanging-swap-block select,.hanging-swap-block button{display:block;width:100%;max-width:420px;min-width:0;min-height:42px}
 .hanging-swap-block button{margin-top:9px}
-.manual-add{margin-top:12px;border-top:1px solid var(--line);padding-top:8px;min-width:0}
-.manual-add summary{cursor:pointer;min-height:42px;padding:10px 4px;color:var(--text);font-weight:800;font-size:12px}
-.manual-add-fields{display:grid;gap:8px;min-width:0;padding:5px 2px}
-.manual-add-fields label{display:grid;gap:4px;min-width:0;color:var(--muted);font-size:11px}
-.manual-add-fields input,.manual-add-fields button{width:100%;min-width:0;max-width:100%}
-.manual-add .small{line-height:1.5;overflow-wrap:anywhere}
-.manual-device-actions[hidden]{display:none}
-.manual-device-actions{margin-top:10px}.manual-device-actions button{min-height:42px}
-.run-card.manual-run .reference{color:var(--warn)}
-.manual-run-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:8px}
 @media(max-width:560px){
  .settings-main .settings-grid{grid-template-columns:minmax(0,1fr)}
  .hanging-ops,.hanging-ops-inner,.hanging-copy-block,.hanging-swap-block{width:100%;max-width:100%;min-width:0}
  .hanging-buttons,.hanging-swap-block select,.hanging-swap-block button,.hanging-delete{max-width:100%}
- .manual-add{width:100%;max-width:100%}
 }
+
+/* v2.0: permanent equipment and task focused I/O */
+.project-heading{display:none}
+.other-permanent{margin-top:12px;border-top:1px solid var(--line);min-width:0}
+.other-permanent summary{cursor:pointer;min-height:44px;padding:12px 5px;font-weight:700;color:var(--text)}
+.other-permanent .device-list{max-height:none;overflow:visible}
+.device-btn.is-off{opacity:.73}
+.permanent-usage[hidden]{display:none}
+.permanent-usage{margin:13px 0;padding:12px;border:1px solid var(--line);border-radius:8px;background:#30302f;min-width:0}
+.permanent-usage label{display:flex;align-items:center;gap:9px;min-height:40px;font-weight:700}
+.permanent-usage input{width:20px;height:20px}
+.io-project-info{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px;min-width:0}
+.io-project-info label{display:grid;gap:5px;min-width:0;font-size:12px;color:var(--muted)}
+.io-project-info input{width:100%;max-width:100%;min-width:0}
+.io-project-info span{font-size:11px;color:var(--muted)}
+.io-section{padding:12px 0;border-top:1px solid var(--line);min-width:0}
+.io-section h4{margin:0 0 9px;font-size:13px;color:var(--text)}
+.io-reset{margin-top:25px;padding-top:18px;border-top:1px solid var(--line)}
+.io-reset button{width:100%}
+/* 入出力モーダル内の操作種別だけを配色する。画面全体のボタンには適用しない。 */
+.io-modal .io-action{background:#414141;border-color:#777777;color:#f0ede7;font-weight:700;box-shadow:none}
+.io-modal .io-action:hover:not(:disabled){background:#4b4b4b;border-color:#99948d}
+.io-modal .io-action:focus-visible{outline:2px solid #b8b2a9;outline-offset:2px;box-shadow:none}
+.io-modal .io-action:disabled{background:#363636;border-color:#666666;color:#c9c4bb;opacity:.48}
+.io-modal .io-secondary{background:#292929;border-color:#555555;color:#ccc7bd;font-weight:400;box-shadow:none}
+.io-modal .io-secondary:hover:not(:disabled){background:#343434;border-color:#706e69}
+.io-modal .io-secondary:focus-visible{outline:2px solid #928d84;outline-offset:2px;box-shadow:none}
+.io-modal .io-secondary:disabled{background:#252525;border-color:#494949;color:#aaa59c;opacity:.48}
+.io-modal .io-danger{background:#382629;border-color:#89505a;color:#f3c8cc;font-weight:700;box-shadow:none}
+.io-modal .io-danger:hover:not(:disabled){background:#4b2a30;border-color:#aa6973}
+.io-modal .io-danger:focus-visible{outline:2px solid #bd838b;outline-offset:2px;box-shadow:none}
+.io-modal .io-danger:disabled{background:#302326;border-color:#70444b;color:#cba8ac;opacity:.48}
+@media(max-width:560px){.row-action-bar{top:92px}.io-project-info{grid-template-columns:minmax(0,1fr)}.io-sheet{max-height:calc(100dvh - 16px)}.other-permanent .device-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(76px,1fr));gap:5px}.other-permanent .device-btn{width:100%;min-width:0}}
 </style>
 </head>
 <body>
 <header class="app-header">
   <div class="header-main">
-    <div class="brand"><span class="brand-mark"></span><span class="brand-title">STAGE CUE SHEET</span></div>
-    <div class="project-heading"><input id="projectNameInput" class="project-name-input" type="text" aria-label="プロジェクト名" placeholder="プロジェクト名を入力" autocomplete="off"></div>
+    <div class="brand"><span class="brand-mark"></span><span class="brand-title">STAGE CUE SHEET LITE</span></div>
     <span id="saveState" class="save-state">保存済み</span>
     <div class="header-actions"><button id="undoBtn" class="icon" title="戻す">↶</button><button id="redoBtn" class="icon" title="やり直し">↷</button><button id="openIoBtn" class="primary">入出力</button></div>
   </div>
@@ -344,10 +363,7 @@ button.danger:hover{background:#4b2a30}
 <section id="settings" class="page">
   <div class="settings-shell">
     <aside class="device-rail card"><div class="section-head"><h3>装置</h3></div><div id="deviceList" class="device-list"></div>
-      <details class="manual-add" id="manualAddDetails"><summary>＋ 手入力装置を追加</summary>
-        <div class="manual-add-fields"><label>装置ID<input id="manualDeviceId" placeholder="SS1 / 点吊り1" maxlength="40"></label><label>吊り物名称<input id="manualDeviceName" placeholder="任意"></label><label>初期位置 mm<input id="manualInitialPosition" type="number" step="any" inputmode="decimal" placeholder="現在地を入力"></label><button id="addManualDevice" type="button">追加する</button></div>
-        <p class="small">初期位置は現在地の起点です。運転タイムなどはCueで手入力できます。</p>
-      </details>
+      <details id="otherPermanentGroup" class="other-permanent"><summary>その他の常設装置</summary><div id="otherPermanentList" class="device-list"></div></details>
     </aside>
     <section class="settings-main card">
       <div class="section-head settings-heading"><h2 id="setTitle">B1</h2><div class="grow"></div><span id="deviceSpecBadge" class="badge"></span></div>
@@ -357,7 +373,7 @@ button.danger:hover{background:#4b2a30}
         <div class="field"><label>機械範囲</label><div id="s_range" class="readbox"></div></div>
       </div>
       <div id="specialNotice"></div>
-      <div id="manualDeviceActions" class="manual-device-actions" hidden><button id="removeManualDevice" class="danger" type="button">この手入力装置を削除</button></div>
+      <div id="permanentUsagePanel" class="permanent-usage" hidden><label><input id="permanentEnabledInput" type="checkbox"> Cueで使用する</label><div id="permanentUsageReason" class="small"></div></div>
       <div class="section-head" style="margin-top:16px"><h3>目標地ラベル</h3><span class="small">名称 + mm を最大10組</span></div>
       <div class="labels-wrap"><table class="labels-table"><thead><tr><th style="width:52px">No.</th><th>名称</th><th style="width:180px">位置 mm</th></tr></thead><tbody id="labelBody"></tbody></table></div>
       <details class="compat-box">
@@ -369,7 +385,7 @@ button.danger:hover{background:#4b2a30}
             <div class="field"><label>表示色</label><input id="s_displayColor" type="text" inputmode="text" placeholder="#6f767a"></div>
             <div class="field"><label>透過率 %</label><input id="s_displayOpacity" type="number" min="0" max="100" step="1" inputmode="decimal"></div>
           </div>
-          <div class="compat-note">元シミュレーターとのJSON互換用です。このLiteアプリ内のCue計算・距離・動作時間・CSV出力には反映しません。吊り物セットのコピー／カット／貼付／入れ替えには含まれます。</div>
+          <div class="compat-note">道具高さ・桁吊り・表示色・透過率は共有データに含まれます。吊り物セットのコピー／カット／貼付／入れ替えにも含まれます。</div>
         </div>
       </details>
       <details id="hangingOpsDetails" class="hanging-ops">
@@ -414,31 +430,42 @@ button.danger:hover{background:#4b2a30}
 </main>
 
 <div id="ioModal" class="io-modal" aria-hidden="true"><div class="io-sheet">
-  <div class="section-head"><h3>入出力</h3><div class="grow"></div><span class="small">計算ロジックはCSV書出と共通</span></div>
-  <div id="ioProjectInfo" class="io-project-info"></div>
-  <div class="io-grid">
-    <button id="csvInitBtn" class="primary">装置CSV読込</button><button id="exportDeviceCsvBtn">装置CSV書出</button><button id="exportCueCsvBtn" class="primary">キューCSV書出</button><button id="exportShareBtn" class="primary">共有コード書出</button><button id="importShareBtn">共有コード読込</button><button id="exportJsonBtn">JSON保存</button><button id="importJsonBtn">JSON読込</button><button id="resetProjectBtn" class="danger">全データリセット</button>
-  </div>
+  <div class="section-head"><h3>入出力</h3></div>
+  <div id="ioProjectInfo" class="io-project-info"><label for="projectNameInput">プロジェクト名<input id="projectNameInput" class="project-name-input" type="text" maxlength="200" placeholder="プロジェクト名を入力" autocomplete="off"></label><span>最終更新 <strong id="ioUpdatedAt">不明</strong></span></div>
+  <section class="io-section"><h4>保存・共有</h4><div class="io-grid"><button id="importShareBtn" class="io-action">共有コード読込</button><button id="exportShareBtn" class="io-action">共有コード書出</button><button id="importJsonBtn" class="io-action">JSON読込</button><button id="exportJsonBtn" class="io-action">JSON保存</button></div></section>
+  <section class="io-section"><h4>実機データの読込</h4><div class="io-grid"><button id="csvInitBtn" class="io-action">装置CSV読込</button></div></section>
+  <section class="io-section"><h4>記録表への書出</h4><div class="io-grid"><button id="exportDeviceCsvBtn" class="io-action">装置CSV書出</button><button id="exportCueCsvBtn" class="io-action">キューCSV書出</button></div></section>
   <div id="shareBox" class="share-box">
     <div class="section-head"><strong id="shareTitle">共有コード</strong><span class="grow"></span><span id="shareMeta" class="small"></span></div>
     <div id="shareProjectInfo" class="share-project-info"></div>
     <textarea id="shareCode" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="SCUE1:... の共有コードをここへ貼り付け"></textarea>
-    <div class="share-actions"><button id="copyShareCode" class="primary">コードをコピー</button><button id="copyShareTextBtn">共有用テキストをコピー</button><button id="restoreShareCode">このコードを読込</button><button id="clearShareCode">クリア</button></div>
+    <div class="share-actions"><button id="copyShareCode" class="io-action">コードをコピー</button><button id="copyShareTextBtn" class="io-action">共有用テキストをコピー</button><button id="restoreShareCode" class="io-action">このコードを読込</button><button id="clearShareCode" class="io-secondary">クリア</button></div>
     <div id="shareMessage" class="share-message small">Google Keep・LINE・メール等へそのまま貼り付けできます。共有コードは暗号化ではありません。</div>
   </div>
-  <button id="closeIoBtn" class="io-close">閉じる</button>
+  <div class="io-reset"><button id="resetProjectBtn" class="io-danger">全データリセット</button></div>
+  <button id="closeIoBtn" class="io-close io-secondary">閉じる</button>
   <input id="csvInitFile" type="file" accept=".csv,text/csv" hidden><input id="importJsonFile" type="file" accept=".json,application/json" hidden>
 </div></div>
 
 <script>
-const BASE_DEVICES=[{"id":"割UD","sourceId":"割UD","itemName":"","userMin":0,"userMax":10100,"machineMin":0,"machineMax":10100,"labels":[],"defaultSpeed":1000,"type":"curtain","defaultAcc":2,"defaultDec":2,"initialPosition":10100},{"id":"暗転幕","sourceId":"暗転幕","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B1","sourceId":"B1","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B2","sourceId":"B2","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B3","sourceId":"B3","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"LB1","sourceId":"LB1","itemName":"","userMin":850.0,"userMax":13850.0,"machineMin":850.0,"machineMax":13850.0,"labels":[],"defaultSpeed":83,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13850.0},{"id":"B4","sourceId":"B4","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B5","sourceId":"B5","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B6","sourceId":"B6","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B7","sourceId":"B7","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"LB2","sourceId":"LB2","itemName":"","userMin":850.0,"userMax":13850.0,"machineMin":850.0,"machineMax":13850.0,"labels":[],"defaultSpeed":83,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13850.0},{"id":"B8","sourceId":"B8","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B9","sourceId":"B9","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B10","sourceId":"B10","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B11","sourceId":"B11","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"LB3","sourceId":"LB3","itemName":"","userMin":850.0,"userMax":13850.0,"machineMin":850.0,"machineMax":13850.0,"labels":[],"defaultSpeed":83,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13850.0},{"id":"B12","sourceId":"B12","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B13","sourceId":"B13","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B14","sourceId":"B14","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B15","sourceId":"B15","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B16","sourceId":"B16","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B17","sourceId":"B17","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B18","sourceId":"B18","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B19","sourceId":"B19","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B20","sourceId":"B20","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B21","sourceId":"B21","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B22","sourceId":"B22","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B23","sourceId":"B23","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"UHL","sourceId":"UHL","itemName":"","userMin":900.0,"userMax":13400.0,"machineMin":900.0,"machineMax":13400.0,"labels":[],"defaultSpeed":167,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13400.0},{"id":"B24","sourceId":"B24","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B25","sourceId":"B25","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B26","sourceId":"B26","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B27","sourceId":"B27","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300}];
+const STANDARD_DEVICES=[{"id":"割UD","sourceId":"割UD","itemName":"","userMin":0,"userMax":10100,"machineMin":0,"machineMax":10100,"labels":[],"defaultSpeed":1000,"type":"curtain","defaultAcc":2,"defaultDec":2,"initialPosition":10100},{"id":"暗転幕","sourceId":"暗転幕","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B1","sourceId":"B1","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B2","sourceId":"B2","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B3","sourceId":"B3","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"LB1","sourceId":"LB1","itemName":"","userMin":850.0,"userMax":13850.0,"machineMin":850.0,"machineMax":13850.0,"labels":[],"defaultSpeed":83,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13850.0},{"id":"B4","sourceId":"B4","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B5","sourceId":"B5","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B6","sourceId":"B6","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B7","sourceId":"B7","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"LB2","sourceId":"LB2","itemName":"","userMin":850.0,"userMax":13850.0,"machineMin":850.0,"machineMax":13850.0,"labels":[],"defaultSpeed":83,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13850.0},{"id":"B8","sourceId":"B8","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B9","sourceId":"B9","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B10","sourceId":"B10","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B11","sourceId":"B11","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"LB3","sourceId":"LB3","itemName":"","userMin":850.0,"userMax":13850.0,"machineMin":850.0,"machineMax":13850.0,"labels":[],"defaultSpeed":83,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13850.0},{"id":"B12","sourceId":"B12","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B13","sourceId":"B13","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B14","sourceId":"B14","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B15","sourceId":"B15","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B16","sourceId":"B16","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B17","sourceId":"B17","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B18","sourceId":"B18","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B19","sourceId":"B19","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B20","sourceId":"B20","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B21","sourceId":"B21","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B22","sourceId":"B22","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B23","sourceId":"B23","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"UHL","sourceId":"UHL","itemName":"","userMin":900.0,"userMax":13400.0,"machineMin":900.0,"machineMax":13400.0,"labels":[],"defaultSpeed":167,"type":"constant","defaultAcc":0.1,"defaultDec":0.1,"initialPosition":13400.0},{"id":"B24","sourceId":"B24","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B25","sourceId":"B25","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B26","sourceId":"B26","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300},{"id":"B27","sourceId":"B27","itemName":"","userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"labels":[],"defaultSpeed":1000,"type":"baton","defaultAcc":2,"defaultDec":2,"initialPosition":20300}];
+const OTHER_PERMANENT_DEVICES=[{"id":"客SL","sourceId":"客SL","itemName":"","toolHeight":0,"hangOffset":0,"userMin":900,"userMax":9600,"machineMin":900,"machineMax":9600,"initialPosition":9600,"labels":[],"type":"constant","defaultSpeed":167,"defaultAcc":0.1,"defaultDec":0.1,"enabled":false},{"id":"上SS1","sourceId":"上SS1","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":12800,"machineMin":300,"machineMax":12800,"initialPosition":12800,"labels":[],"type":"constant","defaultSpeed":167,"defaultAcc":0.1,"defaultDec":0.1,"enabled":false},{"id":"下SS1","sourceId":"下SS1","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":12800,"machineMin":300,"machineMax":12800,"initialPosition":12800,"labels":[],"type":"constant","defaultSpeed":167,"defaultAcc":0.1,"defaultDec":0.1,"enabled":false},{"id":"上SS2","sourceId":"上SS2","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":12800,"machineMin":300,"machineMax":12800,"initialPosition":12800,"labels":[],"type":"constant","defaultSpeed":167,"defaultAcc":0.1,"defaultDec":0.1,"enabled":false},{"id":"下SS2","sourceId":"下SS2","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":12800,"machineMin":300,"machineMax":12800,"initialPosition":12800,"labels":[],"type":"constant","defaultSpeed":167,"defaultAcc":0.1,"defaultDec":0.1,"enabled":false},{"id":"上SS3","sourceId":"上SS3","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":12800,"machineMin":300,"machineMax":12800,"initialPosition":12800,"labels":[],"type":"constant","defaultSpeed":167,"defaultAcc":0.1,"defaultDec":0.1,"enabled":false},{"id":"下SS3","sourceId":"下SS3","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":12800,"machineMin":300,"machineMax":12800,"initialPosition":12800,"labels":[],"type":"constant","defaultSpeed":167,"defaultAcc":0.1,"defaultDec":0.1,"enabled":false},{"id":"上SS4","sourceId":"上SS4","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":12800,"machineMin":300,"machineMax":12800,"initialPosition":12800,"labels":[],"type":"constant","defaultSpeed":167,"defaultAcc":0.1,"defaultDec":0.1,"enabled":false},{"id":"下SS4","sourceId":"下SS4","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":12800,"machineMin":300,"machineMax":12800,"initialPosition":12800,"labels":[],"type":"constant","defaultSpeed":167,"defaultAcc":0.1,"defaultDec":0.1,"enabled":false},{"id":"点吊1","sourceId":"点吊1","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false},{"id":"点吊2","sourceId":"点吊2","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false},{"id":"点吊3","sourceId":"点吊3","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false},{"id":"点吊4","sourceId":"点吊4","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false},{"id":"点吊5","sourceId":"点吊5","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false},{"id":"点吊6","sourceId":"点吊6","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false},{"id":"点吊7","sourceId":"点吊7","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false},{"id":"点吊8","sourceId":"点吊8","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false},{"id":"点吊9","sourceId":"点吊9","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false},{"id":"点吊10","sourceId":"点吊10","itemName":"","toolHeight":0,"hangOffset":0,"userMin":300,"userMax":20300,"machineMin":300,"machineMax":20300,"initialPosition":20300,"labels":[],"type":"baton","defaultSpeed":1000,"defaultAcc":2,"defaultDec":2,"enabled":false}];
+const OTHER_PERMANENT_IDS=new Set(OTHER_PERMANENT_DEVICES.map(d=>d.id));
+const BASE_DEVICES=[...STANDARD_DEVICES,...OTHER_PERMANENT_DEVICES];
+const DEVICE_CSV_IDS=[...STANDARD_DEVICES].reverse().map(d=>d.id).concat(OTHER_PERMANENT_DEVICES.map(d=>d.id));
+function isOtherPermanent(d){return !!d&&OTHER_PERMANENT_IDS.has(d.id)}
+function isDeviceEnabled(d){return !!d&&(!isOtherPermanent(d)||d.enabled===true)}
+function selectableDevices(){return devices.filter(isDeviceEnabled)}
+function deviceCsvOrder(){return DEVICE_CSV_IDS.map(dev).filter(isDeviceEnabled)}
+function permanentCueReferences(id){return cues.filter(q=>!isMemoEntry(q)&&(q.runs||[]).some(r=>r.device===id))}
+
 const KEY='stageCueSheetLiteV1';
 const MAX_SPEED=1500,MAX_ACCEL=750,FIXED_ACC=0.1,FIXED_DEC=0.1;
 const deep=x=>JSON.parse(JSON.stringify(x));
 const $=id=>document.getElementById(id);
 let devices=deep(BASE_DEVICES),cues=[{number:'001.00',name:'新規キュー',runs:[]}],selectedDevice='B1',selectedListIndex=0;
 let cueClipboard=null,runClipboard=[],hangingItemClipboard=null,undoStack=[],redoStack=[],saveTimer=null,historyInputKey=null,historyInputTimer=null;
-let projectName='',updatedAt=null,lastProjectContent=null;
+let projectName='',updatedAt=null,lastProjectContent=null,saveBlocked=false;
 
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function dev(id){return devices.find(d=>d.id===id)}
@@ -458,7 +485,7 @@ function projectContentSignature(){return JSON.stringify({projectName,devices,cu
 function renderProjectInfo(){
  const input=$('projectNameInput');if(input&&document.activeElement!==input)input.value=projectName;
  const label=escapeHtml(projectName||'プロジェクト名未設定'),date=escapeHtml(localUpdatedAt(updatedAt));
- $('ioProjectInfo').innerHTML='<strong>'+label+'</strong><span>最終更新 '+date+'</span>';
+ $('ioUpdatedAt').textContent=localUpdatedAt(updatedAt);
  $('shareProjectInfo').innerHTML='<div><span>プロジェクト</span><strong>'+label+'</strong></div><div><span>最終更新</span><strong>'+date+'</strong></div>';
 }
 function touchProject(){const current=projectContentSignature();if(current===lastProjectContent)return false;lastProjectContent=current;updatedAt=new Date().toISOString();renderProjectInfo();return true}
@@ -467,15 +494,21 @@ function scheduleChangedProject(){touchProject();scheduleSave()}
 function commitProjectName(){const input=$('projectNameInput'),name=input.value.trim();if(name!==projectName){projectName=name;saveChangedProject()}input.value=projectName}
 
 function normalizeDevice(d,base){
- const out={...deep(base||{}),...deep(d||{})};
- out.itemName=String(out.itemName||'');out.labels=Array.isArray(out.labels)?out.labels.filter(l=>l&&String(l.name||'').trim()!==''&&Number.isFinite(+l.pos)).map(l=>({name:String(l.name),pos:+l.pos})).slice(0,10):[];
- if(out.custom===true&&out.type==='manual'){
-   out.id=String(out.id||'').trim();out.sourceId=out.id;
-   out.initialPosition=Number.isFinite(+out.initialPosition)?+out.initialPosition:0;
-   out.machineMin=out.initialPosition;out.machineMax=out.initialPosition;
+ const out={...deep(base),...deep(d||{})};
+ out.id=base.id;out.sourceId=base.sourceId;out.type=base.type;
+ out.itemName=String(out.itemName||'');
+ out.labels=Array.isArray(out.labels)?out.labels.filter(l=>l&&String(l.name||'').trim()!==''&&Number.isFinite(+l.pos)).map(l=>({name:String(l.name),pos:+l.pos})).slice(0,10):[];
+ if(isOtherPermanent(base)){
+   out.machineMin=base.machineMin;out.machineMax=base.machineMax;
+   out.userMin=base.userMin;out.userMax=base.userMax;
+   out.enabled=d?.enabled===true;
+   out.defaultSpeed=base.defaultSpeed;out.defaultAcc=base.defaultAcc;out.defaultDec=base.defaultDec;
+ }else{
+   out.machineMin=Number.isFinite(+out.machineMin)?+out.machineMin:base.machineMin;
+   out.machineMax=Number.isFinite(+out.machineMax)?+out.machineMax:base.machineMax;
+   out.enabled=true;
  }
- out.machineMin=Number.isFinite(+out.machineMin)?+out.machineMin:+base?.machineMin||0;out.machineMax=Number.isFinite(+out.machineMax)?+out.machineMax:+base?.machineMax||0;
- out.initialPosition=Number.isFinite(+out.initialPosition)?(out.type==='manual'?+out.initialPosition:clamp(+out.initialPosition,out.machineMin,out.machineMax)):out.machineMax;
+ out.initialPosition=Number.isFinite(+out.initialPosition)?clamp(+out.initialPosition,out.machineMin,out.machineMax):out.machineMax;
  if(out.initialLabelName!=null)out.initialLabelName=String(out.initialLabelName);
  out.toolHeight=Number.isFinite(+out.toolHeight)?+out.toolHeight:(out.type==='curtain'?10000:0);
  out.hangOffset=Number.isFinite(+out.hangOffset)?+out.hangOffset:0;
@@ -485,30 +518,30 @@ function normalizeDevice(d,base){
  return out;
 }
 function normalizeRun(r){
- const src=deep(r||{}),d=dev(src.device)||devices[0];
- if(d.type==='manual'){
-   const optional=n=>n===''||n==null?'':(Number.isFinite(+n)?+n:'');
-   const out={...src,device:d.id,targetMode:src.targetMode||'direct',target:src.target===''?initialPosition(d):(Number.isFinite(+src.target)?+src.target:initialPosition(d)),speed:optional(src.speed),acc:optional(src.acc),dec:optional(src.dec),manualTime:optional(src.manualTime),delay:Number.isFinite(+src.delay)?+src.delay:0,use2:!!src.use2,pos2:optional(src.pos2),speed2:optional(src.speed2)};
-   inferRunTargetMode(out);return out;
- }
- const out={...src,device:d.id,targetMode:src.targetMode||'direct',target:Number.isFinite(+src.target)?+src.target:+d.machineMax,speed:Number.isFinite(+src.speed)?+src.speed:(d.type==='constant'?fixedDeviceSpeed(d):1000),acc:Number.isFinite(+src.acc)?+src.acc:(d.type==='constant'?FIXED_ACC:2),dec:Number.isFinite(+src.dec)?+src.dec:(d.type==='constant'?FIXED_DEC:2),delay:Number.isFinite(+src.delay)?+src.delay:0,use2:!!src.use2,pos2:src.pos2===''?'':(Number.isFinite(+src.pos2)?+src.pos2:''),speed2:src.speed2===''?'':(Number.isFinite(+src.speed2)?+src.speed2:'')};
+ const src=deep(r||{}),d=dev(src.device);
+ if(!d)throw new Error('不明なCue装置: '+String(src.device));
+ const out={...src,device:d.id,targetMode:src.targetMode,target:Number.isFinite(+src.target)?+src.target:+d.machineMax,speed:Number.isFinite(+src.speed)?+src.speed:(d.type==='constant'?fixedDeviceSpeed(d):1000),acc:Number.isFinite(+src.acc)?+src.acc:(d.type==='constant'?FIXED_ACC:2),dec:Number.isFinite(+src.dec)?+src.dec:(d.type==='constant'?FIXED_DEC:2),delay:Number.isFinite(+src.delay)?+src.delay:0,use2:!!src.use2,pos2:src.pos2===''?'':(Number.isFinite(+src.pos2)?+src.pos2:''),speed2:src.speed2===''?'':(Number.isFinite(+src.speed2)?+src.speed2:'')};
+ delete out.manualTime;
  if(d.type==='constant'){out.speed=fixedDeviceSpeed(d);out.acc=FIXED_ACC;out.dec=FIXED_DEC;out.use2=false;out.pos2='';out.speed2=''}
  inferRunTargetMode(out);return out;
 }
 function normalizeAll(){
- const old=new Map((devices||[]).map(d=>[d.id,d]));
- const manualDevices=(devices||[]).filter(d=>d?.custom===true&&d.type==='manual'&&String(d.id||'').trim()&&!BASE_DEVICES.some(b=>b.id===d.id));
- let nextManualOrder=Math.max(0,...manualDevices.map(d=>Number.isSafeInteger(d.manualOrder)&&d.manualOrder>0?d.manualOrder:0));
- const extras=manualDevices.map(d=>normalizeDevice({...d,manualOrder:Number.isSafeInteger(d.manualOrder)&&d.manualOrder>0?d.manualOrder:++nextManualOrder},null))
-   .sort((a,b)=>b.manualOrder-a.manualOrder);
- devices=[...extras,...BASE_DEVICES.map(b=>normalizeDevice(old.get(b.id)||b,b))];
- if(!Array.isArray(cues))cues=[];cues=cues.map(q=>{const src=deep(q||{});return isMemoEntry(src)?{...src,kind:'memo',text:String(src.text??src.name??'')}:{...src,number:formatCueNumber(src.number)||'000.00',name:String(src.name||''),runs:Array.isArray(src.runs)?src.runs.map(normalizeRun):[]}});
- if(!cues.length)cues=[{number:'001.00',name:'新規キュー',runs:[]}];selectedListIndex=clamp(selectedListIndex,0,cues.length-1);selectedDevice=dev(selectedDevice)?.id||(dev('B1')?'B1':devices[0].id);
+ const old=new Map((devices||[]).map(d=>[d?.id,d])),referenced=new Set((cues||[]).flatMap(q=>q?.runs?.map(r=>r.device)||[]));
+ devices=BASE_DEVICES.map(base=>{
+   const source=old.get(base.id),out=normalizeDevice(source||base,base);
+   if(isOtherPermanent(base))out.enabled=source?.enabled===true||(source?.enabled==null&&referenced.has(base.id));
+   return out;
+ });
+ if(!Array.isArray(cues))cues=[];
+ cues=cues.map(q=>{const src=deep(q||{});return isMemoEntry(src)?{...src,kind:'memo',text:String(src.text??src.name??'')}:{...src,number:formatCueNumber(src.number)||'000.00',name:String(src.name||''),runs:Array.isArray(src.runs)?src.runs.map(normalizeRun):[]}});
+ if(!cues.length)cues=[{number:'001.00',name:'新規キュー',runs:[]}];
+ selectedListIndex=clamp(selectedListIndex,0,cues.length-1);
+ selectedDevice=dev(selectedDevice)?.id||(dev('B1')?'B1':devices[0].id);
 }
 
-function saveNow(){try{localStorage.setItem(KEY,JSON.stringify({app:'stage-cue-sheet',formatVersion:1,projectName,updatedAt,devices,cues}));$('saveState').textContent='保存済み';$('saveState').className='save-state'}catch(e){$('saveState').textContent='保存失敗';$('saveState').className='save-state error'}}
-function scheduleSave(){try{$('saveState').textContent='保存中…';$('saveState').className='save-state saving'}catch{}clearTimeout(saveTimer);saveTimer=setTimeout(saveNow,250)}
-function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x?.devices&&x?.cues){devices=x.devices;cues=x.cues;projectName=typeof x.projectName==='string'?x.projectName:'';updatedAt=validUpdatedAt(x.updatedAt)}}catch{}normalizeAll();lastProjectContent=projectContentSignature()}
+function saveNow(){if(saveBlocked){$('saveState').textContent='保存データ要確認';$('saveState').className='save-state error';return}try{localStorage.setItem(KEY,JSON.stringify({app:'stage-cue-sheet',formatVersion:1,projectName,updatedAt,devices,cues}));$('saveState').textContent='保存済み';$('saveState').className='save-state'}catch(e){$('saveState').textContent='保存失敗';$('saveState').className='save-state error'}}
+function scheduleSave(){if(saveBlocked){saveNow();return}try{$('saveState').textContent='保存中…';$('saveState').className='save-state saving'}catch{}clearTimeout(saveTimer);saveTimer=setTimeout(saveNow,250)}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x?.devices&&x?.cues){validateLiteProject(x);devices=x.devices;cues=x.cues;projectName=typeof x.projectName==='string'?x.projectName:'';updatedAt=validUpdatedAt(x.updatedAt)}}catch(e){saveBlocked=true;alert('保存済みデータを安全に復元できません。元データは保持しています。JSONを読込むか全データリセットしてください。\n'+e.message)}normalizeAll();lastProjectContent=projectContentSignature()}
 window.addEventListener('pagehide',saveNow);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveNow()});
 function snapshot(){return {devices:deep(devices),cues:deep(cues),selectedDevice,selectedListIndex}}
 function pushUndoSnapshot(){endInputGroup();undoStack.push(snapshot());if(undoStack.length>60)undoStack.shift();redoStack=[];updateHistoryButtons()}
@@ -543,7 +576,7 @@ function positionStateBeforeCue(index){
 }
 function positionBeforeCue(index){return positionStateBeforeCue(index).pos}
 
-function inferRunTargetMode(r){const d=dev(r.device);if(!d)return 'direct';if(r.targetMode&&r.targetMode!=='direct'&&labelMatchAt(d,r.target).some(l=>l.name===r.targetMode))return r.targetMode;const m=labelMatchAt(d,r.target);r.targetMode=m.length===1?m[0].name:'direct';return r.targetMode}
+function inferRunTargetMode(r){const d=dev(r.device);if(!d)return 'direct';if(r.targetMode){if(r.targetMode==='direct')return 'direct';if(labelMatchAt(d,r.target).some(l=>l.name===r.targetMode))return r.targetMode;r.targetMode='direct';return r.targetMode}const m=labelMatchAt(d,r.target);r.targetMode=m.length===1?m[0].name:'direct';return r.targetMode}
 function syncRunTargetFromLabel(r){const d=dev(r.device);if(!d)return;inferRunTargetMode(r);if(r.targetMode&&r.targetMode!=='direct'){const l=(d.labels||[]).find(x=>x.name===r.targetMode&&Math.abs(+x.pos-(+r.target))<=1)||(d.labels||[]).find(x=>x.name===r.targetMode);if(l)r.target=+l.pos;else r.targetMode='direct'}}
 function targetOptions(d,r){const mode=inferRunTargetMode(r);return (d.labels||[]).map((l,i)=>`<option value="label:${i}" ${mode===l.name&&Math.abs(+l.pos-(+r.target))<=1?'selected':''}>${escapeHtml(l.name)} · ${Math.round(+l.pos)}mm</option>`).join('')+`<option value="direct" ${mode==='direct'?'selected':''}>直入力</option>`}
 
@@ -553,16 +586,9 @@ function transitionDisplayTime(v1,v2){return Math.floor((Math.abs(v1-v2)/1000)*1
 function minRampTime(speed){return Math.ceil((speed/MAX_ACCEL)*10-1e-9)/10}
 function between(p,a,b){return p>=Math.min(a,b)&&p<=Math.max(a,b)}
 function validateRun(r,start){
- const d=dev(r.device);if(!d)return {ok:false,msg:'機器を確認してください'};syncRunTargetFromLabel(r);const end=d.type==='manual'&&r.target===''?NaN:+r.target;
+ const d=dev(r.device);if(!d)return {ok:false,msg:'機器を確認してください'};if(!isDeviceEnabled(d))return {ok:false,msg:'その他の常設装置がOFFです。装置タブで使用ONにしてください'};syncRunTargetFromLabel(r);const end=+r.target;
  if(!Number.isFinite(start)||!Number.isFinite(end))return {ok:false,msg:'現在地・目標を確認してください'};
- if((+r.delay||0)<0)return {ok:false,msg:'ディレイは0秒以上にしてください'};
- if(d.type==='manual'){
-   for(const [field,name] of [['speed','速度'],['acc','加速'],['dec','減速'],['manualTime','運転タイム'],['pos2','2位置'],['speed2','2速度']]){
-     if((field==='pos2'||field==='speed2')&&!r.use2)continue;
-     if(r[field]!==''&&r[field]!=null&&(!Number.isFinite(+r[field])||+r[field]<0))return {ok:false,msg:`${name}は0以上の数値を入力してください`};
-   }
-   return {ok:true,total:r.manualTime===''||r.manualTime==null?null:+r.manualTime,D:Math.abs(end-start),manual:true};
- }
+ if(!Number.isFinite(Number(r.delay??0))||Number(r.delay??0)<0)return {ok:false,msg:'ディレイは0秒以上にしてください'};
  if(start===end)return {ok:false,msg:'現在地と目標が同じです'};
  const D=Math.abs(end-start);if(D<=0)return {ok:false,msg:'移動距離は0より大きくしてください'};if(D>20000&&d.type!=='curtain')return {ok:false,msg:'移動距離が実機範囲（最大20000 mm）を超えています'};
  const lo=+d.machineMin,hi=+d.machineMax;if(start<lo||start>hi||end<lo||end>hi)return {ok:false,msg:`位置が装置限界（${Math.round(lo)}〜${Math.round(hi)} mm）外です`};
@@ -575,12 +601,12 @@ function validateRun(r,start){
  const D1=Math.abs(p2-start),D2=D-D1,dAcc=v1*acc/2,tBase=(D1-dAcc)/v1;if(tBase<0)return {ok:false,msg:'2位置までに始動加速を完了できません'};const tTrans=transitionDisplayTime(v1,v2),dTrans=((v1+v2)/2)*tTrans,dDec=v2*dec/2,tV2=(D2-dTrans-dDec)/v2;if(tV2<0)return {ok:false,msg:'2位置から目標までの距離が不足しています'};const total=acc+tBase+tTrans+tV2+dec;return {ok:true,total,tTrans,D,D1,D2};
 }
 function cueValidation(index){const q=cues[index];if(!q||isMemoEntry(q))return [];const starts=positionStateBeforeCue(index).pos,errors=[],seen=new Set();(q.runs||[]).forEach((r,i)=>{if(seen.has(r.device)){errors.push({index:i,device:r.device,msg:'同じCue内に同一機構が重複しています'});return}seen.add(r.device);const v=validateRun(r,starts[r.device]);if(!v.ok)errors.push({index:i,device:r.device,msg:v.msg})});return errors}
-function solveSpeedForTime(r,start,targetTime){const d=dev(r.device);if(!d||d.type==='constant'||d.type==='manual'||!Number.isFinite(targetTime)||targetTime<=0)return null;let best=null;const orig=r.speed;for(let sp=1;sp<=MAX_SPEED;sp++){r.speed=sp;const v=validateRun(r,start);if(!v.ok)continue;const err=Math.abs(v.total-targetTime);/* 実機側の丸めで同じ運転タイムになる速度が複数ある場合は、最速側を採用する。 */if(!best||err<best.err-1e-9||(Math.abs(err-best.err)<1e-9&&sp>best.speed))best={speed:sp,time:v.total,err};}r.speed=orig;return best}
+function solveSpeedForTime(r,start,targetTime){const d=dev(r.device);if(!d||d.type==='constant'||!Number.isFinite(targetTime)||targetTime<=0)return null;let best=null;const orig=r.speed;for(let sp=1;sp<=MAX_SPEED;sp++){r.speed=sp;const v=validateRun(r,start);if(!v.ok)continue;const shown=Math.round(v.total*10)/10,err=Math.abs(shown-Math.round(targetTime*10)/10);if(!best||err<best.err-1e-9||(Math.abs(err-best.err)<1e-9&&sp>best.speed))best={speed:sp,time:v.total,err};}r.speed=orig;return best}
 
 function renderCueList(){const list=$('cueList');list.innerHTML='';cues.forEach((q,i)=>{const b=document.createElement('button');b.className='cue-item '+(i===selectedListIndex?'active ':'')+(isMemoEntry(q)?'memo':'');if(isMemoEntry(q))b.innerHTML=`<span class="memo-text">● ${escapeHtml(q.text||'メモ')}</span>`;else b.innerHTML=`<span class="cue-num">${escapeHtml(formatCueNumber(q.number)||'000.00')}</span><span class="cue-name">${escapeHtml(q.name||'')}</span>`;b.onclick=()=>{selectedListIndex=i;renderCueList();renderCueEditor()};list.appendChild(b)});$('cueCount').textContent=`${playableCueCount()} Q / ${cues.filter(isMemoEntry).length} memo`;requestAnimationFrame(()=>list.querySelector('.active')?.scrollIntoView({block:'nearest'}))}
 function selectedRunIndexes(){return [...document.querySelectorAll('#cueEditor [data-rowcheck]:checked')].map(x=>+x.dataset.rowcheck).sort((a,b)=>a-b)}
 function runDirection(start,target){return target>start?'▲':target<start?'▼':''}
-function newDefaultRun(){const d=dev('B1')||devices[0],target=d.labels[0]?.pos??d.machineMax;return normalizeRun({device:d.id,targetMode:d.labels[0]?.name||'direct',target,speed:d.type==='constant'?fixedDeviceSpeed(d):1000,acc:d.type==='constant'?FIXED_ACC:2,dec:d.type==='constant'?FIXED_DEC:2,delay:0,use2:false,pos2:'',speed2:''})}
+function newDefaultRun(){const d=dev('B1')||selectableDevices()[0],target=d.labels[0]?.pos??d.machineMax;return normalizeRun({device:d.id,targetMode:d.labels[0]?.name||'direct',target,speed:d.type==='constant'?fixedDeviceSpeed(d):1000,acc:d.type==='constant'?FIXED_ACC:2,dec:d.type==='constant'?FIXED_DEC:2,delay:0,use2:false,pos2:'',speed2:''})}
 let runOpenState=new WeakMap(),openStateCue=null,cueActionsOpen=false,cueActionsCue=null;
 function renderCueEditor(){
  const box=$('cueEditor'),q=cues[selectedListIndex];if(q!==openStateCue){runOpenState=new WeakMap();openStateCue=q}if(q!==cueActionsCue){cueActionsOpen=false;cueActionsCue=q}if(!q){box.innerHTML='<div class="editor-empty">Cueがありません</div>';return}
@@ -589,15 +615,15 @@ function renderCueEditor(){
    $('editMemoText').oninput=e=>{pushUndoSnapshotForInput(`memo:${selectedListIndex}`);q.text=e.target.value;scheduleChangedProject();renderCueList()};$('moveMemoUp').onclick=()=>moveListItem(-1);$('moveMemoDown').onclick=()=>moveListItem(1);$('deleteMemo').onclick=()=>{pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveChangedProject();renderAll()};return;
  }
  const state=positionStateBeforeCue(selectedListIndex),starts=state.pos,startLabels=state.labels,errs=cueValidation(selectedListIndex);const errBy=new Map(errs.map(e=>[e.index,e.msg]));
- const rows=(q.runs||[]).map((r,ri)=>{const d=dev(r.device)||devices[0];syncRunTargetFromLabel(r);const st=starts[r.device]??initialPosition(d),direction=runDirection(st,+r.target),v=validateRun(r,st),fixed=d.type==='constant',manual=d.type==='manual',time=v.ok?v.total:null,dist=Math.abs((+r.target)-st),targetLabel=labelForRunTarget(d,r),currentLabel=currentLabelName(d,st,startLabels[r.device]),opened=runOpenState.get(r)===true,dirClass=direction==='▲'?'up':direction==='▼'?'down':'';return `<article class="run-card ${manual?'manual-run':''} ${errBy.has(ri)||!v.ok?'invalid':''} ${opened?'open':''}" data-run-card="${ri}">
+ const rows=(q.runs||[]).map((r,ri)=>{const d=dev(r.device)||devices[0];syncRunTargetFromLabel(r);const st=starts[r.device]??initialPosition(d),direction=runDirection(st,+r.target),v=validateRun(r,st),fixed=d.type==='constant',time=v.ok?v.total:null,dist=Math.abs((+r.target)-st),targetLabel=labelForRunTarget(d,r),currentLabel=currentLabelName(d,st,startLabels[r.device]),opened=runOpenState.get(r)===true,dirClass=direction==='▲'?'up':direction==='▼'?'down':'';return `<article class="run-card ${errBy.has(ri)||!v.ok?'invalid':''} ${opened?'open':''}" data-run-card="${ri}">
    <div class="run-card-head" data-run-toggle="${ri}" role="button" tabindex="0" aria-expanded="${opened}" aria-label="${escapeHtml(d.id)} の詳細を${opened?'閉じる':'開く'}">
-     <span class="run-chevron" aria-hidden="true">${opened?'▼':'▶'}</span><input class="run-check" type="checkbox" data-rowcheck="${ri}" aria-label="RUN ${ri+1} を選択"><select data-ri="${ri}" data-f="device" aria-label="機構">${devices.map(x=>`<option value="${escapeHtml(x.id)}" ${x.id===r.device?'selected':''}>${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('')}</select>
-     <div class="run-summary"><div class="summary-route"><span>${escapeHtml(currentLabel)}</span><span class="direction ${dirClass}">${direction||'—'}</span><span>${escapeHtml(targetLabel||'直入力')}</span></div><div class="summary-values"><span>${manual?(r.speed===''?'速度 —':r.speed+' mm/s'):(fixed?fixedDeviceSpeed(d):r.speed)+' mm/s'}</span><span>${time===null?'—':time.toFixed(1)} s</span><span>加 ${manual&&r.acc===''?'—':fixed?FIXED_ACC:r.acc}</span><span>減 ${manual&&r.dec===''?'—':fixed?FIXED_DEC:r.dec}</span>${(+r.delay||0)>0?'<span class="special-badge" title="Delayあり">D</span>':''}${r.use2?'<span class="special-badge" title="2位置あり">2</span>':''}</div></div><span class="run-index">${errBy.has(ri)||!v.ok?'⚠ ':''}RUN ${ri+1}</span>
+     <span class="run-chevron" aria-hidden="true">${opened?'▼':'▶'}</span><input class="run-check" type="checkbox" data-rowcheck="${ri}" aria-label="RUN ${ri+1} を選択"><select data-ri="${ri}" data-f="device" aria-label="機構">${devices.filter(x=>isDeviceEnabled(x)||x.id===r.device).map(x=>`<option value="${escapeHtml(x.id)}" ${x.id===r.device?'selected':''}>${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('')}</select>
+     <div class="run-summary"><div class="summary-route"><span>${escapeHtml(currentLabel)}</span><span class="direction ${dirClass}">${direction||'—'}</span><span>${escapeHtml(targetLabel||'直入力')}</span></div><div class="summary-values"><span>${(fixed?fixedDeviceSpeed(d):r.speed)+' mm/s'}</span><span>${time===null?'—':time.toFixed(1)} s</span><span>加 ${fixed?FIXED_ACC:r.acc}</span><span>減 ${fixed?FIXED_DEC:r.dec}</span>${(+r.delay||0)>0?'<span class="special-badge" title="Delayあり">D</span>':''}${r.use2?'<span class="special-badge" title="2位置あり">2</span>':''}</div></div><span class="run-index">${errBy.has(ri)||!v.ok?'⚠ ':''}RUN ${ri+1}</span>
    </div>
    <div class="run-body" ${opened?'':'hidden'}>
-    <section class="run-group"><h3>位置情報</h3><div class="run-route"><div class="route-box"><div class="route-label">現在地</div><div class="position-pair"><span>ラベル</span><strong>${escapeHtml(currentLabel)}</strong><span>mm</span><strong>${Math.round(st)}</strong></div></div><div class="direction ${dirClass}">${direction}</div><div class="route-box"><div class="route-label">目標地</div><div class="position-pair"><label for="target-label-${ri}">ラベル</label><select id="target-label-${ri}" data-ri="${ri}" data-f="targetSelect">${targetOptions(d,r)}</select><label for="target-mm-${ri}">mm</label><input id="target-mm-${ri}" data-ri="${ri}" data-f="target" type="number" inputmode="numeric" value="${Number.isFinite(+r.target)?+r.target:''}" ${inferRunTargetMode(r)==='direct'?'':'disabled'}></div></div></div><div class="calculated">距離 <strong>${Math.round(dist)} mm</strong>${manual?'（入力位置間の参考値）':''}</div></section>
-    <section class="run-group"><h3>基本運転設定</h3><div class="drive-grid"><div class="metric"><label>速度 mm/s</label><input data-ri="${ri}" data-f="speed" type="number" inputmode="numeric" value="${fixed?fixedDeviceSpeed(d):r.speed}" ${fixed?'readonly':''}>${manual&&r.speed===''?'<div class="reference">参考 —</div>':`<div class="reference">参考 ${((fixed?fixedDeviceSpeed(d):(+r.speed||0))/15).toFixed(1)}%</div>`}</div><div class="metric"><label>運転タイム s</label><input data-ri="${ri}" data-f="opTime" type="number" step=".1" inputmode="decimal" value="${time===null?'':manual?time:time.toFixed(1)}" ${fixed?'readonly':''}></div><div class="metric"><label>加速 s</label><input data-ri="${ri}" data-f="acc" type="number" step=".1" value="${fixed?FIXED_ACC:r.acc}" ${fixed?'readonly':''}></div><div class="metric"><label>減速 s</label><input data-ri="${ri}" data-f="dec" type="number" step=".1" value="${fixed?FIXED_DEC:r.dec}" ${fixed?'readonly':''}></div></div>${manual?'<div class="manual-run-note">手入力装置：速度と運転タイムは連動しません。空欄の値はCSVでも空欄になります。</div>':''}</section>
-    <section class="run-group extra-group"><h3>追加設定</h3><div class="extra-grid"><div class="metric"><label>Delay s</label><input data-ri="${ri}" data-f="delay" type="number" step=".1" value="${r.delay||0}"></div><label class="second-toggle"><input data-ri="${ri}" data-f="use2" type="checkbox" ${r.use2?'checked':''} ${fixed?'disabled':''}>2位置</label></div>${r.use2&&!fixed?`<div class="second-details"><div class="metric"><label>2位置 mm</label><input data-ri="${ri}" data-f="pos2" type="number" value="${r.pos2??''}"></div><div class="metric"><label>2速度 mm/s</label><input data-ri="${ri}" data-f="speed2" type="number" value="${r.speed2??''}"></div><div class="metric"><label>2加減 s</label><div class="calculated">${manual?'—（手入力）':transitionDisplayTime(+r.speed||0,+r.speed2||0).toFixed(1)+' s'}</div></div></div>`:''}</section>
+    <section class="run-group"><h3>位置情報</h3><div class="run-route"><div class="route-box"><div class="route-label">現在地</div><div class="position-pair"><span>ラベル</span><strong>${escapeHtml(currentLabel)}</strong><span>mm</span><strong>${Math.round(st)}</strong></div></div><div class="direction ${dirClass}">${direction}</div><div class="route-box"><div class="route-label">目標地</div><div class="position-pair"><label for="target-label-${ri}">ラベル</label><select id="target-label-${ri}" data-ri="${ri}" data-f="targetSelect">${targetOptions(d,r)}</select><label for="target-mm-${ri}">mm</label><input id="target-mm-${ri}" data-ri="${ri}" data-f="target" type="number" inputmode="numeric" value="${Number.isFinite(+r.target)?+r.target:''}" ${inferRunTargetMode(r)==='direct'?'':'disabled'}></div></div></div><div class="calculated">距離 <strong>${Math.round(dist)} mm</strong></div></section>
+    <section class="run-group"><h3>基本運転設定</h3><div class="drive-grid"><div class="metric"><label>速度 mm/s</label><input data-ri="${ri}" data-f="speed" type="number" inputmode="numeric" value="${fixed?fixedDeviceSpeed(d):r.speed}" ${fixed?'readonly':''}><div class="reference">参考 ${((fixed?fixedDeviceSpeed(d):(+r.speed||0))/15).toFixed(1)}%</div></div><div class="metric"><label>運転タイム s</label><input data-ri="${ri}" data-f="opTime" type="number" step=".1" inputmode="decimal" value="${time===null?'':time.toFixed(1)}" ${fixed?'readonly':''}></div><div class="metric"><label>加速 s</label><input data-ri="${ri}" data-f="acc" type="number" step=".1" value="${fixed?FIXED_ACC:r.acc}" ${fixed?'readonly':''}></div><div class="metric"><label>減速 s</label><input data-ri="${ri}" data-f="dec" type="number" step=".1" value="${fixed?FIXED_DEC:r.dec}" ${fixed?'readonly':''}></div></div></section>
+    <section class="run-group extra-group"><h3>追加設定</h3><div class="extra-grid"><div class="metric"><label>Delay s</label><input data-ri="${ri}" data-f="delay" type="number" step=".1" value="${r.delay||0}"></div><label class="second-toggle"><input data-ri="${ri}" data-f="use2" type="checkbox" ${r.use2?'checked':''} ${fixed?'disabled':''}>2位置</label></div>${r.use2&&!fixed?`<div class="second-details"><div class="metric"><label>2位置 mm</label><input data-ri="${ri}" data-f="pos2" type="number" value="${r.pos2??''}"></div><div class="metric"><label>2速度 mm/s</label><input data-ri="${ri}" data-f="speed2" type="number" value="${r.speed2??''}"></div><div class="metric"><label>2加減 s</label><div class="calculated">${transitionDisplayTime(+r.speed||0,+r.speed2||0).toFixed(1)+' s'}</div></div></div>`:''}</section>
     ${errBy.has(ri)?`<div class="run-error">⚠ ${escapeHtml(errBy.get(ri))}</div>`:''}
    </div></article>`}).join('');
  box.innerHTML=`<header class="cue-work-head"><div class="cue-title"><span class="q-prefix">Q</span><input id="editQNum" class="q-number" aria-label="Cue番号" value="${escapeHtml(formatCueNumber(q.number)||'000.00')}"><input id="editQName" class="q-name" aria-label="Cue名称" value="${escapeHtml(q.name||'')}"></div><div class="cue-head-meta"><span class="badge">${q.runs.length} runs</span><button id="openAllRuns" type="button">全て開く</button><button id="closeAllRuns" type="button">全て閉じる</button><button id="toggleCueActions" type="button" aria-controls="cueActionsPanel" aria-expanded="${cueActionsOpen}">Cue操作 ${cueActionsOpen?'▼':'▸'}</button></div></header>
@@ -619,31 +645,30 @@ function bindCueEditor(q,starts){
  $('editQNum').oninput=e=>{pushUndoSnapshotForInput(`qnum:${selectedListIndex}`);q.number=e.target.value;scheduleChangedProject();renderCueList()};$('editQNum').onblur=e=>{const f=formatCueNumber(e.target.value);if(!f){e.target.value=q.number;return}q.number=f;e.target.value=f;scheduleChangedProject();renderCueList()};$('editQName').oninput=e=>{pushUndoSnapshotForInput(`qname:${selectedListIndex}`);q.name=e.target.value;scheduleChangedProject();renderCueList()};
  $('moveCueUp').onclick=()=>moveListItem(-1);$('moveCueDown').onclick=()=>moveListItem(1);$('copyCue').onclick=()=>{cueClipboard=deep(q);$('pasteCueBtn').disabled=false};$('duplicateQ').onclick=()=>{pushUndoSnapshot();const c=deep(q);c.number=nextQNumber(q.number);c.name=(c.name||'')+' コピー';cues.splice(selectedListIndex+1,0,c);selectedListIndex++;saveChangedProject();renderAll()};$('deleteCue').onclick=()=>{if(playableCueCount()<=1)return;if(!confirm('このCueを削除しますか？'))return;pushUndoSnapshot();cues.splice(selectedListIndex,1);selectedListIndex=clamp(selectedListIndex,0,cues.length-1);saveChangedProject();renderAll()};
  $('copyRows').onclick=()=>{const idx=selectedRunIndexes();runClipboard=idx.map(i=>deep(q.runs[i]));$('pasteRows').disabled=!runClipboard.length};$('cutRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();runClipboard=idx.map(i=>deep(q.runs[i]));for(const i of [...idx].reverse())q.runs.splice(i,1);saveChangedProject();renderCueEditor()};$('pasteRows').onclick=()=>{if(!runClipboard.length)return;pushUndoSnapshot();q.runs.push(...deep(runClipboard));saveChangedProject();renderCueEditor()};$('swapRows').onclick=()=>{const idx=selectedRunIndexes();if(idx.length!==2){alert('入れ替える2行だけ選択してください。');return}pushUndoSnapshot();[q.runs[idx[0]],q.runs[idx[1]]]=[q.runs[idx[1]],q.runs[idx[0]]];saveChangedProject();renderCueEditor()};$('deleteRows').onclick=()=>{const idx=selectedRunIndexes();if(!idx.length)return;pushUndoSnapshot();for(const i of [...idx].reverse())q.runs.splice(i,1);saveChangedProject();renderCueEditor()};$('addRun').onclick=()=>{pushUndoSnapshot();q.runs.push(newDefaultRun());saveChangedProject();renderCueEditor()};
- document.querySelectorAll('#cueEditor [data-ri][data-f]').forEach(el=>{const handler=()=>{const ri=+el.dataset.ri,f=el.dataset.f,r=q.runs[ri];if(!r)return;if(f==='target'&&dev(r.device)?.type==='manual'&&el.value===''){alert('目標位置のmm値を入力してください。');renderCueEditor();return}pushUndoSnapshot();if(f==='device'){const d=dev(el.value);r.device=d.id;r.targetMode=d.labels[0]?.name||'direct';r.target=d.labels[0]?.pos??(d.type==='manual'?initialPosition(d):d.machineMax);r.speed=d.type==='manual'?'':d.type==='constant'?fixedDeviceSpeed(d):(r.speed||1000);r.acc=d.type==='manual'?'':d.type==='constant'?FIXED_ACC:(r.acc||2);r.dec=d.type==='manual'?'':d.type==='constant'?FIXED_DEC:(r.dec||2);r.manualTime=d.type==='manual'?'':undefined;r.use2=d.type==='constant'||d.type==='manual'?false:r.use2;if(d.type==='constant'||d.type==='manual'){r.pos2='';r.speed2=''}}else if(f==='targetSelect'){const d=dev(r.device);if(el.value==='direct')r.targetMode='direct';else{const i=+el.value.split(':')[1],l=d.labels[i];if(l){r.targetMode=l.name;r.target=+l.pos}}}else if(f==='use2'){r.use2=el.checked}else if(f==='opTime'){if(dev(r.device)?.type==='manual'){r.manualTime=el.value===''?'':+el.value}else{const desired=+el.value,st=positionStateBeforeCue(selectedListIndex).pos[r.device],best=solveSpeedForTime(r,st,desired);if(!best){alert('この運転タイムでは成立する速度が見つかりません。')}else r.speed=best.speed}}else{const n=+el.value;r[f]=el.value===''&&dev(r.device)?.type==='manual'?'':Number.isFinite(n)?n:el.value;if(f==='target')r.targetMode='direct'}saveChangedProject();renderCueEditor()};el.addEventListener('change',handler)});
+ document.querySelectorAll('#cueEditor [data-ri][data-f]').forEach(el=>{const handler=()=>{const ri=+el.dataset.ri,f=el.dataset.f,r=q.runs[ri];if(!r)return;pushUndoSnapshot();if(f==='device'){const d=dev(el.value);r.device=d.id;r.targetMode=d.labels[0]?.name||'direct';r.target=d.labels[0]?.pos??d.machineMax;r.speed=d.type==='constant'?fixedDeviceSpeed(d):(r.speed||1000);r.acc=d.type==='constant'?FIXED_ACC:(r.acc||2);r.dec=d.type==='constant'?FIXED_DEC:(r.dec||2);delete r.manualTime;r.use2=d.type==='constant'?false:r.use2;if(d.type==='constant'){r.pos2='';r.speed2=''}}else if(f==='targetSelect'){const d=dev(r.device);if(el.value==='direct')r.targetMode='direct';else{const i=+el.value.split(':')[1],l=d.labels[i];if(l){r.targetMode=l.name;r.target=+l.pos}}}else if(f==='use2'){r.use2=el.checked}else if(f==='opTime'){const desired=+el.value,st=positionStateBeforeCue(selectedListIndex).pos[r.device],best=solveSpeedForTime(r,st,desired);if(!best){alert('この運転タイムでは成立する速度が見つかりません。')}else r.speed=best.speed}else{const n=+el.value;r[f]=Number.isFinite(n)?n:el.value;if(f==='target')r.targetMode='direct'}saveChangedProject();renderCueEditor()};el.addEventListener('change',handler)});
  if($('renumberBox')){}if($('runRenumber'))$('runRenumber').onclick=runRenumber;
 }
 function moveListItem(dir){const to=selectedListIndex+dir;if(to<0||to>=cues.length)return;pushUndoSnapshot();[cues[selectedListIndex],cues[to]]=[cues[to],cues[selectedListIndex]];selectedListIndex=to;saveChangedProject();renderAll()}
 function runRenumber(){pushUndoSnapshot();let a=Math.max(1,+$('rnStartIndex').value||1)-1,b=Math.min(cues.length,+$('rnEndIndex').value||cues.length)-1;if(b<a)[a,b]=[b,a];const start=parseFloat($('rnStartNumber').value)||0,step=parseFloat($('rnStep').value)||1;let n=0;for(let i=a;i<=b;i++){if(isMemoEntry(cues[i]))continue;cues[i].number=(start+n*step).toFixed(2).padStart(6,'0');n++}saveChangedProject();renderCueList();renderCueEditor()}
 
-function renderDeviceList(){const box=$('deviceList');box.innerHTML='';devices.forEach(d=>{const b=document.createElement('button');b.className='device-btn '+(d.id===selectedDevice?'active':'');b.innerHTML=`<strong>${escapeHtml(d.id)}</strong><small>${escapeHtml(d.itemName||'')}</small>`;b.onclick=()=>{selectedDevice=d.id;renderDeviceList();renderSettings()};box.appendChild(b)})}
-function addManualDeviceFromUI(){
- const id=$('manualDeviceId').value.trim(),name=$('manualDeviceName').value.trim(),raw=$('manualInitialPosition').value.trim();
- if(!id){alert('装置IDを入力してください。');$('manualDeviceId').focus();return}
- if(dev(id)){alert('同じ装置IDが既にあります。');$('manualDeviceId').focus();return}
- if(raw===''||!Number.isFinite(Number(raw))){alert('初期位置のmm値を入力してください。');$('manualInitialPosition').focus();return}
- pushUndoSnapshot();const pos=Number(raw),manualOrder=1+Math.max(0,...devices.filter(x=>x.custom===true&&x.type==='manual').map(x=>x.manualOrder||0)),d={id,sourceId:id,custom:true,type:'manual',manualOrder,itemName:name,initialPosition:pos,machineMin:pos,machineMax:pos,userMin:pos,userMax:pos,labels:[],toolHeight:0,hangOffset:0,displayColor:'#6f767a',displayOpacity:1};
- devices.unshift(d);selectedDevice=id;
- $('manualDeviceId').value='';$('manualDeviceName').value='';$('manualInitialPosition').value='';$('manualAddDetails').open=false;
- saveChangedProject();renderAll();
+function renderDeviceList(){
+ const standard=$('deviceList'),other=$('otherPermanentList');standard.innerHTML='';other.innerHTML='';
+ devices.forEach(d=>{
+   const b=document.createElement('button');b.type='button';
+   b.className='device-btn '+(d.id===selectedDevice?'active':'')+(isOtherPermanent(d)&&!d.enabled?' is-off':'');
+   b.innerHTML=`<strong>${escapeHtml(d.id)}</strong><small>${escapeHtml(d.itemName||'')}${isOtherPermanent(d)?(d.enabled?' · ON':' · OFF'):''}</small>`;
+   b.onclick=()=>{selectedDevice=d.id;if(isOtherPermanent(d))$('otherPermanentGroup').open=true;renderDeviceList();renderSettings()};
+   (isOtherPermanent(d)?other:standard).appendChild(b);
+ });
 }
-$('addManualDevice').onclick=addManualDeviceFromUI;
-$('removeManualDevice').onclick=()=>{
- const d=dev(selectedDevice);if(!d||d.type!=='manual'||d.custom!==true)return;
- if(cues.some(q=>(q.runs||[]).some(r=>r.device===d.id))){alert('この装置を使用中のCueがあります。先にその運転行を削除してください。');return}
- if(!confirm(`${d.id} の手入力装置を削除しますか？`))return;
- pushUndoSnapshot();devices=devices.filter(x=>x!==d);runClipboard=runClipboard.filter(r=>r.device!==d.id);if(cueClipboard?.runs?.some(r=>r.device===d.id))cueClipboard=null;
- selectedDevice='B1';saveChangedProject();renderAll();
-};
+function setPermanentDeviceUsage(id,wantEnabled){
+ const d=dev(id);if(!isOtherPermanent(d))return false;
+ if(!wantEnabled){const references=permanentCueReferences(id);
+   if(references.length){alert(id+' は '+references.map(q=>'Q '+(formatCueNumber(q.number)||q.number)).join('、')+' で使用中です。運転行を外してからOFFにしてください。');return false}
+ }
+ if(d.enabled===wantEnabled)return true;
+ pushUndoSnapshot();d.enabled=wantEnabled;saveChangedProject();renderAll();return true;
+}
 function hangingPackage(d){return {itemName:d.itemName||'',toolHeight:Number.isFinite(+d.toolHeight)?+d.toolHeight:(d.type==='curtain'?10000:0),hangOffset:Number.isFinite(+d.hangOffset)?+d.hangOffset:0,labels:deep(d.labels||[]),displayColor:d.displayColor|| (d.type==='curtain'?'#b51f2e':'#6f767a'),displayOpacity:Number.isFinite(+d.displayOpacity)?+d.displayOpacity:1}}
 function applyHangingPackage(d,p){d.itemName=p.itemName||'';d.toolHeight=Number.isFinite(+p.toolHeight)?+p.toolHeight:0;d.hangOffset=Number.isFinite(+p.hangOffset)?+p.hangOffset:0;d.labels=deep(p.labels||[]).slice(0,10);d.displayColor=String(p.displayColor||'#6f767a');d.displayOpacity=clamp(Number.isFinite(+p.displayOpacity)?+p.displayOpacity:1,0,1)}
 function clearHangingPackage(d){d.itemName='';d.toolHeight=0;d.hangOffset=0;d.labels=[];d.displayColor=d.type==='curtain'?'#b51f2e':'#6f767a';d.displayOpacity=1;d.initialLabelName=null}
@@ -662,33 +687,87 @@ function updateHangingCurrentUI(){
  updateSwapButtonLabel();refreshHangingClipboardUI();
 }
 function refreshAfterDeviceEdit(){saveChangedProject();renderDeviceList();renderSettings();renderInitialBulk();renderCueList();renderCueEditor()}
-function renderSettings(){const d=dev(selectedDevice);if(!d)return;$('s_id').textContent=d.id;$('s_item').value=d.itemName||'';$('s_range').textContent=d.type==='manual'?'手入力（範囲制限なし）':`${Math.round(d.machineMin)} ～ ${Math.round(d.machineMax)} mm`;$('s_toolHeight').value=Number.isFinite(+d.toolHeight)?+d.toolHeight:(d.type==='curtain'?10000:0);$('s_hangOffset').value=Number.isFinite(+d.hangOffset)?+d.hangOffset:0;$('s_displayColor').value=d.displayColor|| (d.type==='curtain'?'#b51f2e':'#6f767a');$('s_displayOpacity').value=Math.round(clamp(Number.isFinite(+d.displayOpacity)?+d.displayOpacity:1,0,1)*100);$('deviceSpecBadge').textContent=d.type==='manual'?'手入力装置':d.type==='constant'?`${fixedDeviceSpeed(d)} mm/s 固定`:d.type==='curtain'?'割UD':'通常機構';$('manualDeviceActions').hidden=d.type!=='manual';$('specialNotice').innerHTML=d.type==='manual'?'<div class="notice">この装置の位置と運転タイムはCueごとに手入力します。速度・加減速の実機制限は判定しません。</div>':d.type==='constant'?`<div class="notice">${d.id}: 速度 ${fixedDeviceSpeed(d)} mm/s 固定 / 加速 ${FIXED_ACC.toFixed(1)}s / 減速 ${FIXED_DEC.toFixed(1)}s</div>`:'';
+function renderSettings(){const d=dev(selectedDevice);if(!d)return;$('s_id').textContent=d.id;$('s_item').value=d.itemName||'';$('s_range').textContent=`${Math.round(d.machineMin)} ～ ${Math.round(d.machineMax)} mm`;$('s_toolHeight').value=Number.isFinite(+d.toolHeight)?+d.toolHeight:(d.type==='curtain'?10000:0);$('s_hangOffset').value=Number.isFinite(+d.hangOffset)?+d.hangOffset:0;$('s_displayColor').value=d.displayColor|| (d.type==='curtain'?'#b51f2e':'#6f767a');$('s_displayOpacity').value=Math.round(clamp(Number.isFinite(+d.displayOpacity)?+d.displayOpacity:1,0,1)*100);$('deviceSpecBadge').textContent=d.type==='constant'?`${fixedDeviceSpeed(d)} mm/s 固定`:d.type==='curtain'?'割UD':'通常機構';const panel=$('permanentUsagePanel');panel.hidden=!isOtherPermanent(d);$('permanentEnabledInput').checked=isDeviceEnabled(d);$('permanentUsageReason').textContent=isOtherPermanent(d)?(permanentCueReferences(d.id).length?'使用中のCueがあるためOFFにできません':'OFFでも設定は編集・保存できます'):'';$('specialNotice').innerHTML=d.type==='constant'?`<div class="notice">${d.id}: 速度 ${fixedDeviceSpeed(d)} mm/s 固定 / 加速 ${FIXED_ACC.toFixed(1)}s / 減速 ${FIXED_DEC.toFixed(1)}s</div>`:'';
  const body=$('labelBody');body.innerHTML='';for(let i=0;i<10;i++){const l=d.labels[i]||{name:'',pos:''};const tr=document.createElement('tr');tr.innerHTML=`<td>${i+1}</td><td><input data-k="name" value="${escapeHtml(l.name)}"></td><td><input data-k="pos" type="number" value="${l.pos}"></td>`;body.appendChild(tr)}
  $('swapDeviceSelect').innerHTML=devices.filter(x=>x.id!==d.id).map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.id)}｜${escapeHtml(x.itemName||'（吊物なし）')}</option>`).join('');updateHangingCurrentUI()}
 function syncSettingsFromUI(){const d=dev(selectedDevice);d.itemName=$('s_item').value;d.toolHeight=Number.isFinite(+$('s_toolHeight').value)?+$('s_toolHeight').value:0;d.hangOffset=Number.isFinite(+$('s_hangOffset').value)?+$('s_hangOffset').value:0;d.displayColor=$('s_displayColor').value.trim()|| (d.type==='curtain'?'#b51f2e':'#6f767a');d.displayOpacity=clamp((Number.isFinite(+$('s_displayOpacity').value)?+$('s_displayOpacity').value:100)/100,0,1);const arr=[];document.querySelectorAll('#labelBody tr').forEach(tr=>{const n=tr.querySelector('[data-k="name"]').value.trim(),p=tr.querySelector('[data-k="pos"]').value;if(n!==''&&p!=='')arr.push({name:n,pos:+p})});d.labels=arr;updateHangingCurrentUI();scheduleChangedProject();renderDeviceList();renderInitialBulk();renderCueEditor()}
 $('s_item').addEventListener('input',()=>{pushUndoSnapshotForInput(`item:${selectedDevice}`);syncSettingsFromUI()});['s_toolHeight','s_hangOffset','s_displayColor','s_displayOpacity'].forEach(id=>$(id).addEventListener('input',()=>{pushUndoSnapshotForInput(`compat:${selectedDevice}:${id}`);syncSettingsFromUI()}));$('labelBody').addEventListener('input',e=>{const tr=e.target.closest('tr'),i=tr?[...$('labelBody').children].indexOf(tr):-1;pushUndoSnapshotForInput(`label:${selectedDevice}:${i}:${e.target.dataset.k}`);syncSettingsFromUI()});
 $('swapDeviceSelect').addEventListener('change',updateSwapButtonLabel);
+$('permanentEnabledInput').addEventListener('change',e=>{if(!setPermanentDeviceUsage(selectedDevice,e.target.checked))e.target.checked=isDeviceEnabled(dev(selectedDevice))});
 $('copyHangingBtn').onclick=()=>{const d=dev(selectedDevice);hangingItemClipboard={sourceId:d.id,data:hangingPackage(d)};refreshHangingClipboardUI()};$('cutHangingBtn').onclick=()=>{const d=dev(selectedDevice);pushUndoSnapshot();hangingItemClipboard={sourceId:d.id,data:hangingPackage(d)};clearHangingPackage(d);refreshAfterDeviceEdit()};$('pasteHangingBtn').onclick=()=>{const d=dev(selectedDevice);if(!hangingItemClipboard)return;if((d.itemName||d.labels.length||(+d.toolHeight||0)!==0||(+d.hangOffset||0)!==0)&&!confirm(`${d.id} の吊り物設定を上書きしますか？`))return;pushUndoSnapshot();applyHangingPackage(d,hangingItemClipboard.data);refreshAfterDeviceEdit()};$('deleteHangingBtn').onclick=()=>{const d=dev(selectedDevice);if(!confirm(`${d.id} の吊り物設定を削除しますか？`))return;pushUndoSnapshot();clearHangingPackage(d);refreshAfterDeviceEdit()};$('swapDeviceBtn').onclick=()=>{const a=dev(selectedDevice),b=dev($('swapDeviceSelect').value);if(!a||!b)return;pushUndoSnapshot();const pa=hangingPackage(a),pb=hangingPackage(b);applyHangingPackage(a,pb);applyHangingPackage(b,pa);refreshAfterDeviceEdit()};
 
 function initialLabelOptions(d){const p=initialPosition(d),name=inferredInitialLabelName(d);return (d.labels||[]).map((l,i)=>`<option value="label:${i}" ${name===l.name&&Math.abs(+l.pos-p)<=1?'selected':''}>${escapeHtml(l.name)} · ${Math.round(+l.pos)}mm</option>`).join('')+`<option value="direct" ${name?'':'selected'}>直接入力</option>`}
-function renderInitialBulk(){const body=$('initialBulkBody');body.innerHTML='';devices.forEach((d,i)=>{const p=initialPosition(d),tr=document.createElement('tr');tr.innerHTML=`<td><strong>${escapeHtml(d.id)}</strong></td><td>${escapeHtml(d.itemName||'—')}</td><td><select data-init-i="${i}" data-f="label">${initialLabelOptions(d)}</select></td><td><input data-init-i="${i}" data-f="pos" type="number" value="${Math.round(p)}"></td><td>${d.type==='manual'?'手入力':Math.round(d.machineMin)+' ～ '+Math.round(d.machineMax)}</td>`;body.appendChild(tr)});body.querySelectorAll('[data-init-i]').forEach(el=>el.addEventListener('change',()=>{const i=+el.dataset.initI,d=devices[i];pushUndoSnapshot();if(el.dataset.f==='label'){if(el.value==='direct')d.initialLabelName=null;else{const l=d.labels[+el.value.split(':')[1]];if(l){d.initialPosition=+l.pos;d.initialLabelName=l.name}}}else{d.initialPosition=d.type==='manual'?(el.value===''?initialPosition(d):+el.value):clamp(+el.value||d.machineMax,+d.machineMin,+d.machineMax);d.initialLabelName=null}saveChangedProject();renderInitialBulk();renderCueEditor()}))}
-$('setAllTop').onclick=()=>{pushUndoSnapshot();devices.filter(d=>d.type!=='manual').forEach(d=>{d.initialPosition=+d.machineMax;d.initialLabelName=null});saveChangedProject();renderInitialBulk();renderCueEditor()};$('setEmptyUpper').onclick=()=>{pushUndoSnapshot();devices.forEach(d=>{if(/^B\d+$/.test(d.id)&&!(d.itemName||'').trim()){d.initialPosition=+d.machineMax;d.initialLabelName=null}});saveChangedProject();renderInitialBulk();renderCueEditor()};
+function renderInitialBulk(){const body=$('initialBulkBody');body.innerHTML='';devices.filter(isDeviceEnabled).forEach(d=>{const i=devices.indexOf(d),p=initialPosition(d),tr=document.createElement('tr');tr.innerHTML=`<td><strong>${escapeHtml(d.id)}</strong></td><td>${escapeHtml(d.itemName||'—')}</td><td><select data-init-i="${i}" data-f="label">${initialLabelOptions(d)}</select></td><td><input data-init-i="${i}" data-f="pos" type="number" value="${Math.round(p)}"></td><td>${Math.round(d.machineMin)+' ～ '+Math.round(d.machineMax)}</td>`;body.appendChild(tr)});body.querySelectorAll('[data-init-i]').forEach(el=>el.addEventListener('change',()=>{const i=+el.dataset.initI,d=devices[i];pushUndoSnapshot();if(el.dataset.f==='label'){if(el.value==='direct')d.initialLabelName=null;else{const l=d.labels[+el.value.split(':')[1]];if(l){d.initialPosition=+l.pos;d.initialLabelName=l.name}}}else{d.initialPosition=clamp(+el.value||d.machineMax,+d.machineMin,+d.machineMax);d.initialLabelName=null}saveChangedProject();renderInitialBulk();renderCueEditor()}))}
+$('setAllTop').onclick=()=>{pushUndoSnapshot();devices.filter(isDeviceEnabled).forEach(d=>{d.initialPosition=+d.machineMax;d.initialLabelName=null});saveChangedProject();renderInitialBulk();renderCueEditor()};$('setEmptyUpper').onclick=()=>{pushUndoSnapshot();devices.forEach(d=>{if(/^B\d+$/.test(d.id)&&!(d.itemName||'').trim()){d.initialPosition=+d.machineMax;d.initialLabelName=null}});saveChangedProject();renderInitialBulk();renderCueEditor()};
 
 function parseCsvLine(line){const out=[];let cur='',quoted=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(quoted&&line[i+1]==='"'){cur+='"';i++}else quoted=!quoted}else if(ch===','&&!quoted){out.push(cur);cur=''}else cur+=ch}out.push(cur);return out}
 function decodeCsvBuffer(buf){try{return new TextDecoder('utf-8',{fatal:true}).decode(buf).replace(/^\uFEFF/,'')}catch{}try{return new TextDecoder('shift-jis').decode(buf)}catch{return new TextDecoder('utf-8').decode(buf)}}
-function isTargetCsvDevice(id){return id==='割UD'||id==='暗転幕'||id==='UHL'||/^LB[1-3]$/.test(id)||/^B(?:[1-9]|1\d|2[0-7])$/.test(id)}
+function isTargetCsvDevice(id){return BASE_DEVICES.some(d=>d.id===id)}
 function normalizeCsvNumber(v){if(v==null)return null;const s=String(v).trim().replace(/,/g,'');if(s==='')return null;const n=Number(s);return Number.isFinite(n)?n:null}
-function importInitialSetupCsv(text){const lines=text.replace(/\r\n?/g,'\n').split('\n').filter(x=>x.trim()!=='');const rows=lines.map(parseCsvLine).filter(r=>isTargetCsvDevice((r[0]||'').trim()));if(!rows.length){alert('対象装置が見つかりません。');return}pushUndoSnapshot();const old=new Map(devices.map(d=>[d.id,d]));const imported=new Map();for(const cols of rows){const id=(cols[0]||'').trim(),base=BASE_DEVICES.find(d=>d.id===id),prev=old.get(id)||base;if(!base)continue;const d=normalizeDevice(prev,base);d.itemName=(cols[1]||'').trim();d.labels=[];for(let i=0;i<10;i++){const name=(cols[8+i*2]||'').trim(),pos=normalizeCsvNumber(cols[9+i*2]);if(name!==''&&pos!==null)d.labels.push({name,pos})}imported.set(id,d)}devices=[...BASE_DEVICES.map(b=>imported.get(b.id)||normalizeDevice(old.get(b.id)||b,b)),...devices.filter(d=>d.custom===true&&d.type==='manual')];normalizeAll();selectedDevice=dev('B1')?'B1':devices[0].id;saveChangedProject();renderAll();alert(`装置CSVを読み込みました。対象機構 ${imported.size}件`)}
+function deviceFromCsvRow(cols,oldDevice){
+ const id=(cols[0]||'').trim();
+ const itemName=(cols[1]||'').trim();
+ const height=normalizeCsvNumber(cols[3]) ?? 0;
+ const labels=[];
+ for(let i=0;i<10;i++){
+   const name=(cols[8+i*2]||'').trim();
+   const pos=normalizeCsvNumber(cols[9+i*2]);
+   if(name!=='' && pos!==null)labels.push({name,pos});
+ }
+ const dtype=BASE_DEVICES.find(d=>d.id===id)?.type||'baton';
+ const d=oldDevice?deep(oldDevice):{
+   id,sourceId:id,itemName:'',toolHeight:0,userMin:300,userMax:20300,
+   machineMin:300,machineMax:20300,labels:[],defaultSpeed:1000,
+   type:dtype,hangOffset:0,defaultAcc:2,defaultDec:2
+ };
+ d.id=id;d.sourceId=id;d.type=dtype;
+ d.itemName=itemName;
+ d.toolHeight=(dtype==='curtain'?10000:height);
+ if(!d.displayColor){
+   const n=itemName;
+   d.displayColor=dtype==='curtain'?'#b51f2e':
+     (/袖幕|引割|暗転幕|文字幕|ホリゾント|幕/.test(n)?'#40454a':
+     (/スクリーン|LED/.test(n)?'#d9d9d9':'#7b8790'));
+ }
+ if(d.displayOpacity==null){
+   d.displayOpacity=/袖幕/.test(itemName)?0.45:(/幕|文字幕/.test(itemName)?0.72:1);
+ }
+ d.labels=labels;
+ if(!oldDevice || !Number.isFinite(+oldDevice.initialPosition))d.initialPosition=+d.machineMax;
+ // Do not import speed/acceleration/deceleration from CSV.
+ if(dtype==='curtain'){
+   d.machineMin=0;d.machineMax=10100;d.machineMin=0;d.machineMax=10100;
+ }
+ if(dtype==='constant'){
+   d.defaultSpeed=fixedDeviceSpeed(d);d.defaultAcc=FIXED_ACC;d.defaultDec=FIXED_DEC;
+ }else{
+   d.defaultSpeed=d.defaultSpeed||1000;
+   d.defaultAcc=Number.isFinite(+d.defaultAcc)?+d.defaultAcc:2;
+   d.defaultDec=Number.isFinite(+d.defaultDec)?+d.defaultDec:2;
+ }
+ return d;
+}
+function importInitialSetupCsv(text){
+ const rows=text.replace(/\r\n?/g,'\n').split('\n').filter(x=>x.trim()!=='').map(parseCsvLine).filter(r=>isTargetCsvDevice((r[0]||'').trim()));
+ if(!rows.length){alert('対象装置（標準装置、客SL、SS、点吊）が見つかりません。');return}
+ pushUndoSnapshot();
+ const old=new Map(devices.map(d=>[d.id,d])),imported=new Map();
+ for(const cols of rows){const id=(cols[0]||'').trim();imported.set(id,deviceFromCsvRow(cols,old.get(id)))}
+ devices=BASE_DEVICES.map(b=>imported.get(b.id)||old.get(b.id)||b);
+ normalizeAll();
+ selectedDevice=dev('B1')?'B1':devices[0].id;
+ saveChangedProject();renderAll();alert(`装置CSVを読み込みました。対象機構 ${imported.size}件`);
+}
 
 function csvPositionLabel(d,pos,preferredName=null){const l=currentLabelName(d,pos,preferredName);return l==='—'?'直入力':l}
 function csvTargetLabel(d,r){return labelForRunTarget(d,r)||'直入力'}
 function exportDeviceSetupCsv(){
- const ordered=[...devices.filter(d=>d.type!=='manual').reverse(),...devices.filter(d=>d.type==='manual').reverse()],names=[],seen=new Set(),conflicts=new Map(),firstOrder=new Map();const addName=name=>{if(!seen.has(name)){seen.add(name);firstOrder.set(name,names.length);names.push(name);conflicts.set(name,new Set())}};
+ const ordered=deviceCsvOrder(),names=[],seen=new Set(),conflicts=new Map(),firstOrder=new Map();const addName=name=>{if(!seen.has(name)){seen.add(name);firstOrder.set(name,names.length);names.push(name);conflicts.set(name,new Set())}};
  ordered.forEach(d=>{const rn=[],rs=new Set();(d.labels||[]).forEach(l=>{const name=String(l?.name||'').trim();if(!name)return;addName(name);if(!rs.has(name)){rs.add(name);rn.push(name)}});for(let i=0;i<rn.length;i++)for(let j=i+1;j<rn.length;j++){conflicts.get(rn[i]).add(rn[j]);conflicts.get(rn[j]).add(rn[i])}});
  const slotOf=new Map(),seedSlot=(name,slot)=>{if(!seen.has(name))return;const occupied=[...slotOf.entries()].some(([other,s])=>s===slot&&conflicts.get(name)?.has(other));if(!occupied)slotOf.set(name,slot)};seedSlot('トビ',0);seedSlot('カザリ',1);names.filter(n=>!slotOf.has(n)).sort((a,b)=>(conflicts.get(b)?.size||0)-(conflicts.get(a)?.size||0)||(firstOrder.get(a)||0)-(firstOrder.get(b)||0)).forEach(name=>{const used=new Set([...(conflicts.get(name)||[])].map(n=>slotOf.get(n)).filter(Number.isInteger));let slot=0;while(used.has(slot))slot++;slotOf.set(name,slot)});
  let slotCount=0;slotOf.forEach(s=>slotCount=Math.max(slotCount,s+1));let duplicateExtra=0;ordered.forEach(d=>{const c=new Map();(d.labels||[]).forEach(l=>{const n=String(l?.name||'').trim();if(n)c.set(n,(c.get(n)||0)+1)});c.forEach(n=>duplicateExtra=Math.max(duplicateExtra,Math.max(0,n-1)))});const totalSlots=slotCount+duplicateExtra,header=['バトン','吊り物名称','荷重'];for(let i=0;i<totalSlots;i++)header.push(`ラベル${i+1}`,`位置${i+1}(mm)`);const rows=[header];ordered.forEach(d=>{const row=new Array(3+totalSlots*2).fill('');row[0]=d.id;row[1]=d.itemName||'';const used=new Set(),dc=new Map();(d.labels||[]).forEach(l=>{const name=String(l?.name||'').trim();if(!name||l.pos===''||l.pos==null)return;const dup=dc.get(name)||0;dc.set(name,dup+1);let slot=dup===0?slotOf.get(name):slotCount+(dup-1);while(used.has(slot))slot++;if(!Number.isInteger(slot))return;used.add(slot);row[3+slot*2]=name;row[4+slot*2]=csvNumber(+l.pos)});rows.push(row)});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`${projectFileStem()}_装置_${stamp()}.csv`,'text/csv;charset=utf-8;')
 }
-function exportCueSheetCsv(){const header=['CUE','バトン/吊り物','現在','現在(ｍｍ)','方向','目標','目標(mm)','距離','動作時間','速度','％','加速','減速','ﾃﾞｨﾚｲ','2位置','2速度','2加減'],rows=[header];cues.forEach((q,qi)=>{if(isMemoEntry(q)){const row=new Array(header.length).fill('');row[1]=q.text||'';rows.push(row);return}const state=positionStateBeforeCue(qi),starts=state.pos,startLabels=state.labels,runs=q.runs||[];if(!runs.length){const row=new Array(header.length).fill('');row[0]=formatCueNumber(q.number)||'000.00';rows.push(row);return}runs.forEach((r,ri)=>{const d=dev(r.device);if(!d)return;syncRunTargetFromLabel(r);const start=starts[r.device]??initialPosition(d),target=+r.target,distance=Math.abs(target-start),validation=validateRun(r,start),fixed=d.type==='constant',manual=d.type==='manual',speed=fixed?fixedDeviceSpeed(d):(+r.speed||0),acc=fixed?FIXED_ACC:(+r.acc||0),dec=fixed?FIXED_DEC:(+r.dec||0),direction=runDirection(start,target);rows.push([ri===0?(formatCueNumber(q.number)||'000.00'):'',`${r.device}${d.itemName?' '+d.itemName:''}`,csvPositionLabel(d,start,startLabels[r.device]),csvNumber(start),direction,csvTargetLabel(d,r),csvNumber(target),csvNumber(distance),validation.ok?csvNumber(validation.total,1):'',manual&&r.speed===''?'':csvNumber(speed),manual&&r.speed===''?'':csvNumber(speed/1500,6),manual&&r.acc===''?'':csvNumber(acc,1),manual&&r.dec===''?'':csvNumber(dec,1),(+r.delay||0)>0?csvNumber(+r.delay,1):'',r.use2&&(!manual||r.pos2!=='')?csvNumber(+r.pos2):'',r.use2&&(!manual||r.speed2!=='')?csvNumber(+r.speed2):'',r.use2&&!manual?csvNumber(transitionDisplayTime(speed,+r.speed2||0),1):''])})});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`${projectFileStem()}_Cue_${stamp()}.csv`,'text/csv;charset=utf-8;')}
+function exportCueSheetCsv(){const header=['CUE','バトン/吊り物','現在','現在(ｍｍ)','方向','目標','目標(mm)','距離','動作時間','速度','％','加速','減速','ﾃﾞｨﾚｲ','2位置','2速度','2加減'],rows=[header];cues.forEach((q,qi)=>{if(isMemoEntry(q)){const row=new Array(header.length).fill('');row[1]=q.text||'';rows.push(row);return}const state=positionStateBeforeCue(qi),starts=state.pos,startLabels=state.labels,runs=q.runs||[];if(!runs.length){const row=new Array(header.length).fill('');row[0]=formatCueNumber(q.number)||'000.00';rows.push(row);return}runs.forEach((r,ri)=>{const d=dev(r.device);if(!d)return;syncRunTargetFromLabel(r);const start=starts[r.device]??initialPosition(d),target=+r.target,distance=Math.abs(target-start),validation=validateRun(r,start),fixed=d.type==='constant',speed=fixed?fixedDeviceSpeed(d):(+r.speed||0),acc=fixed?FIXED_ACC:(+r.acc||0),dec=fixed?FIXED_DEC:(+r.dec||0),direction=runDirection(start,target);rows.push([ri===0?(formatCueNumber(q.number)||'000.00'):'',`${r.device}${d.itemName?' '+d.itemName:''}`,csvPositionLabel(d,start,startLabels[r.device]),csvNumber(start),direction,csvTargetLabel(d,r),csvNumber(target),csvNumber(distance),validation.ok?csvNumber(validation.total,1):'',csvNumber(speed),csvNumber(speed/1500,6),csvNumber(acc,1),csvNumber(dec,1),(+r.delay||0)>0?csvNumber(+r.delay,1):'',r.use2?csvNumber(+r.pos2):'',r.use2?csvNumber(+r.speed2):'',r.use2?csvNumber(transitionDisplayTime(speed,+r.speed2||0),1):''])})});downloadText('\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),`${projectFileStem()}_Cue_${stamp()}.csv`,'text/csv;charset=utf-8;')}
 function simulatorCompatibleDevices(){
  return devices.map(d=>{
    const out=deep(d),base=BASE_DEVICES.find(b=>b.id===d.id);
@@ -702,7 +781,7 @@ function simulatorCompatibleDevices(){
  });
 }
 function projectPayload(){
- return {app:'stage-cue-simulator',formatVersion:1,projectName,updatedAt,exportedAt:new Date().toISOString(),devices:simulatorCompatibleDevices(),cues:deep(cues)};
+ return {app:'stage-cue-simulator',formatVersion:1,projectName,updatedAt,savedAt:new Date().toISOString(),exportedAt:new Date().toISOString(),devices:simulatorCompatibleDevices(),cues:deep(cues)};
 }
 function exportProjectJson(){
  downloadText(JSON.stringify(projectPayload(),null,2),`${projectFileStem()}_${stamp()}.json`,'application/json');
@@ -730,7 +809,7 @@ async function makeShareCode(){
 }
 async function parseShareCode(text){
  const raw=String(text||'').trim(),compact=raw.replace(/\s+/g,'');
- const embedded=raw.match(/(?:^|\s)SCUE1:[GJ]:[A-Za-z0-9_-]+(?=$|\s)/g)?.map(x=>x.trim());const code=/^SCUE1:[GJ]:[A-Za-z0-9_-]+$/.test(compact)?compact:(embedded?.length===1?embedded[0]:'');
+ const embedded=raw.match(/SCUE1:[GJ]:[A-Za-z0-9_-]+/g);const code=/^SCUE1:[GJ]:[A-Za-z0-9_-]+$/.test(compact)?compact:(embedded?.length===1?embedded[0]:'');
  const m=/^SCUE1:([GJ]):([A-Za-z0-9_-]+)$/.exec(code);if(!m)throw new Error('共有コードの形式が正しくありません');
  let bytes=base64UrlToBytes(m[2]);
  if(m[1]==='G'){if(!('DecompressionStream' in window))throw new Error('このブラウザは圧縮共有コードの読込に対応していません');bytes=await decompressBytes(bytes)}
@@ -764,11 +843,70 @@ async function restoreShareCode(){
  $('shareMessage').textContent='共有コードを確認しています…';$('shareMessage').className='share-message small';
  try{const obj=await parseShareCode(code);importProjectJson(obj);$('shareMessage').textContent='共有コードからプロジェクトを復元しました。';$('shareMessage').className='share-message small ok';$('shareMeta').textContent='読込完了'}catch(e){$('shareMessage').textContent='共有コードを読み込めません: '+e.message;$('shareMessage').className='share-message small error'}
 }
-function importProjectJson(obj){
+function validateLiteProject(obj){
  if(!obj||!Array.isArray(obj.devices)||!Array.isArray(obj.cues))throw new Error('devices / cues が見つかりません');
- const app=String(obj.app||'');
- if(app && app!=='stage-cue-simulator' && app!=='stage-cue-sheet')console.warn('Unknown project app:',app);
- pushUndoSnapshot();devices=deep(obj.devices);cues=deep(obj.cues);projectName=typeof obj.projectName==='string'?obj.projectName:'';updatedAt=validUpdatedAt(obj.updatedAt);selectedListIndex=0;normalizeAll();renderAll();lastProjectContent=projectContentSignature();saveNow();renderProjectInfo();
+ if(obj.app!=null&&!['stage-cue-simulator','stage-cue-sheet'].includes(obj.app))throw new Error('未対応のアプリのJSONです');
+ if(obj.formatVersion!=null&&obj.formatVersion!==1)throw new Error('未対応のformatVersionです');
+ if(obj.projectName!=null&&typeof obj.projectName!=='string')throw new Error('projectNameが不正です');
+ if(obj.updatedAt!=null&&!validUpdatedAt(obj.updatedAt))throw new Error('updatedAtが不正です');
+ const ids=new Set();
+ for(const d of obj.devices){
+   if(!d||typeof d.id!=='string'||!d.id)throw new Error('装置IDが不正です');
+   if(ids.has(d.id))throw new Error('装置IDが重複しています: '+d.id);ids.add(d.id);
+   const base=BASE_DEVICES.find(b=>b.id===d.id);
+   if(!base)throw new Error('未対応の装置 '+d.id+' を含みます。元ファイルを保持し、対応版で開いてください');
+   if(d.type!==base.type)throw new Error(d.id+' のtypeが不正です（旧manual装置は移行対象外です）');
+   if(isOtherPermanent(base)&&d.enabled!=null&&typeof d.enabled!=='boolean')throw new Error(d.id+' のenabledが不正です');
+   for(const key of ['machineMin','machineMax','userMin','userMax','toolHeight','hangOffset','defaultSpeed','defaultAcc','defaultDec'])if(d[key]!=null&&d[key]!==''&&!Number.isFinite(+d[key]))throw new Error(d.id+' の'+key+'が不正です');
+   if(!Array.isArray(d.labels)||d.labels.length>10)throw new Error(d.id+' のラベル数が不正です（最大10組）');
+   for(const l of d.labels)if(!l||typeof l.name!=='string'||!l.name.trim()||!Number.isFinite(+l.pos))throw new Error(d.id+' のラベルが不正です');
+   if(d.initialPosition!=null&&!Number.isFinite(+d.initialPosition))throw new Error(d.id+' の初期位置が不正です');
+   if(d.initialLabelName!=null&&typeof d.initialLabelName!=='string')throw new Error(d.id+' の初期ラベルが不正です');
+ }
+ for(const q of obj.cues){
+   if(!q||typeof q!=='object')throw new Error('Cue形式が不正です');
+   if(q.kind==='memo')continue;
+   if(!Array.isArray(q.runs))throw new Error('Cueのrunsが不正です');
+   for(const r of q.runs){
+     if(!r||!BASE_DEVICES.some(d=>d.id===r.device)||!ids.has(r.device))throw new Error('未登録のCue装置 '+String(r?.device)+' を参照しています');
+     if(r.targetMode!=null&&typeof r.targetMode!=='string')throw new Error('Cueの目標ラベルが不正です');
+     if(!Number.isFinite(+r.target))throw new Error('Cueの目標位置が不正です');
+     for(const key of ['speed','acc','dec','delay'])if(r[key]!=null&&r[key]!==''&&!Number.isFinite(+r[key]))throw new Error('Cueの'+key+'が不正です');
+     if(r.use2&&(!Number.isFinite(+r.pos2)||!Number.isFinite(+r.speed2)))throw new Error('Cueの2位置・2速度が不正です');
+   }
+ }
+}
+function verifyImportedProject(obj){
+ for(const original of obj.devices){
+   const d=dev(original.id);
+   if(!d||JSON.stringify(d.labels)!==JSON.stringify(original.labels.map(l=>({name:l.name,pos:+l.pos}))))throw new Error(original.id+' のラベルを完全に復元できません');
+   if(original.itemName!=null&&d.itemName!==original.itemName)throw new Error(original.id+' の吊り物名称を復元できません');
+   if(original.initialPosition!=null&&+d.initialPosition!==+original.initialPosition)throw new Error(original.id+' の初期位置を復元できません');
+   if(original.initialLabelName!=null&&d.initialLabelName!==original.initialLabelName)throw new Error(original.id+' の初期ラベルを復元できません');
+ }
+ obj.cues.forEach((q,i)=>{if(q.kind==='memo')return;(q.runs||[]).forEach((r,j)=>{
+   const restored=cues[i]?.runs?.[j];
+   if(!restored||restored.device!==r.device||+restored.target!==+r.target||(r.targetMode!=null&&r.targetMode!==restored.targetMode))
+     throw new Error('Cue '+(i+1)+' / 運転 '+(j+1)+' を完全に復元できません');
+ })});
+}
+function importProjectJson(obj){
+ validateLiteProject(obj);
+ const before={devices,cues,projectName,updatedAt,selectedListIndex,selectedDevice,lastProjectContent};
+ try{
+   devices=deep(obj.devices);cues=deep(obj.cues);projectName=obj.projectName??'';
+   updatedAt=validUpdatedAt(obj.updatedAt);selectedListIndex=0;
+   normalizeAll();verifyImportedProject(obj);
+ }catch(e){
+   ({devices,cues,projectName,updatedAt,selectedListIndex,selectedDevice,lastProjectContent}=before);
+   throw e;
+ }
+ pushUndoSnapshotFrom(before);
+ lastProjectContent=projectContentSignature();saveBlocked=false;renderAll();saveNow();
+}
+function pushUndoSnapshotFrom(before){
+ endInputGroup();undoStack.push({devices:deep(before.devices),cues:deep(before.cues),selectedDevice:before.selectedDevice,selectedListIndex:before.selectedListIndex});
+ if(undoStack.length>60)undoStack.shift();redoStack=[];updateHistoryButtons();
 }
 
 function renderAll(){renderProjectInfo();renderCueList();renderCueEditor();renderDeviceList();renderSettings();renderInitialBulk();$('pasteCueBtn').disabled=!cueClipboard;updateHistoryButtons()}
@@ -777,7 +915,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.onclick=()=>setTab(b.dataset.
 $('newCueBtn').onclick=()=>{pushUndoSnapshot();cues.push({number:nextWholeCueNumber(lastPlayableNumber()),name:'新規キュー',runs:[]});selectedListIndex=cues.length-1;saveChangedProject();renderAll()};$('newMemoBtn').onclick=()=>{pushUndoSnapshot();const at=clamp(selectedListIndex+1,0,cues.length);cues.splice(at,0,{kind:'memo',text:'新規メモ'});selectedListIndex=at;saveChangedProject();renderAll()};$('pasteCueBtn').onclick=()=>{if(!cueClipboard)return;pushUndoSnapshot();const c=deep(cueClipboard);c.number=nextQNumber(previousPlayableNumber(selectedListIndex));c.name=(c.name||'')+' 貼付';const at=selectedListIndex+1;cues.splice(at,0,c);selectedListIndex=at;saveChangedProject();renderAll()};$('renumberOpenBtn').onclick=()=>{if(isMemoEntry(cues[selectedListIndex])){const i=cues.findIndex((q,j)=>j>=selectedListIndex&&!isMemoEntry(q));if(i>=0)selectedListIndex=i;else return;renderAll()}$('renumberBox')?.classList.toggle('open')};
 $('undoBtn').onclick=undoEdit;$('redoBtn').onclick=redoEdit;
 $('openIoBtn').onclick=()=>{renderProjectInfo();$('ioModal').classList.add('open');$('ioModal').setAttribute('aria-hidden','false')};$('closeIoBtn').onclick=()=>{$('ioModal').classList.remove('open');$('ioModal').setAttribute('aria-hidden','true')};$('ioModal').addEventListener('click',e=>{if(e.target===$('ioModal'))$('closeIoBtn').click()});
-$('csvInitBtn').onclick=()=>$('csvInitFile').click();$('csvInitFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importInitialSetupCsv(decodeCsvBuffer(await f.arrayBuffer()))}catch(err){alert('CSV読込に失敗しました。')}e.target.value=''};$('exportDeviceCsvBtn').onclick=exportDeviceSetupCsv;$('exportCueCsvBtn').onclick=exportCueSheetCsv;$('exportShareBtn').onclick=showExportShareCode;$('importShareBtn').onclick=()=>openShareBox('import');$('copyShareCode').onclick=copyShareCode;$('copyShareTextBtn').onclick=copyShareText;$('restoreShareCode').onclick=restoreShareCode;$('clearShareCode').onclick=()=>{$('shareCode').value='';$('shareMeta').textContent='';$('shareMessage').textContent='共有コード欄をクリアしました。';$('shareMessage').className='share-message small'};$('exportJsonBtn').onclick=exportProjectJson;$('importJsonBtn').onclick=()=>$('importJsonFile').click();$('importJsonFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importProjectJson(JSON.parse(await f.text()));alert('JSONを読み込みました。')}catch(err){alert('JSON読込に失敗しました: '+err.message)}e.target.value=''};$('resetProjectBtn').onclick=()=>{if(!confirm('プロジェクト名・装置設定・初期位置・Cue・メモをすべて初期化しますか？'))return;pushUndoSnapshot();devices=deep(BASE_DEVICES);cues=[{number:'001.00',name:'新規キュー',runs:[]}];selectedListIndex=0;selectedDevice='B1';projectName='';saveChangedProject();renderAll()};
+$('csvInitBtn').onclick=()=>$('csvInitFile').click();$('csvInitFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importInitialSetupCsv(decodeCsvBuffer(await f.arrayBuffer()))}catch(err){alert('CSV読込に失敗しました。')}e.target.value=''};$('exportDeviceCsvBtn').onclick=exportDeviceSetupCsv;$('exportCueCsvBtn').onclick=exportCueSheetCsv;$('exportShareBtn').onclick=showExportShareCode;$('importShareBtn').onclick=()=>openShareBox('import');$('copyShareCode').onclick=copyShareCode;$('copyShareTextBtn').onclick=copyShareText;$('restoreShareCode').onclick=restoreShareCode;$('clearShareCode').onclick=()=>{$('shareCode').value='';$('shareMeta').textContent='';$('shareMessage').textContent='共有コード欄をクリアしました。';$('shareMessage').className='share-message small'};$('exportJsonBtn').onclick=exportProjectJson;$('importJsonBtn').onclick=()=>$('importJsonFile').click();$('importJsonFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{importProjectJson(JSON.parse(await f.text()));alert('JSONを読み込みました。')}catch(err){alert('JSON読込に失敗しました: '+err.message)}e.target.value=''};$('resetProjectBtn').onclick=()=>{if(!confirm('プロジェクト名・装置設定・初期位置・Cue・メモをすべて初期化しますか？'))return;pushUndoSnapshot();devices=deep(BASE_DEVICES);cues=[{number:'001.00',name:'新規キュー',runs:[]}];selectedListIndex=0;selectedDevice='B1';projectName='';saveBlocked=false;saveChangedProject();renderAll()};
 document.addEventListener('keydown',e=>{const mod=e.ctrlKey||e.metaKey;if(!mod)return;const tag=document.activeElement?.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;if(e.key.toLowerCase()==='z'&&!e.shiftKey){e.preventDefault();undoEdit()}else if(e.key.toLowerCase()==='y'||(e.key.toLowerCase()==='z'&&e.shiftKey)){e.preventDefault();redoEdit()}});
 
 function formatShaku(n){if(!Number.isFinite(n))return '';return n.toFixed(4).replace(/0+$/,'').replace(/\.$/,'')}
@@ -789,7 +927,7 @@ function updateCalc(){const a=+$('calcA').value,b=+$('calcB').value;if(!Number.i
 
 $('projectNameInput').addEventListener('blur',commitProjectName);
 $('projectNameInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}});
-load();renderAll();lastProjectContent=projectContentSignature();updateHistoryButtons();
+load();renderAll();if(saveBlocked){$('saveState').textContent='保存データ要確認';$('saveState').className='save-state error'}lastProjectContent=projectContentSignature();updateHistoryButtons();
 </script>
 </body>
 </html>
